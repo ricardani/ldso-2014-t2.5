@@ -1,0 +1,235 @@
+<header id="header">
+
+    <div >
+        <span id="logo"> <img src="img/logo.png" alt="Team Stats"> </span>
+    </div>
+
+    <div ng-switch on="login" class="pull-right">
+        <div ng-switch-when="register">
+            <span class="extr-page-header-space"> <span class="hidden-mobile">Already registered?</span> <a href="#/login/login" class="btn btn-danger">Sign In</a> </span>
+        </div>
+
+        <div ng-switch-default>
+            <span class="extr-page-header-space"> <span class="hidden-mobile">Need an account?</span> <a href="#/login/register" class="btn btn-danger">Create Account</a> </span>
+        </div>
+    </div>
+
+</header>
+
+<div id="main" role="main">
+
+<!-- MAIN CONTENT -->
+<div id="content" class="container">
+
+<div class="row">
+<div class="col-xs-12 col-sm-12 col-md-7 col-lg-8 hidden-xs hidden-sm">
+    <h1 class="txt-color-red login-header-big">Team Stats</h1>
+    <div class="hero">
+
+        <div class="pull-left ">
+            <h4 class="paragraph-header">Donec fringilla dolor quis condimentum euismod. Ut aliquet semper orci et porta. Fusce eget placerat tellus.</h4>
+
+            <br><br>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    <h5 class="about-heading">Vestibulum bibendum dignissim ligula nec malesuada?</h5>
+                    <p>
+                        Praesent sodales, neque a suscipit pharetra, dui quam fermentum arcu, bibendum mollis risus orci vel nibh.
+                        Proin ullamcorper elementum sagittis. Nullam tincidunt elit et porttitor rutrum. In viverra, est eget venenatis fringilla, justo quam egestas est, ac lobortis sem nulla eu quam.
+                        Sed vitae pharetra nulla. In hac habitasse platea dictumst. Sed ac risus ultrices, tincidunt libero eu, rutrum turpis. Morbi consectetur dictum varius.
+
+                    </p>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    <h5 class="about-heading">Aliquam at tempus metus!</h5>
+                    <p>
+                        Vestibulum sollicitudin ligula id risus lacinia ultricies. Sed sem erat, cursus nec tincidunt in, pretium a ex. Morbi consequat sem non ex dapibus, et malesuada justo porttitor.
+                        Sed finibus lectus vel purus volutpat, non accumsan risus aliquam. Nam eu mollis augue.
+                        Integer elit turpis, cursus nec odio feugiat, congue tempus felis. Vivamus ipsum arcu, vehicula nec iaculis at, convallis ac diam. In eget lacinia risus, vel porta nibh.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- <img src="img/demo/sports-balls.png" class="pull-right display-image " alt="" style="width:210px"> -->
+
+    </div>
+
+</div>
+
+<div ng-switch on="login">
+
+    <div ng-switch-when="login">
+
+        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+            <div class="well no-padding">
+                <form action="" class="smart-form client-form">
+                    <header>
+                        Sign In
+                    </header>
+
+                    <fieldset>
+
+                        <section>
+                            <label class="label">E-mail</label>
+                            <label class="input"> <i class="icon-append fa fa-user"></i>
+                                <input type="email" name="email" ng-model="user.email">
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter email address/username</b></label>
+                        </section>
+
+                        <section>
+                            <label class="label">Password</label>
+                            <label class="input"> <i class="icon-append fa fa-lock"></i>
+                                <input type="password" name="password" ng-model="user.password">
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Enter your password</b> </label>
+                            <div class="note">
+                                <a href="#/login/forgotpassword">Forgot password?</a>
+                            </div>
+                        </section>
+
+                        <section>
+                            <label class="checkbox">
+                                <input type="checkbox" name="remember" checked="" ng-model="user.remember">
+                                <i></i>Stay signed in</label>
+                        </section>
+                    </fieldset>
+                    <footer>
+                        <a href="#/menu">
+                            <button class="btn btn-primary">
+                                Sign in
+                            </button>
+                        </a>
+                    </footer>
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div ng-switch-when="forgotpassword">
+
+        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+            <div class="well no-padding">
+                <form action="" id="login-form" class="smart-form client-form">
+                    <header>
+                        Forgot Password
+                    </header>
+
+                    <fieldset>
+
+                        <section>
+                            <label class="label">Enter your email address</label>
+                            <label class="input"> <i class="icon-append fa fa-envelope"></i>
+                                <input type="email" name="email">
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-envelope txt-color-teal"></i> Please enter email address for password reset</b></label>
+                        </section>
+                        <section>
+                            <span class="timeline-seperator text-center text-primary"> <span class="font-sm">OR</span> </span>
+                        </section>
+                        <section>
+                            <label class="label">Your Username</label>
+                            <label class="input"> <i class="icon-append fa fa-user"></i>
+                                <input type="text" name="username">
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Enter your username</b> </label>
+                            <div class="note">
+                                <a href="#/login/login">I remembered my password!</a>
+                            </div>
+                        </section>
+
+                    </fieldset>
+                    <footer>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-refresh"></i> Reset Password
+                        </button>
+                    </footer>
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div ng-switch-when="register">
+
+        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+            <div class="well no-padding">
+                <form action="" class="smart-form client-form">
+                    <header>
+                        Registration
+                    </header>
+
+                    <fieldset>
+                        <section>
+                            <label class="input"> <i class="icon-append fa fa-user"></i>
+                                <input type="text" name="username" placeholder="Username">
+                                <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
+                        </section>
+
+                        <section>
+                            <label class="input"> <i class="icon-append fa fa-envelope"></i>
+                                <input type="email" name="email" placeholder="Email address">
+                                <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                        </section>
+
+                        <section>
+                            <label class="input"> <i class="icon-append fa fa-lock"></i>
+                                <input type="password" name="password" placeholder="Password" id="password">
+                                <b class="tooltip tooltip-bottom-right">Don't forget your password</b> </label>
+                        </section>
+
+                        <section>
+                            <label class="input"> <i class="icon-append fa fa-lock"></i>
+                                <input type="password" name="passwordConfirm" placeholder="Confirm password">
+                                <b class="tooltip tooltip-bottom-right">Don't forget your password</b> </label>
+                        </section>
+                    </fieldset>
+
+                    <fieldset>
+                        <div class="row">
+                            <section class="col col-6">
+                                <label class="input">
+                                    <input type="text" name="firstname" placeholder="First name">
+                                </label>
+                            </section>
+                            <section class="col col-6">
+                                <label class="input">
+                                    <input type="text" name="lastname" placeholder="Last name">
+                                </label>
+                            </section>
+                        </div>
+
+                        <section>
+                            <label class="checkbox">
+                                <input type="checkbox" name="subscription" id="subscription">
+                                <i></i>I want to receive news and special offers</label>
+                            <label class="checkbox">
+                                <input type="checkbox" name="terms" id="terms">
+                                <i></i>I agree with the <a href="#" data-toggle="modal" data-target="#myModal"> Terms and Conditions </a></label>
+                        </section>
+                    </fieldset>
+
+                    <footer>
+                        <button type="submit" class="btn btn-primary">
+                            Register
+                        </button>
+                    </footer>
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</div>
+</div>
+
+</div>
