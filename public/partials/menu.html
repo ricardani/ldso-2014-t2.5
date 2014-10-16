@@ -113,12 +113,11 @@
 <div class="login-info">
 				<span> <!-- User image size is adjusted inside CSS, it should stay as is -->
 
-					<a href="javascript:void(0);" id="show-shortcut" data-action="toggleShortcut">
-                        <img src="img/avatars/sunny.png" alt="me" class="online" />
+					<a href="#teamStats/profile" >
+                        <img ng-src="img/avatars/sunny.png" alt="me" class="online" />
 						<span>
-							john.doe
+							TeamStats Profile
 						</span>
-                        <i class="fa fa-angle-down"></i>
                     </a>
 
 				</span>
@@ -140,7 +139,7 @@ traditional href="" links. See documentation for details.
 
 <ul>
 <li class="">
-    <a href="#/menu" title="Dashboard"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Dashboard</span></a>
+    <a href="#/teamStats" title="Dashboard"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Dashboard</span></a>
 </li>
 <li>
     <a href="#/menu"><i class="fa fa-lg fa-fw fa-inbox"></i> <span class="menu-item-parent">Inbox</span><span class="badge pull-right inbox-badge">14</span></a>
@@ -394,29 +393,197 @@ traditional href="" links. See documentation for details.
     <!-- #MAIN CONTENT -->
     <div id="content">
 
+        <div ng-switch on="menu">
 
-        <div class="panel-group" id="accordion">
+            <div ng-switch-default>
 
 
-            <div class="panel panel-default" ng-repeat="player in players.message">
-                <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#{{player.id_atleta}}">
-                    <h4 class="panel-title">
+                <div class="panel-group" id="accordion">
 
-                        <img ng-src="img/default.png" alt="Imagem não encontrada!" onError="this.onerror=null;this.src='img/default.png';" style="max-height:200px;">
-                        {{player.id_atleta}}
 
-                    </h4>
-                </div>
-                <div id="{{player.id_atleta}}" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                    <div class="panel panel-default" ng-repeat="player in players.message">
+                        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#{{player.id_atleta}}">
+                            <h4 class="panel-title">
+
+                                <img ng-src="img/default.png" alt="Imagem não encontrada!" onError="this.onerror=null;this.src='img/default.png';" style="max-height:200px;">
+                                {{player.id_atleta}}
+
+                            </h4>
+                        </div>
+                        <div id="{{player.id_atleta}}" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <div class="btn-group" style="width:100%">
+                                    <button type="button" disabled class="btn btn-primary col-xs-12 col-sm-8 col-md-3">Nome</button>
+                                    <button type="button" disabled class="btn btn-default col-xs-12 col-sm-8 col-md-9">Nome</button>
+                                </div>
+                                <br><br>
+                                <div class="btn-group" style="width:100%">
+                                    <button type="button" disabled class="btn btn-primary col-xs-12 col-sm-8 col-md-3">BI/CC</button>
+                                    <button type="button" disabled class="btn btn-default col-xs-12 col-sm-8 col-md-9">123456789</button>
+                                </div>
+                                <br><br>
+                                <div class="btn-group" style="width:100%">
+                                    <button type="button" disabled class="btn btn-primary col-xs-12 col-sm-8 col-md-3">Data de Nascimento</button>
+                                    <button type="button" disabled class="btn btn-default col-xs-12 col-sm-8 col-md-9">16/1/2014</button>
+                                </div>
+                                <br><br>
+                                <div class="btn-group" style="width:100%">
+                                    <button type="button" disabled class="btn btn-primary col-xs-12 col-sm-8 col-md-3">Contacto</button>
+                                    <button type="button" disabled class="btn btn-default col-xs-12 col-sm-8 col-md-9">*Insert number here*</button>
+                                </div>
+                                <br><br>
+                                <div class="btn-group" style="width:100%">
+                                    <button type="button" disabled class="btn btn-primary col-xs-12 col-sm-8 col-md-3">Email</button>
+                                    <button type="button" disabled class="btn btn-default col-xs-12 col-sm-8 col-md-9">abc@gmail.com</button>
+                                </div>
+                                <br><br>
+                                <div class="btn-group" style="width:100%">
+                                    <button type="button" disabled class="btn btn-primary col-xs-12 col-sm-8 col-md-3">Morada</button>
+                                    <button type="button" disabled class="btn btn-default col-xs-12 col-sm-8 col-md-9">Rua de Cima</button>
+                                </div>
+                                <br><br>
+                                <div class="btn-group" style="width:100%">
+                                    <button type="button" disabled class="btn btn-primary col-xs-12 col-sm-8 col-md-3">Condição</button>
+                                    <button type="button" disabled class="btn btn-default col-xs-12 col-sm-8 col-md-9">Normal</button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
+
             </div>
 
+            <div ng-switch-when="profile">
+
+                <div class="col-md-4 col-md-push-4">
+                    <img ng-src="img/avatars/sunny-big.png" class="img-circle">
+                    <h1>Team Stats</h1>
+                </div>
+
+                <div class="col-md-6 col-md-push-2">
+                    <br>
+                    <div class="form-group" style="width:100%">
+                        <button type="button" disabled class="btn btn-primary col-xs-12 col-sm-8 col-md-3">Nome</button>
+                        <button type="button" disabled class="btn btn-default col-xs-12 col-sm-8 col-md-9">&nbsp;Team Stats&nbsp;</button>
+                    </div>
+
+                    <br><br>
+
+                    <div class="form-group" style="width:100%">
+                        <button type="button" disabled class="btn btn-primary col-xs-12 col-sm-8 col-md-3">Email</button>
+                        <button type="button" disabled class="btn btn-default col-xs-12 col-sm-8 col-md-9">&nbsp;teamStats@gmail.com&nbsp;</button>
+                    </div>
+
+                    <br><br>
+
+                    <div class="btn-group pull-right">
+                        <button type="button" class="btn btn-primary ">Alterar</button>
+                    </div>
+
+                </div>
+
+                <div class="col-xs-12">
+                    <ul class="timeline">
+                        <li>
+                            <div class="timeline-badge"><i class="glyphicon glyphicon-check"></i></div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4 class="timeline-title">Mussum ipsum cacilds</h4>
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> 11 hours ago via Twitter</small></p>
+                                </div>
+                                <div class="timeline-body">
+                                    <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-badge warning"><i class="glyphicon glyphicon-credit-card"></i></div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4 class="timeline-title">Mussum ipsum cacilds</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
+                                    <p>Suco de cevadiss, é um leite divinis, qui tem lupuliz, matis, aguis e fermentis. Interagi no mé, cursus quis, vehicula ac nisi. Aenean vel dui dui. Nullam leo erat, aliquet quis tempus a, posuere ut mi. Ut scelerisque neque et turpis posuere pulvinar pellentesque nibh ullamcorper. Pharetra in mattis molestie, volutpat elementum justo. Aenean ut ante turpis. Pellentesque laoreet mé vel lectus scelerisque interdum cursus velit auctor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac mauris lectus, non scelerisque augue. Aenean justo massa.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="timeline-badge danger"><i class="glyphicon glyphicon-credit-card"></i></div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4 class="timeline-title">Mussum ipsum cacilds</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4 class="timeline-title">Mussum ipsum cacilds</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="timeline-badge info"><i class="glyphicon glyphicon-floppy-disk"></i></div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4 class="timeline-title">Mussum ipsum cacilds</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
+                                    <hr>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
+                                            <i class="glyphicon glyphicon-cog"></i> <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="#">Action</a></li>
+                                            <li><a href="#">Another action</a></li>
+                                            <li><a href="#">Something else here</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="#">Separated link</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4 class="timeline-title">Mussum ipsum cacilds</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-badge success"><i class="glyphicon glyphicon-thumbs-up"></i></div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4 class="timeline-title">Mussum ipsum cacilds</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+
+            </div>
+
+
         </div>
-
-
     </div>
 
     <!-- END #MAIN CONTENT -->

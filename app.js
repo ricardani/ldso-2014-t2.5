@@ -48,9 +48,6 @@ router.get('/', function(req, res) {
         res.json({ message: result.rows });
     });
 
-
-
-
 });
 
 // REGISTER OUR ROUTES -------------------------------

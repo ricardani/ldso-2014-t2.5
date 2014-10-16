@@ -18,7 +18,11 @@ ldsoAPP.config(['$routeProvider',
                 templateUrl: 'partials/login.html',
                 controller: 'LoginCtrl'
             }).
-            when('/menu', {
+            when('/teamStats', {
+                templateUrl: 'partials/menu.html',
+                controller: 'PlayerCtrl'
+            }).
+            when('/teamStats/:menu', {
                 templateUrl: 'partials/menu.html',
                 controller: 'PlayerCtrl'
             }).
