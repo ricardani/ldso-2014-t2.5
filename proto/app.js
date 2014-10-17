@@ -10,7 +10,8 @@ var users = require('./routes/users');
 
 var app = express();
 
-var pg = require("pg");
+// ======== Acesso à base de dados =======
+/*var pg = require("pg");
 //conString -> pg://username:password@server:port/database
 var conString = "pg://ldso:ldso@localhost:5432/Fides";
 
@@ -29,9 +30,10 @@ var router = express.Router();
 // middleware to use for all requests
 router.use(function(req, res, next) {
     // do logging
-    console.log('Something is happening.');
+    console.log('Accessing database....');
     next();
 });
+*/
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.get('/', function(req, res) {

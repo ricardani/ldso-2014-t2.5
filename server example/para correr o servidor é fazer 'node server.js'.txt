@@ -1,0 +1,3 @@
+para correr o servidor é fazer:
+node server.js
+na consola do node na pasta do servidor

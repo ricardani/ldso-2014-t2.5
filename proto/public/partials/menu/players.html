@@ -1,0 +1,111 @@
+<div class="panel-group" id="accordion">
+
+    <div class="panel panel-default">
+
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#add_player">
+            <h4 class="panel-title">
+
+                <img class="img-rounded" ng-src="img/default/add_player.png" alt="Imagem não encontrada!" style="max-height:100px;">
+                Adicionar Jogador
+
+            </h4>
+        </div>
+
+        <div id="add_player" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div class="btn-group" style="width:100%">
+                    <button type="button" disabled class="btn btn-primary col-xs-12 col-sm-8 col-md-3">Nome</button>
+                    <button type="button" disabled class="btn btn-default col-xs-12 col-sm-8 col-md-9">Nome</button>
+                </div>
+                <br><br>
+                <div class="btn-group" style="width:100%">
+                    <button type="button" disabled class="btn btn-primary col-xs-12 col-sm-8 col-md-3">BI/CC</button>
+                    <button type="button" disabled class="btn btn-default col-xs-12 col-sm-8 col-md-9">123456789</button>
+                </div>
+                <br><br>
+                <div class="btn-group" style="width:100%">
+                    <button type="button" disabled class="btn btn-primary col-xs-12 col-sm-8 col-md-3">Data de Nascimento</button>
+                    <button type="button" disabled class="btn btn-default col-xs-12 col-sm-8 col-md-9">16/1/2014</button>
+                </div>
+                <br><br>
+                <div class="btn-group" style="width:100%">
+                    <button type="button" disabled class="btn btn-primary col-xs-12 col-sm-8 col-md-3">Contacto</button>
+                    <button type="button" disabled class="btn btn-default col-xs-12 col-sm-8 col-md-9">*Insert number here*</button>
+                </div>
+                <br><br>
+                <div class="btn-group" style="width:100%">
+                    <button type="button" disabled class="btn btn-primary col-xs-12 col-sm-8 col-md-3">Email</button>
+                    <button type="button" disabled class="btn btn-default col-xs-12 col-sm-8 col-md-9">abc@gmail.com</button>
+                </div>
+                <br><br>
+                <div class="btn-group" style="width:100%">
+                    <button type="button" disabled class="btn btn-primary col-xs-12 col-sm-8 col-md-3">Morada</button>
+                    <button type="button" disabled class="btn btn-default col-xs-12 col-sm-8 col-md-9">Rua de Cima</button>
+                </div>
+                <br><br>
+                <div class="btn-group" style="width:100%">
+                    <button type="button" disabled class="btn btn-primary col-xs-12 col-sm-8 col-md-3">Condição</button>
+                    <button type="button" disabled class="btn btn-default col-xs-12 col-sm-8 col-md-9">Normal</button>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <div class="panel panel-default" ng-repeat="player in players.message">
+
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#{{player.id_atleta}}">
+            <h4 class="panel-title">
+
+                <img class="img-rounded" ng-src="img/default.png" alt="Imagem não encontrada!" style="max-height:100px;">
+                {{player.id_atleta}}
+
+            </h4>
+        </div>
+
+        <div id="{{player.id_atleta}}" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div class="btn-group" style="width:100%">
+                    <button type="button" disabled class="btn btn-primary col-xs-12 col-sm-8 col-md-3">Nome</button>
+                    <button type="button" disabled class="btn btn-default col-xs-12 col-sm-8 col-md-9">Nome</button>
+                </div>
+                <br><br>
+                <div class="btn-group" style="width:100%">
+                    <button type="button" disabled class="btn btn-primary col-xs-12 col-sm-8 col-md-3">BI/CC</button>
+                    <button type="button" disabled class="btn btn-default col-xs-12 col-sm-8 col-md-9">123456789</button>
+                </div>
+                <br><br>
+                <div class="btn-group" style="width:100%">
+                    <button type="button" disabled class="btn btn-primary col-xs-12 col-sm-8 col-md-3">Data de Nascimento</button>
+                    <button type="button" disabled class="btn btn-default col-xs-12 col-sm-8 col-md-9">16/1/2014</button>
+                </div>
+                <br><br>
+                <div class="btn-group" style="width:100%">
+                    <button type="button" disabled class="btn btn-primary col-xs-12 col-sm-8 col-md-3">Contacto</button>
+                    <button type="button" disabled class="btn btn-default col-xs-12 col-sm-8 col-md-9">*Insert number here*</button>
+                </div>
+                <br><br>
+                <div class="btn-group" style="width:100%">
+                    <button type="button" disabled class="btn btn-primary col-xs-12 col-sm-8 col-md-3">Email</button>
+                    <button type="button" disabled class="btn btn-default col-xs-12 col-sm-8 col-md-9">abc@gmail.com</button>
+                </div>
+                <br><br>
+                <div class="btn-group" style="width:100%">
+                    <button type="button" disabled class="btn btn-primary col-xs-12 col-sm-8 col-md-3">Morada</button>
+                    <button type="button" disabled class="btn btn-default col-xs-12 col-sm-8 col-md-9">Rua de Cima</button>
+                </div>
+                <br><br>
+                <div class="btn-group" style="width:100%">
+                    <button type="button" disabled class="btn btn-primary col-xs-12 col-sm-8 col-md-3">Condição</button>
+                    <button type="button" disabled class="btn btn-default col-xs-12 col-sm-8 col-md-9">Normal</button>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+</div>
