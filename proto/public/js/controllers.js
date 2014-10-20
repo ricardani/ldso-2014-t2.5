@@ -14,7 +14,7 @@ ldsoControllers.controller('PlayerCtrl', ['$scope', '$http','$routeParams',
 
         if($routeParams.menu == 'profile'){
 
-        }else{
+        }else if($routeParams.menu == 'players'){
             $http.get('http://localhost:3000/api').success(function (data) {
                 $scope.players = data;
             });

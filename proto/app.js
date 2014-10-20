@@ -10,10 +10,9 @@ var users = require('./routes/users');
 
 var app = express();
 
-// ======== Acesso à base de dados =======
-/*var pg = require("pg");
+var pg = require("pg");
 //conString -> pg://username:password@server:port/database
-var conString = "pg://ldso:ldso@localhost:5432/Fides";
+var conString = "pg://ldso:ldso@localhost:5432/team_stats";
 
 var client = new pg.Client(conString);
 client.connect();
@@ -30,17 +29,16 @@ var router = express.Router();
 // middleware to use for all requests
 router.use(function(req, res, next) {
     // do logging
-    console.log('Accessing database....');
+    console.log('Accessing Database....');
     next();
 });
-*/
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.get('/', function(req, res) {
     //res.json({ message: 'hooray! welcome to our api!' });
     var a= '';
 
-    var query = client.query("Select * from atleta LIMIT 10");
+    var query = client.query("Select * from player");
     query.on("row", function (row, result) {
         result.addRow(row);
     });
