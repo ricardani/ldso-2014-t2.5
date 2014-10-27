@@ -34,3 +34,10 @@ CREATE TABLE team_staff(
 	staff_id INTEGER REFERENCES users(id)
 );
 
+CREATE TABLE results{
+	id SERIAL PRIMARY KEY,
+	team_id INTEGER REFERENCES teams(id),
+	home BOOLEAN NOT NULL,
+	team_points INTEGER NOT NULL,
+	opposite_points INTEGER NOT NULL;
+}
