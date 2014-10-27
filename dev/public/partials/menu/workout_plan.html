@@ -1,0 +1,60 @@
+<div class="page-header col-xs-offset-5">
+    <h1>Plano de Treino</h1>
+</div>
+
+<form class="form-horizontal">
+    <fieldset>
+        <div class="form-group">
+            <label for="inputLocal" class="control-label col-xs-2">Local</label>
+            <div class="col-xs-4 col-md-3">
+                <input type="text" class="form-control" id="inputLocal" placeholder="Local" autocomplete="off">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputDate" class="control-label col-xs-2">Data</label>
+            <div class="col-xs-4 col-md-3">
+                <input type="date" class="form-control" id="inputDate" placeholder="Data" autocomplete="off">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputMaterial" class="control-label col-xs-2">Material Necessário</label>
+            <div class="col-xs-9">
+                <textarea class="form-control" id="inputMaterial" rows="5" style="resize:none" autocomplete="off" placeholder="Material Necessário"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputObjectives" class="control-label col-xs-2">Objectivos</label>
+            <div class="col-xs-9">
+                <textarea class="form-control" id="inputObjectives" rows="5" style="resize:none" autocomplete="off" placeholder="Objectivos"></textarea>
+            </div>
+        </div>
+        <div class="form-group col-xs-11" style="padding-left: 19%">
+            <table class="table table-hover table-responsive">
+                <thead>
+                <tr>
+                    <th class="col-xs-4">Exercícios</th>
+                    <th class="col-xs-2">Duração</th>
+                    <th class="col-xs-3">Focos</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><textarea class="form-control" name="inputExercise[]" rows="5" style="resize:none" autocomplete="off" placeholder="Exercício"></textarea></td>
+                    <td><input type="text" class="form-control" name="inputDuration[]" placeholder="Duração" autocomplete="off"></td>
+                    <td><textarea class="form-control" name="inputExercise[]" rows="5" style="resize:none" autocomplete="off" placeholder="Exercício"></textarea></td>
+                </tr>
+                <tr>
+                    <td><textarea class="form-control" name="inputExercise[]" rows="5" style="resize:none" autocomplete="off" placeholder="Exercício"></textarea></td>
+                    <td><input type="text" class="form-control" name="inputDuration[]" placeholder="Duração" autocomplete="off"></td>
+                    <td><textarea class="form-control" name="inputExercise[]" rows="5" style="resize:none" autocomplete="off" placeholder="Exercício"></textarea></td>
+                </tr>
+                <tr>
+                    <td><textarea class="form-control" name="inputExercise[]" rows="5" style="resize:none" autocomplete="off" placeholder="Exercício"></textarea></td>
+                    <td><input type="text" class="form-control" name="inputDuration[]" placeholder="Duração" autocomplete="off"></td>
+                    <td><textarea class="form-control" name="inputExercise[]" rows="5" style="resize:none" autocomplete="off" placeholder="Exercício"></textarea></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </fieldset>
+</form>
