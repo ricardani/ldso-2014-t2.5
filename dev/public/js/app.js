@@ -4,7 +4,8 @@
 
 var ldsoAPP = angular.module('ldsoAPP', [
     'ngRoute',
-    'ldsoControllers'
+    'team_statsControllers',
+    'team_statsServices'
 
    /* 'phonecatControllers',
     'phonecatFilters',

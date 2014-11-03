@@ -4,7 +4,13 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+
+//sha256
 var crypto = require('crypto');
+
+//Tokens
+var expressJwt = require('express-jwt');
+var jwt = require('jsonwebtoken');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -20,10 +26,16 @@ var conString = "postgres://ldso:ldso@localhost:5432/team_stats";
 var port     = process.env.PORT || 3000; // set our port
 
 
+var secret_key = 'shhhhhhared-secret';
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+// We are going to protect /api routes with JWT
+app.use('/api', expressJwt({secret: secret_key}));
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -56,12 +68,70 @@ app.post('/register-user', function (request, response) {
     var firstname = request.body.firstname, lastname = request.body.lastname;
 
     pg.connect(conString, function(err, client, done) {
-        client.query('INSERT INTO login(email, password, first_name, last_name) VALUES($1, $2, $3, $4)', [email, password, firstname, lastname], function(err, result) {
+        client.query('INSERT INTO login(email, password, firstname, lastname) VALUES($1, $2, $3, $4)', [email, password, firstname, lastname], function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.json(err); }
+            else
+            { response.send(); }
+        });
+    });
+
+});
+
+app.post('/authenticate', function (request, response) {
+    //TODO validate req.body.username and req.body.password
+
+    var email = request.body.email;
+    var password = crypto.createHash('sha256').update(request.body.password).digest("hex");
+    var id = -1;
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('SELECT id FROM login WHERE email=$1 AND password=$2', [email, password], function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.json(err); }
+            else{
+                if(result.rows[0])
+                    id = result.rows[0].id;
+
+                //if is invalid, return 401
+                if (id <= 0) {
+                    response.send(401, 'Wrong user or password');
+                    return;
+                }
+
+                var profile = {
+                    id: id
+                };
+
+                // We are sending the profile inside the token
+                var token = jwt.sign(profile, secret_key, { expiresInMinutes: 60*5 });
+
+                response.json({ token: token });
+            }
+        });
+    });
+
+});
+
+/*
+app.get('/api/restricted', function (req, res) {
+    console.log('user ' + req.user.email + ' is calling /api/restricted');
+    res.json({
+        name: 'foo'
+    });
+});*/
+
+app.get('/api/get-userinfo', function (request, response) {
+    console.log(request.user);
+    pg.connect(conString, function(err, client, done) {
+        client.query('SELECT firstname, lastname, img FROM login Where id = $1', [ request.user.id] ,function(err, result) {
             done();
             if (err)
             { console.error(err); response.send("Error " + err); }
             else
-            { response.send(); }
+            { response.send(result.rows); }
         });
     });
 
