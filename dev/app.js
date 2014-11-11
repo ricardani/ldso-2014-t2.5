@@ -20,8 +20,8 @@ var app = express();
 var pg = require("pg");
 
 //conString -> pg://username:password@server:port/database
-//var conString = "postgres://ohvgctbdgijnjk:MYqBzVTqdaUn-6hjEXgsZxlJlo@ec2-54-235-99-46.compute-1.amazonaws.com:5432/ddphlm2hsa5h6a"; //Ligação à base de dados no Heroku
-var conString = "postgres://ldso:ldso@localhost:5432/team_stats";
+var conString = "postgres://ohvgctbdgijnjk:MYqBzVTqdaUn-6hjEXgsZxlJlo@ec2-54-235-99-46.compute-1.amazonaws.com:5432/ddphlm2hsa5h6a"; //Ligação à base de dados no Heroku
+//var conString = "postgres://ldso:ldso@localhost:5432/team_stats";
 
 var port     = process.env.PORT || 3000; // set our port
 
@@ -80,7 +80,6 @@ app.post('/register-user', function (request, response) {
 });
 
 app.post('/authenticate', function (request, response) {
-    //TODO validate req.body.username and req.body.password
 
     var email = request.body.email;
     var password = crypto.createHash('sha256').update(request.body.password).digest("hex");
@@ -115,18 +114,97 @@ app.post('/authenticate', function (request, response) {
 
 });
 
-/*
-app.get('/api/restricted', function (req, res) {
-    console.log('user ' + req.user.email + ' is calling /api/restricted');
-    res.json({
-        name: 'foo'
-    });
-});*/
-
 app.get('/api/get-userinfo', function (request, response) {
-    console.log(request.user);
+
     pg.connect(conString, function(err, client, done) {
-        client.query('SELECT firstname, lastname, img FROM login Where id = $1', [ request.user.id] ,function(err, result) {
+        client.query('SELECT firstname, lastname, img FROM login Where id = $1', [request.user.id] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
+
+});
+
+app.get('/api/get-teams', function (request, response) {
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('SELECT team.id, team.name, team.img, team.ended FROM login_team, team '+
+            'WHERE login_team.id_login = $1 AND login_team.id_team = team.id', [request.user.id] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
+
+});
+
+app.get('/api/get-players', function (request, response) {
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('SELECT team.id AS team, player.id as player, player.name,' +
+            'coalesce(date_part(\'year\', age(current_date ,player.birth_date)),0) as age, player.condition, player.img ' +
+            'FROM login_team, team, player, team_player WHERE login_team.id_login = $1 AND login_team.id_team = team.id ' +
+            'AND team_player.id_team = team.id AND team_player.id_player = player.id ORDER BY team.id, player.name', [request.user.id] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
+
+});
+
+app.get('/api/get-teamsGames', function (request, response) {
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('SELECT team.id AS team_id, game.id, game.date, game. title ' +
+            'FROM login_team, team, game ' +
+            'WHERE login_team.id_login = $1 ' +
+            'AND team.id = login_team.id_team AND game.id_team = team.id ' +
+            'ORDER BY team.id, game.date DESC', [request.user.id] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
+
+});
+
+app.get('/api/get-teamsStatsBlock', function (request, response) {
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('SELECT game.id AS game_id, stat_block.id, stat_block.title ' +
+            'FROM login_team, team, game, stat_block ' +
+            'WHERE login_team.id_login = $1 ' +
+            'AND team.id = login_team.id_team AND game.id_team = team.id ' +
+            'AND stat_block.id_game = game.id', [request.user.id] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
+
+});
+
+app.get('/api/get-teamsStatsLine', function (request, response) {
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('SELECT stat_block.id AS block, stat_line.id, stat_line.field, stat_line.value ' +
+            'FROM login_team, game, stat_block, stat_line, team ' +
+            'WHERE login_team.id_login = $1 ' +
+            'AND login_team.id_team = game.id_team AND team.id = login_team.id_team ' +
+            'AND stat_block.id_game = game.id AND stat_line.id_stat_block = stat_block.id ' +
+            'ORDER BY stat_block.id', [request.user.id] ,function(err, result) {
             done();
             if (err)
             { console.error(err); response.send("Error " + err); }

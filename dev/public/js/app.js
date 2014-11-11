@@ -4,12 +4,12 @@
 
 var ldsoAPP = angular.module('ldsoAPP', [
     'ngRoute',
-    'team_statsControllers',
-    'team_statsServices'
-
-   /* 'phonecatControllers',
-    'phonecatFilters',
-    'phonecatServices'*/
+    'loginControllers',
+    'team_statsServices',
+    'menuControllers',
+    'playersControllers',
+    'teamOverviewControllers',
+    'ui-rangeSlider'
 ]);
 
 ldsoAPP.config(['$routeProvider',
@@ -21,17 +21,33 @@ ldsoAPP.config(['$routeProvider',
             }).
             when('/teamStats', {
                 templateUrl: 'partials/menu.html',
-                controller: 'PlayerCtrl'
+                controller: ''
             }).
             when('/teamStats/:menu', {
                 templateUrl: 'partials/menu.html',
-                controller: 'PlayerCtrl'
+                controller: 'MenuCtrl'
             }).
             when('/teamStats/:menu/:teamID', {
                 templateUrl: 'partials/menu.html',
-                controller: 'PlayerCtrl'
+                controller: 'MenuCtrl'
             }).
             otherwise({
                 redirectTo: '/login/login'
             });
     }]);
+
+
+ldsoAPP.filter('rangeFilterAge', function() {
+    return function( items, rangeInfo ) {
+        var filtered = [];
+        var min = parseInt(rangeInfo.userMin);
+        var max = parseInt(rangeInfo.userMax);
+        // If time is with the range
+        angular.forEach(items, function(item) {
+            if( item.age >= min && item.age <= max ) {
+                filtered.push(item);
+            }
+        });
+        return filtered;
+    };
+});

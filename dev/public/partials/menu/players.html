@@ -1,11 +1,10 @@
-<link rel="stylesheet" type="text/css" media="screen" href="css/slider.css">
-<script type="text/javascript" src="js/bootstrap-slider.js"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="css/angular.rangeSlider.css">
 
 <div class="panel-group" id="accordion">
     <div class="row">
-        <div class="col-lg-5">
+        <div class="col-lg-10 col-lg-offset-1">
             <div class="input-group">
-                <input type="text" class="form-control"/>
+                <input ng-model="searchPlayer" type="text" class="form-control"/>
 					<span class="input-group-btn">
 						<button class="btn btn-primary" type="button" disabled="true">
 							<span class="glyphicon glyphicon-search">
@@ -14,257 +13,94 @@
 					</span>
             </div>
         </div>
-        <div class="col-lg-1">Idade: 0</div>
-        <div class="col-lg-5">
-            <input id="ex2" type="text" class="span2" value="" data-slider-min="0" data-slider-max="50" data-slider-step="1" data-slider-value="[0,100]"/>
-        </div>
-        <div class="col-lg-1">50</div>
-    </div>
-    <div class="row">
-        <div class="col-lg-2">
-            <div class="input-group">
-				<span class="input-group-addon">
-					<input type="checkbox" checked="true">
-				</span>
-                <input type="text" class="form-control" disabled="true" value="Equipa 1"/>
-            </div>
-        </div>
-        <div class="col-lg-2">
-            <div class="input-group">
-				<span class="input-group-addon">
-					<input type="checkbox" checked="true">
-				</span>
-                <input type="text" class="form-control" disabled="true" value="Equipa 2"/>
-            </div>
-        </div>
 
-        <div class="col-lg-2">
-            <div class="input-group">
-				<span class="input-group-addon">
-					<input type="checkbox" checked="true">
-				</span>
-                <input type="text" class="form-control" disabled="true" value="Equipa 3"/>
+        <br>
+
+        <div class="col-lg-10 col-lg-offset-1" ng-controller="SlidersCtrl">
+            <div range-slider="range-slider"
+                 min="sliderConfig.min"
+                 max="sliderConfig.max"
+                 model-min="sliderConfig.userMin"
+                 model-max="sliderConfig.userMax">
             </div>
         </div>
-        <div class="col-lg-2 pull-right">
-            <button class="btn btn-primary" type="button">
-                <span class="glyphicon glyphicon-plus"> </span>
-                Adicionar Equipa
-            </button>
-        </div>
     </div>
-</div>
 
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Equipa 1
-            <button class="btn btn-primary pull-right" type="button">
-                <span class="glyphicon glyphicon-plus"> </span>
-                Adicionar Jogador
-            </button>
-        </h3>
-    </div>
-    <div class="panel-body">
+    <br>
+
+    <div ng-controller="UserTeamsCtrl">
         <div class="row">
-
-            <div class="col-sm-4 col-md-2">
-                <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                        <h3>Jogador</h3>
+            <div ng-repeat="team in teams" >
+                <div class="col-lg-2">
+                    <div class="input-group">
+				<span class="input-group-addon">
+					<input type="checkbox" checked="true" id="{{team.id}}" class="checkTeam">
+				</span>
+                        <input type="text" class="form-control" disabled="true" value="{{team.name}}"/>
                     </div>
                 </div>
             </div>
 
-            <div class="col-sm-4 col-md-2">
-                <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                        <h3>Jogador</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-4 col-md-2">
-                <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                        <h3>Jogador</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-4 col-md-2">
-                <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                        <h3>Jogador</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-4 col-md-2">
-                <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                        <h3>Jogador</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-4 col-md-2">
-                <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                        <h3>Jogador</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-4 col-md-2">
-                <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                        <h3>Jogador</h3>
-                    </div>
-                </div>
+            <div class="col-lg-2">
+                <button class="btn btn-primary" type="button">
+                    <span class="glyphicon glyphicon-plus"> </span>
+                    Adicionar Equipa
+                </button>
             </div>
         </div>
-    </div>
-</div>
 
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Equipa 2
-            <button class="btn btn-primary pull-right" type="button">
-                <span class="glyphicon glyphicon-plus"> </span>
-                Adicionar Jogador
-            </button>
-        </h3>
-    </div>
-    <div class="panel-body">
-        <div class="row">
 
-            <div class="col-sm-4 col-md-2">
-                <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                        <h3>Jogador</h3>
+        <br><br>
+
+        <div ng-repeat="team in teams">
+            <div class="panel panel-default" id="team{{team.id}}">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <img ng-src="{{team.img}}" src="" onError="this.onerror=null;this.src='img/default/team.jpg';" style="height:100px;"/>
+                        {{team.name}}
+
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+
+                        <div ng-repeat="player in players | filter: {name:searchPlayer} | rangeFilterAge:sliderConfig">
+                            <div ng-if="team.id === player.team">
+                                <a href="">
+                                    <div class="col-xs-4 col-sm-4 col-md-1">
+                                        <div class="thumbnail">
+                                            <img ng-src="{{player.img}}" src="" onError="this.onerror=null;this.src='img/default/player.png';" style="height:100px;"/>
+                                            <div class="caption">
+                                                <h3>{{player.name}}</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                            </div>
+                        </div>
+                        <a href="">
+                            <div class="col-xs-4 col-sm-4 col-md-1">
+                                <div class="thumbnail">
+                                    <img ng-src="img/default/add.png" style="height:80px;"/>
+                                    <div class="caption">
+                                        <h3>Adicionar Jogador</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+
                     </div>
                 </div>
-            </div>
-
-            <div class="col-sm-4 col-md-2">
-                <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                        <h3>Jogador</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-4 col-md-2">
-                <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                        <h3>Jogador</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-4 col-md-2">
-                <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                        <h3>Jogador</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-4 col-md-2">
-                <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                        <h3>Jogador</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-4 col-md-2">
-                <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                        <h3>Jogador</h3>
-                    </div>
-                </div>
+                <br><br>
             </div>
 
         </div>
+
     </div>
 </div>
 
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Equipa 3
-            <button class="btn btn-primary pull-right" type="button">
-                <span class="glyphicon glyphicon-plus"> </span>
-                Adicionar Jogador
-            </button>
-        </h3>
-    </div>
-    <div class="panel-body">
-        <div class="row">
 
-            <div class="col-sm-4 col-md-2">
-                <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                        <h3>Jogador</h3>
-                    </div>
-                </div>
-            </div>
+<script type="text/javascript" src="js/players/players.js"></script>
 
-            <div class="col-sm-4 col-md-2">
-                <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                        <h3>Jogador</h3>
-                    </div>
-                </div>
-            </div>
 
-            <div class="col-sm-4 col-md-2">
-                <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                        <h3>Jogador</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-4 col-md-2">
-                <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                        <h3>Jogador</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-4 col-md-2">
-                <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                        <h3>Jogador</h3>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-<script>
-    // With JQuery
-    $("#ex2").slider({});
-
-</script>
