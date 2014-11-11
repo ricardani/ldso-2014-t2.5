@@ -15,7 +15,7 @@ menuControllers.controller('UserInfoCtrl', function ($scope, $window, $location,
 
 });
 
-loginControllers.controller('MenuCtrl', ['$scope', '$http','$routeParams',
+menuControllers.controller('MenuCtrl', ['$scope', '$http','$routeParams',
     function($scope, $http, $routeParams) {
 
         $scope.menu = $routeParams.menu;
@@ -25,4 +25,12 @@ loginControllers.controller('MenuCtrl', ['$scope', '$http','$routeParams',
         }else if($routeParams.menu == 'players'){
 
         }
+    }]);
+
+menuControllers.controller('MenuPlayerCtrl', ['$scope', '$http','$routeParams',
+    function($scope, $http, $routeParams) {
+
+        $scope.menu = 'player';
+
+        $scope.playerID = $routeParams.playerID;
     }]);

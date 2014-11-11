@@ -66,7 +66,7 @@
 
                         <div ng-repeat="player in players | filter: {name:searchPlayer} | rangeFilterAge:sliderConfig">
                             <div ng-if="team.id === player.team">
-                                <a href="">
+                                <a href="#/teamStats/player/{{player.player}}">
                                     <div class="col-xs-4 col-sm-4 col-md-1">
                                         <div class="thumbnail">
                                             <img ng-src="{{player.img}}" src="" onError="this.onerror=null;this.src='img/default/player.png';" style="height:100px;"/>

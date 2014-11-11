@@ -32,7 +32,7 @@
                                 </a>
                             </h4>
                         </div>
-                        <div id="{{game.id}}" class="panel-collapse collapse">
+                        <div id="{{game.id}}" class="panel-collapse collapse container-fluid">
 
                             <div class="panel-body">
 
@@ -41,9 +41,9 @@
                                         <h1>{{block.title}} <small>Subtext for header</small></h1>
 
 
-                                        <div class="input-group"  ng-repeat="line in lines" ng-if="block.id === line.block">
-                                            <span class="input-group-addon">{{line.field}}</span>
-                                            <input type="text" class="form-control" value="{{line.value}}" disabled>
+                                        <div class="input-group"  ng-repeat="line in lines" ng-if="block.id === line.block" style="width: 100%">
+                                            <span class="input-group-addon" style="width: 50%;white-space: normal;">{{line.field}}</span>
+                                            <input type="text" class="form-control" value="{{line.value}}" disabled style="width: 50%">
                                         </div>
 
 

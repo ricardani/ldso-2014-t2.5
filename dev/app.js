@@ -20,8 +20,8 @@ var app = express();
 var pg = require("pg");
 
 //conString -> pg://username:password@server:port/database
-var conString = "postgres://ohvgctbdgijnjk:MYqBzVTqdaUn-6hjEXgsZxlJlo@ec2-54-235-99-46.compute-1.amazonaws.com:5432/ddphlm2hsa5h6a"; //Ligação à base de dados no Heroku
-//var conString = "postgres://ldso:ldso@localhost:5432/team_stats";
+//var conString = "postgres://ohvgctbdgijnjk:MYqBzVTqdaUn-6hjEXgsZxlJlo@ec2-54-235-99-46.compute-1.amazonaws.com:5432/ddphlm2hsa5h6a"; //Ligação à base de dados no Heroku
+var conString = "postgres://ldso:ldso@localhost:5432/team_stats";
 
 var port     = process.env.PORT || 3000; // set our port
 
@@ -160,6 +160,8 @@ app.get('/api/get-players', function (request, response) {
 
 });
 
+// ================================================== Team Overview ==================================================
+
 app.get('/api/get-teamsGames', function (request, response) {
 
     pg.connect(conString, function(err, client, done) {
@@ -213,6 +215,142 @@ app.get('/api/get-teamsStatsLine', function (request, response) {
         });
     });
 
+});
+
+// ================================================== Player Page ==================================================
+
+app.get('/api/get-playerInfo', function (request, response) {
+
+    var playerID = request.param("playerID")
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('SELECT player.* ' +
+            'FROM login_team, team_player, player ' +
+            'WHERE login_team.id_login = $1 AND login_team.id_team = team_player.id_team ' +
+            'AND team_player.id_player = $2 AND team_player.id_player = player.id', [request.user.id, playerID] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
+});
+
+app.get('/api/get-playerStaticBlocks', function (request, response) {
+
+    var playerID = request.param("playerID")
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('SELECT info_block.id, info_block.title ' +
+            'FROM login_team, team_player, info_block ' +
+            'WHERE login_team.id_login = $1 AND login_team.id_team = team_player.id_team ' +
+            'AND team_player.id_player = $2 AND info_block.id_player = team_player.id_player ' +
+            'AND info_block.type = \'static\'', [request.user.id, playerID] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
+});
+
+app.get('/api/get-playerStaticLines', function (request, response) {
+
+    var playerID = request.param("playerID")
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('SELECT info_line.id, info_line.id_info_block AS block, info_line.field, info_line.value ' +
+            'FROM login_team, team_player, info_block, info_line ' +
+            'WHERE login_team.id_login = $1 AND login_team.id_team = team_player.id_team ' +
+            'AND team_player.id_player = $2 AND info_block.id_player = team_player.id_player ' +
+            'AND info_block.type = \'static\' AND info_line.id_info_block = info_block.id', [request.user.id, playerID] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
+});
+
+app.get('/api/get-playerDynamicBlocks', function (request, response) {
+
+    var playerID = request.param("playerID")
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('SELECT info_block.id, info_block.title ' +
+            'FROM login_team, team_player, info_block ' +
+            'WHERE login_team.id_login = $1 AND login_team.id_team = team_player.id_team ' +
+            'AND team_player.id_player = $2 AND info_block.id_player = team_player.id_player ' +
+            'AND info_block.type = \'dynamic\'', [request.user.id, playerID] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
+});
+
+app.get('/api/get-playerDynamicLines', function (request, response) {
+
+    var playerID = request.param("playerID")
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('SELECT info_line.id, info_line.id_info_block AS block, info_line.field, info_line.value, info_line.date ' +
+            'FROM login_team, team_player, info_block, info_line ' +
+            'WHERE login_team.id_login = $1 AND login_team.id_team = team_player.id_team ' +
+            'AND team_player.id_player = $2 AND info_block.id_player = team_player.id_player ' +
+            'AND info_block.type = \'dynamic\' AND info_line.id_info_block = info_block.id ORDER BY info_line.date, info_line.field ASC', [request.user.id, playerID] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
+});
+
+app.get('/api/get-playerDynamicFields', function (request, response) {
+
+    var playerID = request.param("playerID")
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('SELECT DISTINCT info_line.id_info_block AS block, info_line.field ' +
+            'FROM login_team, team_player, info_block, info_line ' +
+            'WHERE login_team.id_login = $1 AND login_team.id_team = team_player.id_team ' +
+            'AND team_player.id_player = $2 AND info_block.id_player = team_player.id_player ' +
+            'AND info_block.type = \'dynamic\' AND info_line.id_info_block = info_block.id ' +
+            'ORDER BY block, field ASC', [request.user.id, playerID] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
+});
+
+app.get('/api/get-playerDynamicDates', function (request, response) {
+
+    var playerID = request.param("playerID")
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('SELECT DISTINCT info_block.id AS block, info_line.date ' +
+            'FROM login_team, team_player, info_block, info_line ' +
+            'WHERE login_team.id_login = $1 AND login_team.id_team = team_player.id_team ' +
+            'AND team_player.id_player = $2 AND info_block.id_player = team_player.id_player ' +
+            'AND info_block.type = \'dynamic\' AND info_line.id_info_block = info_block.id ' +
+            'ORDER BY info_line.date', [request.user.id, playerID] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
 });
 
 // ====================================================================================

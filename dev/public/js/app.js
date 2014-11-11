@@ -9,6 +9,7 @@ var ldsoAPP = angular.module('ldsoAPP', [
     'menuControllers',
     'playersControllers',
     'teamOverviewControllers',
+    'playerControllers',
     'ui-rangeSlider'
 ]);
 
@@ -27,9 +28,9 @@ ldsoAPP.config(['$routeProvider',
                 templateUrl: 'partials/menu.html',
                 controller: 'MenuCtrl'
             }).
-            when('/teamStats/:menu/:teamID', {
+            when('/teamStats/player/:playerID', {
                 templateUrl: 'partials/menu.html',
-                controller: 'MenuCtrl'
+                controller: 'MenuPlayerCtrl'
             }).
             otherwise({
                 redirectTo: '/login/login'
