@@ -1,1 +1,99 @@
-Sou um jogador
+<link rel="stylesheet" type="text/css" media="screen" href="css/player.css">
+
+<div class="row">
+
+        <div class="col-sm-6 col-md-4">
+            <h3 style="text-decoration: none;">Jackson Martinez</h3>
+            <img class="img-responsive" ng-src="img/demo/JacksonMartinez.png" align="left">
+		</div>
+			
+			<br>
+			<br>
+        
+			<fieldset>
+						<legend>Personal Information</legend>
+						<p>
+							Name: <input class="fixed-input" type="text" name="name">
+							<br>
+							<br>
+							Contact: <input class="fixed-input" type="text" name="contact">
+							<br>
+							<br>
+							Birth Date: <input class="fixed-input" type="text" name="birthdate">
+						</p>
+			</fieldset>
+		
+		<br>
+		
+			<div class="panel-group" id="accordion">
+        <div class="panel panel-default">
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne">
+            <h4 class="panel-title">
+                Informacao do atleta
+                <span class="glyphicon glyphicon-arrow-down" style="float:right"></span>
+
+            </h4>
+
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse">
+            <div class="panel-body">
+
+              <div class="row">
+		
+		<table border="1" style="width:100%">
+				<tr>
+					<td>Informacao do atleta</td>
+				</tr>
+				<tr>
+					<td>Encarregado de Educacao</td>
+					<td>Mrs.Jackson</td>				
+				</tr>
+				<tr>
+					<td>Encarregado de Educacao</td>
+					<td>Mrs.Jackson</td>				
+				</tr>
+				<tr>
+					<td>Encarregado de Educacao</td>
+					<td>Mrs.Jackson</td>				
+				</tr>
+				<tr>
+					<td>Encarregado de Educacao</td>
+					<td>Mrs.Jackson</td>				
+				</tr>
+				<tr>
+					<td>  
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#add_player">
+            <h4 class="panel-title">
+
+                <img class="img-rounded" ng-src="img/default/add_player.png" alt="Imagem não encontrada!" style="max-height:20px;">
+                Adicionar Informacao
+
+            </h4>
+
+			   <div id="add_player" class="panel-collapse collapse background-grey">
+					<form class="form-horizontal">
+					<fieldset>
+                    <div class="form-group">
+                        <label for="inputName" class="control-label col-xs-2">Nome</label>
+                        <div class="col-xs-9">
+                            <input type="text" class="form-control" id="inputName" placeholder="Nome" autocomplete="off" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-offset-2 col-xs-10">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+		</td>
+			</table>
+
+		</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
