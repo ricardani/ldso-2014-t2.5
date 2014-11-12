@@ -1,11 +1,5 @@
 var team_statsServices = angular.module('team_statsServices', []);
 
-/*appServices.factory('Players', ['$resource',
-    function($resource){
-        return $resource('', {}, {
-            query: {method:'GET', params:{}, isArray:true}
-        });
-    }]);*/
 
 team_statsServices.factory('authInterceptor', function ($rootScope, $q, $window) {
     return {

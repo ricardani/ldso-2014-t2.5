@@ -141,11 +141,6 @@
                             </button>
                             <!-- </a> -->
 
-                            <a href="#/teamStats/home">
-                                <button type="submit" class="btn btn-primary">
-                                    Entar sem login
-                                </button>
-                            </a>
                         </footer>
                     </form>
 
@@ -264,25 +259,6 @@
         </div>
 
     </div>
-
-</div>
-
-<div ng-switch-when="teste">
-
-    <div ng-controller="UserCtrl">
-        <span></span>
-        <form ng-submit="submit()">
-            <input ng-model="user.username" type="text" name="user" placeholder="Username" />
-            <input ng-model="user.password" type="password" name="pass" placeholder="Password" />
-            <input type="submit" value="Login" />
-        </form>
-    </div>
-
-    <button class="btn btn-primary" ng-controller="UserCtrl2" ng-click="get()">
-        Sign in
-    </button>
-
-
 
 </div>
 

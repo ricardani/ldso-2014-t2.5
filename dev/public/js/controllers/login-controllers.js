@@ -1,8 +1,8 @@
 /* Controllers */
 
-var team_statsControllers = angular.module('team_statsControllers', []);
+var loginControllers = angular.module('loginControllers', []);
 
-team_statsControllers.controller('LoginCtrl', ['$scope','$routeParams','$rootScope', '$window', '$location',
+loginControllers.controller('LoginCtrl', ['$scope','$routeParams','$rootScope', '$window', '$location',
     function($scope, $routeParams, $rootScope, $window, $location) {
         $scope.login = $routeParams.login;
 
@@ -34,20 +34,6 @@ team_statsControllers.controller('LoginCtrl', ['$scope','$routeParams','$rootSco
 
     }]);
 
-team_statsControllers.controller('PlayerCtrl', ['$scope', '$http','$routeParams',
-    function($scope, $http, $routeParams) {
-
-        $scope.menu = $routeParams.menu;
-
-        if($routeParams.menu == 'profile'){
-
-        }else if($routeParams.menu == 'players'){
-            $http.get('/players').success(function (data) {
-                $scope.players = data;
-            });
-        }
-    }]);
-
 
 function checkPassword() {
     if (document.registerForm.password.value != document.registerForm.passwordConfirm.value) {
@@ -58,7 +44,7 @@ function checkPassword() {
 };
 
 
-team_statsControllers.controller('UserRegister', function ($scope, $http, $window, $location, $rootScope) {
+loginControllers.controller('UserRegister', function ($scope, $http, $window, $location, $rootScope) {
 
     $scope.submitRegister = function () {
 
@@ -110,38 +96,7 @@ team_statsControllers.controller('UserRegister', function ($scope, $http, $windo
     };
 });
 
-/*
-team_statsControllers.controller('UserCtrl', function ($scope, $http, $window) {
-    $scope.user = {username: 'john.doe', password: 'foobar'};
-    $scope.message = '';
-    $scope.submit = function () {
-        $http
-            .post('/authenticate', $scope.user)
-            .success(function (data, status, headers, config) {
-                $window.sessionStorage.token = data.token;
-                $scope.message = 'Welcome';
-            })
-            .error(function (data, status, headers, config) {
-                // Erase the token if the user fails to log in
-                delete $window.sessionStorage.token;
-
-                // Handle login errors here
-                $scope.message = 'Error: Invalid user or password';
-            });
-    };
-});*/
-
-team_statsControllers.controller('UserCtrl2', function ($scope, $http) {
-
-    $scope.get = function () {
-        $http({url: '/api/restricted', method: 'GET'})
-            .success(function (data, status, headers, config) {
-                console.log(data.name); // Should log 'foo'
-            });
-    };
-});
-
-team_statsControllers.controller('AuthenticateCtrl', function ($scope, $http, $window, $location) {
+loginControllers.controller('AuthenticateCtrl', function ($scope, $http, $window, $location) {
 
     $scope.login = function () {
         $http
@@ -163,7 +118,7 @@ team_statsControllers.controller('AuthenticateCtrl', function ($scope, $http, $w
     };
 });
 
-team_statsControllers.controller('LoggedInCtrl', function ($scope, $window, $location, $http) {
+loginControllers.controller('LoggedInCtrl', function ($scope, $window, $location, $http) {
 
     $http({url: '/api/get-userinfo', method: 'GET'})
         .success(function (data, status, headers, config) {

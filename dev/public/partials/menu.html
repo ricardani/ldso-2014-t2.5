@@ -57,48 +57,6 @@
         </div>
         <!-- end fullscreen button -->
 
-        <!-- multiple lang dropdown : find all flags in the flags page -->
-        <!--
-        <ul class="header-dropdown-list hidden-xs">
-            <li>
-                <a href="void(0);" class="dropdown-toggle" data-toggle="dropdown"> <img src="img/blank.gif" class="flag flag-us" alt="United States"> <span> US</span> <i class="fa fa-angle-down"></i> </a>
-                <ul class="dropdown-menu pull-right">
-                    <li class="active">
-                        <a href="javascript:void(0);"><img src="img/blank.gif" class="flag flag-us" alt="United States"> English (US)</a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);"><img src="img/blank.gif" class="flag flag-fr" alt="France"> Français</a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);"><img src="img/blank.gif" class="flag flag-es" alt="Spanish"> Español</a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);"><img src="img/blank.gif" class="flag flag-de" alt="German"> Deutsch</a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);"><img src="img/blank.gif" class="flag flag-jp" alt="Japan"> 日本語</a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);"><img src="img/blank.gif" class="flag flag-cn" alt="China"> 中文</a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);"><img src="img/blank.gif" class="flag flag-it" alt="Italy"> Italiano</a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);"><img src="img/blank.gif" class="flag flag-pt" alt="Portugal"> Portugal</a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);"><img src="img/blank.gif" class="flag flag-ru" alt="Russia"> Русский язык</a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);"><img src="img/blank.gif" class="flag flag-kp" alt="Korea"> 한국어</a>
-                    </li>
-
-                </ul>
-            </li>
-        </ul> -->
-        <!-- end multiple lang -->
-
     </div>
     <!-- end pulled right: nav area -->
 
@@ -111,13 +69,13 @@
 <aside id="left-panel">
 
     <!-- User info -->
-    <div class="login-info">
+    <div class="login-info" ng-controller="UserInfoCtrl">
 				<span> <!-- User image size is adjusted inside CSS, it should stay as is -->
 
 					<a href="#teamStats/profile" >
-                        <img ng-src="img/avatars/mourinho.png" alt="me" class="online" />
+                        <img ng-src="{{img}}" src="" class="online" onError="this.onerror=null;this.src='img/default/player.png';"/>
 						<span>
-							TeamStats Profile
+							{{firstname}} {{lastname}}
 						</span>
                     </a>
 
@@ -222,8 +180,8 @@
             <div ng-switch-when="workout_plan">
                 <ng-include src="'partials/menu/workout_plan.html'"></ng-include>
             </div>
-			
-			<div ng-switch-when="player">
+
+            <div ng-switch-when="player">
                 <ng-include src="'partials/menu/player.html'"></ng-include>
             </div>
 			
@@ -233,7 +191,7 @@
 
             <div ng-switch-default>
                 <ng-include src="'partials/menu/not_found.html'"></ng-include>
-             </div>
+            </div>
 
         </div>
 
