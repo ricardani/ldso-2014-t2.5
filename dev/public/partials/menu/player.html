@@ -1,7 +1,9 @@
-<div ng-controller="PlayerInfoCtrl">
+<link rel="stylesheet" type="text/css" media="screen" href="css/datepicker.css">
+
+<div ng-controller="PlayerPageCtrl">
 
 
-    <div class="row">
+    <div class="row" ng-controller="PlayerInfoCtrl">
 
         <div class="col-sm-4 col-md-2 col-md-offset-1">
             <h3 style="text-decoration: none;">{{playerInfo.name}}</h3>
@@ -12,33 +14,47 @@
             <br>
             <fieldset>
                 <legend>Informação Pessoal</legend>
-
-                <div class="row container">
-                    <div class="col-md-2">
-                        Nome
+                <section>
+                    <div class="row container input-group">
+                        <div class="col-md-2">
+                            <span class="input-group-addon" style="padding-bottom: 10px">Nome</span>
+                        </div>
+                        <div id="playerName" class="">
+                            <div class="col-md-3">
+                                <input type="text" value="{{playerInfo.name}}" id="playerName{{playerInfo.id}}" class="form-control" autocomplete="false" ng-blur="updateName(playerInfo.id)">
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <input type="text" value="{{playerInfo.name}}" autocomplete="false">
-                    </div>
-                </div>
+                </section>
                 <br>
-                <div class="row container">
-                    <div class="col-md-2">
-                        Contacto
+                <section>
+                    <div class="row container input-group">
+                        <div class="col-md-2">
+                            <span class="input-group-addon" style="padding-bottom: 10px">Contato</span>
+                        </div>
+                        <div id="playerPhone" class="">
+                            <div class="col-md-3">
+                                <input type="int" value="{{playerInfo.phone}}" id="playerPhone{{playerInfo.id}}" class="form-control" autocomplete="false" ng-blur="updatePhone(playerInfo.id)">
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <input type="int" value="{{playerInfo.phone}} " autocomplete="false">
-                    </div>
-                </div>
+                </section>
                 <br>
-                <div class="row container">
-                    <div class="col-md-2">
-                        Data Nascimento
+                <section>
+                    <div class="row container input-group">
+                        <div class="col-md-2">
+                            <span class="input-group-addon" style="padding-bottom: 10px">Data de Nascimento</span>
+                        </div>
+                        <div id="playerBirth" class="">
+                            <div class="col-md-3">
+                                <input type="text" value="{{playerInfo.birth_date | date : 'dd/MM/yyyy'}}" id="playerBirth{{playerInfo.id}}" class="form-control" autocomplete="false" ng-blur="updateBirth(playerInfo.id)">
+                            </div>
+                            <div class="input-group ">
+                                <input type="text" class="form-control datepicker"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <input type="text" value="{{playerInfo.birth_date | date : 'dd/MM/yyyy'}}" autocomplete="false">
-                    </div>
-                </div>
+                </section>
 
             </fieldset>
         </div>
@@ -46,12 +62,12 @@
 
     <br> <br> <br>
 
-    <div class="page-header">
+    <div class="page-header" ng-controller="StaticBlockCtrl">
 
         <legend>
             <h1>
                 Informações
-                <button type="button" class="btn btn-link btn-lg" >
+                <button type="button" class="btn btn-link btn-lg" ng-click="insertBlock(playerInfo.id)">
                     <span class="glyphicon glyphicon-plus-sign" style="color:green"></span>
                 </button>
             </h1>
@@ -59,26 +75,31 @@
 
     </div>
 
-
-
-    <div class="container-fluid">
+    <div class="container-fluid" ng-controller="StaticBlockCtrl">
 
         <div class="panel panel-info col-md-6" ng-repeat="staticBlock in staticBlocks">
             <div class="panel-heading">
                 <h3 class="panel-title">
                     {{staticBlock.title}}
-                    <button  type="button" class="btn btn-link">
+                    <button type="button" class="btn btn-link btn-lg" ng-click="insertLine(staticBlock.id)">
+                        <span class="glyphicon glyphicon-plus-sign" style="color:green"></span>
+                    </button>
+                    <button  type="button" class="btn btn-link pull-right" ng-click="deleteBlock(staticBlock.id)">
                         <span class="glyphicon glyphicon-remove" style="color:red"></span>
                     </button>
                 </h3>
-
             </div>
             <div class="panel-body">
                 <div ng-repeat="staticLine in staticLines" ng-if="staticBlock.id === staticLine.block">
                     <div class="input-group" >
                         <span class="input-group-addon">{{staticLine.field}}</span>
-                        <input type="text" class="form-control text-align-center" placeholder="Username" value="{{staticLine.value}}" style="width: 90%">
-                        <button  type="button" class="btn btn-link pull-right">
+
+                        <div id="inputLine{{staticLine.id}}" class="">
+                            <input type="text" class="form-control text-align-center" id="lineID{{staticLine.id}}"
+                                   value="{{staticLine.value}}" style="width: 90%" ng-blur="updateLine(staticLine.id)">
+                        </div>
+
+                        <button  type="button" class="btn btn-link pull-right" ng-click="deleteLine(staticLine.id)">
                             <span class="glyphicon glyphicon-remove" style="color:red"></span>
                         </button>
                     </div>
@@ -94,11 +115,11 @@
     <br><br><br>
 
 
-    <div class="page-header">
+    <div class="page-header" ng-controller="DynamiccBlockCtrl">
         <legend>
             <h1>
                 Registos
-                <button type="button" class="btn btn-link btn-lg" >
+                <button type="button" class="btn btn-link btn-lg" ng-click="insertBlock(playerInfo.id)">
                     <span class="glyphicon glyphicon-plus-sign" style="color:green"></span>
                 </button>
             </h1>
@@ -106,13 +127,16 @@
     </div>
 
 
-    <div class="" ng-init="dynamicDate">
+    <div class="" ng-controller="DynamiccBlockCtrl">
 
         <div class="panel panel-success" ng-repeat="dynamicBlock in dynamicBlocks">
             <div class="panel-heading">
                 <h3 class="panel-title">
                     {{dynamicBlock.title}}
-                    <button  type="button" class="btn btn-link">
+                    <button type="button" class="btn btn-link btn-lg" ng-click="insertLine(dynamicBlock.id)">
+                        <span class="glyphicon glyphicon-plus-sign" style="color:green"></span>
+                    </button>
+                    <button  type="button" class="btn btn-link pull-right" ng-click="deleteBlock(dynamicBlock.id)">
                         <span class="glyphicon glyphicon-remove" style="color:red"></span>
                     </button>
                 </h3>
@@ -123,14 +147,19 @@
                         <thead>
                         <tr>
                             <th>Data</th>
-                            <th ng-repeat="dynamicField in dynamicFields" ng-if="dynamicBlock.id === dynamicField.block">{{dynamicField.field}}</th>
+                            <th class="text-center" ng-repeat="dynamicField in dynamicFields" ng-if="dynamicBlock.id === dynamicField.block">{{dynamicField.field}}</th>
 
                         </tr>
                         </thead>
                         <tbody>
                         <tr ng-repeat="dynamicDate in dynamicDates" ng-if="dynamicBlock.id === dynamicDate.block">
                             <td>{{dynamicDate.date | date : 'dd/MM/yyyy'}}</td>
-                            <td ng-repeat="dynamicLine in dynamicLines" ng-if="dynamicBlock.id === dynamicLine.block && dynamicLine.date === dynamicDate.date" >{{dynamicLine.value}}</td>
+                            <td class="text-center" ng-repeat="dynamicLine in dynamicLines" ng-if="dynamicBlock.id === dynamicLine.block && dynamicLine.date === dynamicDate.date" >
+                                <div id="inputLine{{dynamicLine.id}}" class="">
+                                    <input type="text" class="form-control text-align-center" id="lineID{{dynamicLine.id}}"
+                                           value="{{dynamicLine.value}}"  ng-blur="updateLine(dynamicLine.id)">
+                                </div>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
@@ -141,3 +170,10 @@
     </div>
 
 </div>
+
+        <script>$('.datepicker').datepicker({
+            format:'dd/mm/yyyy',
+            viewMode : 2
+        })</script>
+
+<script type="text/javascript" src="js/bootstrap-datepicker.js"></script>
