@@ -21,7 +21,7 @@ var pg = require("pg");
 
 //conString -> pg://username:password@server:port/database
 //var conString = "postgres://ohvgctbdgijnjk:MYqBzVTqdaUn-6hjEXgsZxlJlo@ec2-54-235-99-46.compute-1.amazonaws.com:5432/ddphlm2hsa5h6a"; //Ligação à base de dados no Heroku
-var conString = "postgres://postgres:48461245@localhost:5432/team_stats";
+var conString = "postgres://ldso:ldso@localhost:5432/team_stats";
 
 var port     = process.env.PORT || 3000; // set our port
 
@@ -128,6 +128,8 @@ app.get('/api/get-userinfo', function (request, response) {
 
 });
 
+// ================================================== All Players Page ==================================================
+
 app.get('/api/get-teams', function (request, response) {
 
     pg.connect(conString, function(err, client, done) {
@@ -146,7 +148,8 @@ app.get('/api/get-teams', function (request, response) {
 app.get('/api/get-players', function (request, response) {
 
     pg.connect(conString, function(err, client, done) {
-        client.query('SELECT team.id AS team, player.id as player, player.name,' +
+        client.query('SELECT team.id AS team, player.id as player, player.name, ' +
+            'substring(player.name from \'[a-zA-Z]+\') as firstname, substring(player.name from \' [a-zA-Z]+$\') as lastname, ' +
             'coalesce(date_part(\'year\', age(current_date ,player.birth_date)),0) as age, player.condition, player.img ' +
             'FROM login_team, team, player, team_player WHERE login_team.id_login = $1 AND login_team.id_team = team.id ' +
             'AND team_player.id_team = team.id AND team_player.id_player = player.id ORDER BY team.id, player.name', [request.user.id] ,function(err, result) {
@@ -246,7 +249,7 @@ app.get('/api/get-playerStaticBlocks', function (request, response) {
             'FROM login_team, team_player, info_block ' +
             'WHERE login_team.id_login = $1 AND login_team.id_team = team_player.id_team ' +
             'AND team_player.id_player = $2 AND info_block.id_player = team_player.id_player ' +
-            'AND info_block.type = \'static\'', [request.user.id, playerID] ,function(err, result) {
+            'AND info_block.type = \'static\' ORDER BY info_block.id', [request.user.id, playerID] ,function(err, result) {
             done();
             if (err)
             { console.error(err); response.send("Error " + err); }
@@ -265,7 +268,7 @@ app.get('/api/get-playerStaticLines', function (request, response) {
             'FROM login_team, team_player, info_block, info_line ' +
             'WHERE login_team.id_login = $1 AND login_team.id_team = team_player.id_team ' +
             'AND team_player.id_player = $2 AND info_block.id_player = team_player.id_player ' +
-            'AND info_block.type = \'static\' AND info_line.id_info_block = info_block.id', [request.user.id, playerID] ,function(err, result) {
+            'AND info_block.type = \'static\' AND info_line.id_info_block = info_block.id ORDER BY info_line.id', [request.user.id, playerID] ,function(err, result) {
             done();
             if (err)
             { console.error(err); response.send("Error " + err); }
@@ -284,7 +287,7 @@ app.get('/api/get-playerDynamicBlocks', function (request, response) {
             'FROM login_team, team_player, info_block ' +
             'WHERE login_team.id_login = $1 AND login_team.id_team = team_player.id_team ' +
             'AND team_player.id_player = $2 AND info_block.id_player = team_player.id_player ' +
-            'AND info_block.type = \'dynamic\'', [request.user.id, playerID] ,function(err, result) {
+            'AND info_block.type = \'dynamic\' ORDER BY info_block.id', [request.user.id, playerID] ,function(err, result) {
             done();
             if (err)
             { console.error(err); response.send("Error " + err); }
@@ -353,16 +356,72 @@ app.get('/api/get-playerDynamicDates', function (request, response) {
     });
 });
 
-// =================================== Team Page ===============================
-app.get('/api/get-teamInfo', function (request, response) {
+app.post('/api/update-playerName', function (request, response) {
 
-    var teamID = request.param("teamID")
+    var playerID = request.param("playerID")
+    var name = request.param("name")
 
     pg.connect(conString, function(err, client, done) {
-        client.query('SELECT team.* ' +
-            'FROM login_team, team ' +
-            'WHERE login_team.id_login = $1 ' +
-            'AND login_team.id_team = $2 AND login_team.id_team = team.id', [request.user.id, teamID] ,function(err, result) {
+        client.query('UPDATE player SET name = $3 WHERE id = ' +
+            '(SELECT team_player.id_player FROM login_team, team_player WHERE login_team.id_login = $1 AND login_team. id_team = team_player.id_team ' +
+            'AND team_player.id_player = $2)', [request.user.id, playerID, name] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.status(200).end(); }
+        });
+    });
+});
+
+app.post('/api/update-playerPhone', function (request, response) {
+
+    var playerID = request.param("playerID")
+    var phone = request.param("phone")
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('UPDATE player SET phone = $3 WHERE id = ' +
+            '(SELECT team_player.id_player FROM login_team, team_player WHERE login_team.id_login = $1 AND login_team. id_team = team_player.id_team ' +
+            'AND team_player.id_player = $2)', [request.user.id, playerID, phone] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.status(200).end(); }
+        });
+    });
+});
+
+app.post('/api/update-playerBirth', function (request, response) {
+
+    var playerID = request.param("playerID")
+    var birth_date = request.param("birth")
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('UPDATE player SET birth_date = $3 WHERE id = ' +
+            '(SELECT team_player.id_player FROM login_team, team_player WHERE login_team.id_login = $1 AND login_team. id_team = team_player.id_team ' +
+            'AND team_player.id_player = $2)', [request.user.id, playerID, birth_date] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.status(200).end(); }
+        });
+    });
+});
+
+app.post('/api/insert-staticBlock', function (request, response) {
+
+    var playerID = request.param("playerID")
+    var title = request.param("title")
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('INSERT INTO info_block(id_player, title, type, is_default) ' +
+            'VALUES ( ' +
+            '(SELECT team_player.id_player FROM login_team, team_player ' +
+            'WHERE login_team.id_login = $1 AND login_team. id_team = team_player.id_team ' +
+            'AND team_player.id_player = $2) ' +
+            ', $3, \'static\', false) RETURNING id', [request.user.id, playerID, title] ,function(err, result) {
             done();
             if (err)
             { console.error(err); response.send("Error " + err); }
@@ -372,35 +431,93 @@ app.get('/api/get-teamInfo', function (request, response) {
     });
 });
 
-app.get('/api/get-teamPlayers', function(request, response) {
+app.post('/api/insert-staticLine', function (request, response) {
 
-	var teamID = request.param("teamID")
-	
-	pg.connect(conString, function(err, client, done){
-		client.querry('SELECT player.* ' +
-            'FROM login_team, team_player, player ' +
-            'WHERE login_team.id_login = $1 AND login_team.id_team = team_player.id_team ' +
-            'AND team_player.id_team = $2 AND team_player.id_player = player.id',
-			[request.user.id, teamID], function(err, result) {
-			done();
-			if(err) {
-				console.error(err); response.send("Error " + err);
-			} else {
-				response.send(result.rows);
-			}
-		});	
-	});
+    var blockID = request.param("blockID")
+    var field = request.param("field")
+    var value = request.param("value")
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('INSERT INTO info_line(id_info_block, field, value) ' +
+            'VALUES ((SELECT info_block.id FROM login_team, team_player, info_block ' +
+            'WHERE login_team.id_login = $1 AND login_team. id_team = team_player.id_team ' +
+            'AND team_player.id_player = info_block.id_player AND info_block.id = $2), $3, $4) RETURNING id', [request.user.id, blockID, field, value] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
 });
 
+app.post('/api/delete-staticLine', function (request, response) {
+
+    var lineID = request.param("lineID")
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('DELETE FROM info_line WHERE id = (SELECT info_line.id FROM login_team, team_player, info_block, info_line ' +
+            'WHERE login_team.id_login = $1 AND login_team. id_team = team_player.id_team ' +
+            'AND team_player.id_player = info_block.id_player AND info_block.id = info_line.id_info_block ' +
+            'AND info_line.id = $2)', [request.user.id, lineID] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
+});
+
+app.post('/api/update-staticLine', function (request, response) {
+
+    var lineID = request.param("lineID")
+    var value = request.param("value")
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('UPDATE info_line SET value = $3 WHERE id = ' +
+            '(SELECT info_line.id FROM login_team, team_player, info_block, info_line ' +
+            'WHERE login_team.id_login = $1 AND login_team. id_team = team_player.id_team ' +
+            'AND team_player.id_player = info_block.id_player AND info_block.id = info_line.id_info_block ' +
+            'AND info_line.id = $2)', [request.user.id, lineID, value] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
+});
+
+app.post('/api/delete-infoBlock', function (request, response) {
+
+    var blockID = request.param("blockID")
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('DELETE FROM info_block WHERE id = ' +
+            '(SELECT info_block.id FROM login_team, team_player, info_block WHERE login_team.id_login = $1 AND login_team. id_team = team_player.id_team ' +
+            'AND team_player.id_player = info_block.id_player AND info_block.id = $2)', [request.user.id, blockID] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
+});
+
+
+// ==================================================================================================================================
+
 app.post('/api/add-player', function (request, response) {
-	
-	var name = $scope.master.name;
-	var birth = $scope.master.birth;
-	var phone = $scope.master.phone;
-		
+    
+    var name = $scope.master.name;
+    var birth = $scope.master.birth;
+    var phone = $scope.master.phone;
+        
     pg.connect(conString, function(err, client, done) {
         client.query('INSERT INTO player(name, birth_date, phone) VALUES($1,$2,$3); ', 
-		[name,birth,phone], function(err, result) {
+        [name,birth,phone], function(err, result) {
             done();
             if (err)
             { console.error(err); response.json(err); }
@@ -411,7 +528,7 @@ app.post('/api/add-player', function (request, response) {
 
 });
 
-// =============================================================================
+// ====================================================================================
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

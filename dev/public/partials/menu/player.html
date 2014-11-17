@@ -1,179 +1,253 @@
-<link rel="stylesheet" type="text/css" media="screen" href="css/datepicker.css">
-
 <div ng-controller="PlayerPageCtrl">
 
 
-    <div class="row" ng-controller="PlayerInfoCtrl">
+<div class="row" ng-controller="PlayerInfoCtrl">
 
-        <div class="col-sm-4 col-md-2 col-md-offset-1">
-            <h3 style="text-decoration: none;">{{playerInfo.name}}</h3>
-            <img ng-src="" src="" onError="this.onerror=null;this.src='img/default/player.png';" style="height:200px;"/>
-        </div>
+    <div class="col-sm-4 col-md-2 col-md-offset-1">
+        <h3 style="text-decoration: none;">{{playerInfo.name}}</h3>
+        <img ng-src="" src="" onError="this.onerror=null;this.src='img/default/player.png';" style="height:200px;"/>
+    </div>
 
-        <div class="col-sm-5 col-md-3">
+    <div class="col-sm-5 col-md-3">
+        <br>
+        <fieldset>
+            <legend>Informação Pessoal</legend>
+            <section>
+                <div class="row container input-group">
+                    <div class="col-md-2">
+                        <span class="input-group-addon" style="padding-bottom: 10px">Nome</span>
+                    </div>
+                    <div id="playerName" class="">
+                        <div class="col-md-3">
+                            <input type="text" value="{{playerInfo.name}}" id="playerName{{playerInfo.id}}" class="form-control" autocomplete="false" ng-blur="updateName(playerInfo.id)">
+                        </div>
+                    </div>
+                </div>
+            </section>
             <br>
-            <fieldset>
-                <legend>Informação Pessoal</legend>
-                <section>
-                    <div class="row container input-group">
-                        <div class="col-md-2">
-                            <span class="input-group-addon" style="padding-bottom: 10px">Nome</span>
-                        </div>
-                        <div id="playerName" class="">
-                            <div class="col-md-3">
-                                <input type="text" value="{{playerInfo.name}}" id="playerName{{playerInfo.id}}" class="form-control" autocomplete="false" ng-blur="updateName(playerInfo.id)">
-                            </div>
+            <section>
+                <div class="row container input-group">
+                    <div class="col-md-2">
+                        <span class="input-group-addon" style="padding-bottom: 10px">Contato</span>
+                    </div>
+                    <div id="playerPhone" class="">
+                        <div class="col-md-3">
+                            <input type="int" value="{{playerInfo.phone}}" id="playerPhone{{playerInfo.id}}" class="form-control" autocomplete="false" ng-blur="updatePhone(playerInfo.id)">
                         </div>
                     </div>
-                </section>
-                <br>
-                <section>
-                    <div class="row container input-group">
-                        <div class="col-md-2">
-                            <span class="input-group-addon" style="padding-bottom: 10px">Contato</span>
-                        </div>
-                        <div id="playerPhone" class="">
-                            <div class="col-md-3">
-                                <input type="int" value="{{playerInfo.phone}}" id="playerPhone{{playerInfo.id}}" class="form-control" autocomplete="false" ng-blur="updatePhone(playerInfo.id)">
-                            </div>
-                        </div>
+                </div>
+            </section>
+            <br>
+            <section>
+                <div class="row container input-group">
+                    <div class="col-md-2">
+                        <span class="input-group-addon" style="padding-bottom: 10px">Data de Nascimento</span>
                     </div>
-                </section>
-                <br>
-                <section>
-                    <div class="row container input-group">
-                        <div class="col-md-2">
-                            <span class="input-group-addon" style="padding-bottom: 10px">Data de Nascimento</span>
+                    <div id="playerBirth" class="">
+                        <div class="col-md-3">
+                            <input type="date" value="{{playerInfo.birth_date | date : 'yyyy-MM-dd'}}" id="playerBirth{{playerInfo.id}}" class="form-control" autocomplete="false" ng-blur="updateBirth(playerInfo.id)">
                         </div>
-                        <div id="playerBirth" class="">
-                            <div class="col-md-3">
-                                <input type="text" value="{{playerInfo.birth_date | date : 'dd/MM/yyyy'}}" id="playerBirth{{playerInfo.id}}" class="form-control" autocomplete="false" ng-blur="updateBirth(playerInfo.id)">
-                            </div>
-                            <div class="input-group ">
-                                <input type="text" class="form-control datepicker"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                </section>
 
-            </fieldset>
-        </div>
+                    </div>
+                </div>
+
+            </section>
+
+        </fieldset>
     </div>
+</div>
 
-    <br> <br> <br>
+<br> <br> <br>
 
-    <div class="page-header" ng-controller="StaticBlockCtrl">
+<div class="page-header" ng-controller="StaticBlockCtrl">
 
-        <legend>
-            <h1>
-                Informações
-                <button type="button" class="btn btn-link btn-lg" ng-click="insertBlock(playerInfo.id)">
-                    <span class="glyphicon glyphicon-plus-sign" style="color:green"></span>
-                </button>
-            </h1>
-        </legend>
+    <legend>
+        <h1>
+            Informações
+            <button type="button" class="btn btn-link btn-lg" data-toggle="modal" data-target="#ModalStaticBlockName">
+                <span class="glyphicon glyphicon-plus-sign" style="color:green"></span>
+            </button>
+        </h1>
+    </legend>
 
-    </div>
-
-    <div class="container-fluid" ng-controller="StaticBlockCtrl">
-
-        <div class="panel panel-info col-md-6" ng-repeat="staticBlock in staticBlocks">
-            <div class="panel-heading">
-                <h3 class="panel-title">
-                    {{staticBlock.title}}
-                    <button type="button" class="btn btn-link btn-lg" ng-click="insertLine(staticBlock.id)">
-                        <span class="glyphicon glyphicon-plus-sign" style="color:green"></span>
-                    </button>
-                    <button  type="button" class="btn btn-link pull-right" ng-click="deleteBlock(staticBlock.id)">
-                        <span class="glyphicon glyphicon-remove" style="color:red"></span>
-                    </button>
-                </h3>
-            </div>
-            <div class="panel-body">
-                <div ng-repeat="staticLine in staticLines" ng-if="staticBlock.id === staticLine.block">
-                    <div class="input-group" >
-                        <span class="input-group-addon">{{staticLine.field}}</span>
-
-                        <div id="inputLine{{staticLine.id}}" class="">
-                            <input type="text" class="form-control text-align-center" id="lineID{{staticLine.id}}"
-                                   value="{{staticLine.value}}" style="width: 90%" ng-blur="updateLine(staticLine.id)">
-                        </div>
-
-                        <button  type="button" class="btn btn-link pull-right" ng-click="deleteLine(staticLine.id)">
-                            <span class="glyphicon glyphicon-remove" style="color:red"></span>
-                        </button>
+    <div class="modal fade" id="ModalStaticBlockName" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Adicionar Bloco de Informação</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon">Título do Bloco</span>
+                        <input ng-model="staticBlockTitle" type="text" class="form-control">
                     </div>
-
-                    <br>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" ng-click="insertBlock(playerInfo.id)">Adicionar</button>
                 </div>
             </div>
         </div>
-
-
-    </div>
-
-    <br><br><br>
-
-
-    <div class="page-header" ng-controller="DynamiccBlockCtrl">
-        <legend>
-            <h1>
-                Registos
-                <button type="button" class="btn btn-link btn-lg" ng-click="insertBlock(playerInfo.id)">
-                    <span class="glyphicon glyphicon-plus-sign" style="color:green"></span>
-                </button>
-            </h1>
-        </legend>
-    </div>
-
-
-    <div class="" ng-controller="DynamiccBlockCtrl">
-
-        <div class="panel panel-success" ng-repeat="dynamicBlock in dynamicBlocks">
-            <div class="panel-heading">
-                <h3 class="panel-title">
-                    {{dynamicBlock.title}}
-                    <button type="button" class="btn btn-link btn-lg" ng-click="insertLine(dynamicBlock.id)">
-                        <span class="glyphicon glyphicon-plus-sign" style="color:green"></span>
-                    </button>
-                    <button  type="button" class="btn btn-link pull-right" ng-click="deleteBlock(dynamicBlock.id)">
-                        <span class="glyphicon glyphicon-remove" style="color:red"></span>
-                    </button>
-                </h3>
-            </div>
-            <div class="panel-body">
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Data</th>
-                            <th class="text-center" ng-repeat="dynamicField in dynamicFields" ng-if="dynamicBlock.id === dynamicField.block">{{dynamicField.field}}</th>
-
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="dynamicDate in dynamicDates" ng-if="dynamicBlock.id === dynamicDate.block">
-                            <td>{{dynamicDate.date | date : 'dd/MM/yyyy'}}</td>
-                            <td class="text-center" ng-repeat="dynamicLine in dynamicLines" ng-if="dynamicBlock.id === dynamicLine.block && dynamicLine.date === dynamicDate.date" >
-                                <div id="inputLine{{dynamicLine.id}}" class="">
-                                    <input type="text" class="form-control text-align-center" id="lineID{{dynamicLine.id}}"
-                                           value="{{dynamicLine.value}}"  ng-blur="updateLine(dynamicLine.id)">
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
     </div>
 
 </div>
 
-        <script>$('.datepicker').datepicker({
-            format:'dd/mm/yyyy',
-            viewMode : 2
-        })</script>
+<div class="container-fluid" ng-controller="StaticBlockCtrl">
 
-<script type="text/javascript" src="js/bootstrap-datepicker.js"></script>
+    <div class="panel panel-info col-md-6" ng-repeat="staticBlock in staticBlocks">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                {{staticBlock.title}}
+                <button type="button" class="btn btn-link btn-lg" data-toggle="modal" data-target="#ModalStaticBlockInsertLine{{staticBlock.id}}">
+                    <span class="glyphicon glyphicon-plus-sign" style="color:green"></span>
+                </button>
+                <button  type="button" class="btn btn-link pull-right" data-toggle="modal" data-target="#ModalStaticBlockDelete{{staticBlock.id}}">
+                    <span class="glyphicon glyphicon-remove" style="color:red"></span>
+                </button>
+            </h3>
+
+            <div class="modal fade" id="ModalStaticBlockInsertLine{{staticBlock.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h4 class="modal-title" >Insirir Linha em : {{staticBlock.title}} ?</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-addon">Nome</span>
+                                <input id="staticLineField{{staticBlock.id}}" type="text" class="form-control">
+                            </div>
+                            <br>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-addon">Valor&nbsp;</span>
+                                <input id="staticLineValue{{staticBlock.id}}" type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" ng-click="insertLine(staticBlock.id)">Inserir</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="ModalStaticBlockDelete{{staticBlock.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h4 class="modal-title" >Remover Bloco : {{staticBlock.title}} ?</h4>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" ng-click="deleteBlock(staticBlock.id)">Sim</button>
+                            <button type="button" class="btn btn-info" data-dismiss="modal">Não</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div ng-repeat="staticLine in staticLines" ng-if="staticBlock.id === staticLine.block">
+                <div class="input-group" >
+                    <span class="input-group-addon">{{staticLine.field}}</span>
+
+                    <div id="inputLine{{staticLine.id}}" class="">
+                        <input type="text" class="form-control text-align-center" id="lineID{{staticLine.id}}"
+                               value="{{staticLine.value}}" style="width: 90%" ng-blur="updateLine(staticLine.id)">
+                    </div>
+
+                    <button  type="button" class="btn btn-link pull-right" data-toggle="modal" data-target="#ModalStaticBlockDeleteLine{{staticLine.id}}">
+                        <span class="glyphicon glyphicon-remove" style="color:red"></span>
+                    </button>
+
+                    <div class="modal fade" id="ModalStaticBlockDeleteLine{{staticLine.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                    <h4 class="modal-title" >Remover Linha ?</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="input-group" >
+                                        <span class="input-group-addon">{{staticLine.field}}</span>
+                                        <input type="text" class="form-control text-align-center" value="{{staticLine.value}}" style="width: 90%" disabled>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" ng-click="deleteLine(staticLine.id)">Sim</button>
+                                    <button type="button" class="btn btn-info" data-dismiss="modal">Não</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<br><br><br>
+
+
+<div class="page-header" ng-controller="DynamiccBlockCtrl">
+    <legend>
+        <h1>
+            Registos
+            <button type="button" class="btn btn-link btn-lg" ng-click="insertBlock(playerInfo.id)">
+                <span class="glyphicon glyphicon-plus-sign" style="color:green"></span>
+            </button>
+        </h1>
+    </legend>
+</div>
+
+
+<div class="" ng-controller="DynamiccBlockCtrl">
+
+    <div class="panel panel-success" ng-repeat="dynamicBlock in dynamicBlocks">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                {{dynamicBlock.title}}
+                <button type="button" class="btn btn-link btn-lg" ng-click="insertLine(dynamicBlock.id)">
+                    <span class="glyphicon glyphicon-plus-sign" style="color:green"></span>
+                </button>
+                <button  type="button" class="btn btn-link pull-right" ng-click="deleteBlock(dynamicBlock.id)">
+                    <span class="glyphicon glyphicon-remove" style="color:red"></span>
+                </button>
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th class="text-center" ng-repeat="dynamicField in dynamicFields" ng-if="dynamicBlock.id === dynamicField.block">{{dynamicField.field}}</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="dynamicDate in dynamicDates" ng-if="dynamicBlock.id === dynamicDate.block">
+                        <td>{{dynamicDate.date | date : 'dd/MM/yyyy'}}</td>
+                        <td class="text-center" ng-repeat="dynamicLine in dynamicLines" ng-if="dynamicBlock.id === dynamicLine.block && dynamicLine.date === dynamicDate.date" >
+                            <div id="inputLine{{dynamicLine.id}}" class="">
+                                <input type="text" class="form-control text-align-center" id="lineID{{dynamicLine.id}}"
+                                       value="{{dynamicLine.value}}"  ng-blur="updateLine(dynamicLine.id)">
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</div>
+
