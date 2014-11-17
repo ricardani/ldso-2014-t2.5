@@ -393,28 +393,14 @@ app.get('/api/get-teamPlayers', function(request, response) {
 });
 
 app.post('/api/add-player', function (request, response) {
-		
-	$http.get('player_name').success(function(player_name)){
-		$scope.player_name = player_name;
-	}
-	$http.get('player_birth').success(function(player_birth)){
-		$scope.player_birth = player_birth;
-	}
-	$http.get('player_phone').success(function(player_phone)){
-		$scope.player_phone = player_phone;
-	}
 	
-	$scope.addPlayer = function(){
-		var player_info = {
-			name: $scope.player_name
-			birth: $scope.player_birth
-			phone: $scope.player_phone
-		}
-	}
+	var name = $scope.master.name;
+	var birth = $scope.master.birth;
+	var phone = $scope.master.phone;
 		
     pg.connect(conString, function(err, client, done) {
-        client.query('INSERT INTO player(name, birth_date, phone) VALUES(' + player_info.name + ', ' + player_info.birth + ', ' .  player_info.phone + '); ', 
-		[/*, id_team, id_player*/], function(err, result) {
+        client.query('INSERT INTO player(name, birth_date, phone) VALUES($1,$2,$3); ', 
+		[name,birth,phone], function(err, result) {
             done();
             if (err)
             { console.error(err); response.json(err); }

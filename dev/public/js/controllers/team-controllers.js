@@ -11,10 +11,15 @@ teamControllers.controller('getTeamPlayers', function($scope, $window, $location
 });
 
 teamControllers.controller('AddPlayer', function ($scope, $http, $window, $location, $rootScope) {
+	$scope.master = {};
 
+      $scope.update = function(user) {
+        $scope.master = angular.copy(user);
+      };
+	  
     $scope.addPlayer = function () {
             $http
-                .post('api/add-player', $scope.player)
+                .post('api/add-player', $scope.master)
                 .success(function (data, status, headers, config) {
                     console.log(data);
                     if (data.name === 'error') {

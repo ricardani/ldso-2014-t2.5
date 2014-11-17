@@ -86,24 +86,21 @@
 							</div>
 						</a>
 					</div>
-						
-				<div ng-controller="AddPlayer">
+				<div>
 					<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target=".bs-example-modal-sm">
 						<span class="glyphicon glyphicon-plus"></span>
 					</button>
 
 					<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
 					<div class="modal-dialog modal-sm">
-						<div class="modal-content">
-							<form ng-submit="addPlayer()">
-								<label for="name">Nome do Jogador</label>
-								<input type="text" class="form-control" id="name" placeholder="Nome" ng-model="player_name">
-								<label for="birth">Data de Nascimento</label>
-								<input type="date" class="form-control" id="birth" placeholder="Data de Nascimento" ng-model="player_birth">
-								<label for="phone">Número de telefone</label>
-								<input type="text" class="form-control bfh-phone" data-format="+1 (ddd) ddd-dddd" placeholder="Telefone" ng-model="player_phone">
-								<button type="submit" class="btn btn-default">Adicionar</button>
+						<div class="modal-content" ng-controller="AddPlayer">
+							<form novalidate class="simple-form" ng-submit="addPlayer()">
+								Nome do Jogador:	<input type="text" class="form-control" id="name" placeholder="Nome" ng-model="player.name" required>
+								Data de Nascimento:	<input type="date" class="form-control" id="birth" placeholder="Data de Nascimento" ng-model="player.birth" required>
+								Número de telefone:	<input type="text" class="form-control" id="phone" placeholder="Telefone" ng-model="player.phone" required>
+								 <button class="btn btn-primary" ng-click="update(player); addPlayer();">Adicionar Jogador</button>
 							</form>
+							<pre>master = {{master | json}}</pre>
 						</div>
 					</div>
 					</div>
