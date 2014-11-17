@@ -21,7 +21,7 @@ var pg = require("pg");
 
 //conString -> pg://username:password@server:port/database
 //var conString = "postgres://ohvgctbdgijnjk:MYqBzVTqdaUn-6hjEXgsZxlJlo@ec2-54-235-99-46.compute-1.amazonaws.com:5432/ddphlm2hsa5h6a"; //Ligação à base de dados no Heroku
-var conString = "postgres://ldso:ldso@localhost:5432/team_stats";
+var conString = "postgres://postgres:48461245@localhost:5432/team_stats";
 
 var port     = process.env.PORT || 3000; // set our port
 
@@ -353,7 +353,79 @@ app.get('/api/get-playerDynamicDates', function (request, response) {
     });
 });
 
-// ====================================================================================
+// =================================== Team Page ===============================
+app.get('/api/get-teamInfo', function (request, response) {
+
+    var teamID = request.param("teamID")
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('SELECT team.* ' +
+            'FROM login_team, team ' +
+            'WHERE login_team.id_login = $1 ' +
+            'AND login_team.id_team = $2 AND login_team.id_team = team.id', [request.user.id, teamID] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
+});
+
+app.get('/api/get-teamPlayers', function(request, response) {
+
+	var teamID = request.param("teamID")
+	
+	pg.connect(conString, function(err, client, done){
+		client.querry('SELECT player.* ' +
+            'FROM login_team, team_player, player ' +
+            'WHERE login_team.id_login = $1 AND login_team.id_team = team_player.id_team ' +
+            'AND team_player.id_team = $2 AND team_player.id_player = player.id',
+			[request.user.id, teamID], function(err, result) {
+			done();
+			if(err) {
+				console.error(err); response.send("Error " + err);
+			} else {
+				response.send(result.rows);
+			}
+		});	
+	});
+});
+
+app.post('/api/add-player', function (request, response) {
+		
+	$http.get('player_name').success(function(player_name)){
+		$scope.player_name = player_name;
+	}
+	$http.get('player_birth').success(function(player_birth)){
+		$scope.player_birth = player_birth;
+	}
+	$http.get('player_phone').success(function(player_phone)){
+		$scope.player_phone = player_phone;
+	}
+	
+	$scope.addPlayer = function(){
+		var player_info = {
+			name: $scope.player_name
+			birth: $scope.player_birth
+			phone: $scope.player_phone
+		}
+	}
+		
+    pg.connect(conString, function(err, client, done) {
+        client.query('INSERT INTO player(name, birth_date, phone) VALUES(' + player_info.name + ', ' + player_info.birth + ', ' .  player_info.phone + '); ', 
+		[/*, id_team, id_player*/], function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.json(err); }
+            else
+            { response.send(); }
+        });
+    });
+
+});
+
+// =============================================================================
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

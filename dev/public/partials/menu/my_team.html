@@ -1,7 +1,12 @@
 ﻿<div style="text-align: center;">
-	<h3 style="text-decoration: none;">Real Madrid</h3>
-	<h3 style="text-decoration: none;">Desporto: Futebol</h3>
-	<img class="img-responsive" ng-src="img/demo/real_madrid.png" style="margin-left: auto;	margin-right: auto;	width: 10em">
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<img ng-src="{{team.img}}" src="" onError="this.onerror=null;this.src='img/default/team.jpg';" style="height:100px;"/>
+			{{team.name}}
+		</h3>
+	</div>
+</div>
 	<div>
 	Últimos Resultados
 	<br>
@@ -68,143 +73,46 @@
           </div>
           <div id="collapseTwo" class="panel-collapse collapse">
             <div class="panel-body">
+				<div class="row">
+					<div ng-repeat="player in players">
+						<a href="#/teamStats/player/{{player.player}}">
+							<div class="col-xs-4 col-sm-4 col-md-2">
+								<div class="thumbnail">
+									<img ng-src="{{player.img}}" src="" onError="this.onerror=null;this.src='img/default/player.png';" style="height:100px;"/>
+									<div class="caption">
+										<h3>{{player.name}}</h3>
+									</div>
+								</div>
+							</div>
+						</a>
+					</div>
+						
+				<div ng-controller="AddPlayer">
+					<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target=".bs-example-modal-sm">
+						<span class="glyphicon glyphicon-plus"></span>
+					</button>
 
+					<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+					<div class="modal-dialog modal-sm">
+						<div class="modal-content">
+							<form ng-submit="addPlayer()">
+								<label for="name">Nome do Jogador</label>
+								<input type="text" class="form-control" id="name" placeholder="Nome" ng-model="player_name">
+								<label for="birth">Data de Nascimento</label>
+								<input type="date" class="form-control" id="birth" placeholder="Data de Nascimento" ng-model="player_birth">
+								<label for="phone">Número de telefone</label>
+								<input type="text" class="form-control bfh-phone" data-format="+1 (ddd) ddd-dddd" placeholder="Telefone" ng-model="player_phone">
+								<button type="submit" class="btn btn-default">Adicionar</button>
+							</form>
+						</div>
+					</div>
+					</div>
 
-              <div class="row">
-
-                <div class="col-sm-4 col-md-2">
-                  <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                      <h3>Jogador</h3>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-sm-4 col-md-2">
-                  <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                      <h3>Jogador</h3>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-sm-4 col-md-2">
-                  <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                      <h3>Jogador</h3>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-sm-4 col-md-2">
-                  <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                      <h3>Jogador</h3>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-sm-4 col-md-2">
-                  <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                      <h3>Jogador</h3>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-sm-4 col-md-2">
-                  <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                      <h3>Jogador</h3>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-sm-4 col-md-2">
-                  <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                      <h3>Jogador</h3>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-sm-4 col-md-2">
-                  <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                      <h3>Jogador</h3>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-sm-4 col-md-2">
-                  <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                      <h3>Jogador</h3>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-sm-4 col-md-2">
-                  <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                      <h3>Jogador</h3>
-                    </div>
-                  </div>
-                </div>
-
-
-                <div class="col-sm-4 col-md-2">
-                  <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                      <h3>Jogador</h3>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-sm-4 col-md-2">
-                  <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                      <h3>Jogador</h3>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-sm-4 col-md-2">
-				<a href="#/teamStats/player">
-                  <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                      <h3>Jogador</h3>
-                    </div>
-                  </div>
-				</a>
-                </div>
-
-                <div class="col-sm-4 col-md-2">
-                  <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                      <h3>Jogador</h3>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
+				</div>
             </div>
           </div>
         </div>
+		
         <div class="panel panel-default">
           <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseThree">
             <h4 class="panel-title">
