@@ -1,9 +1,10 @@
-﻿<div style="text-align: center;">
+﻿<div ng-controller="TeamPageCtrl" style="text-align: center;">
+
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<h3 class="panel-title">
-			<img ng-src="{{team.img}}" src="" onError="this.onerror=null;this.src='img/default/team.jpg';" style="height:100px;"/>
-			{{team.name}}
+			<img ng-src="{{teamInfo.img}}" src="" onError="this.onerror=null;this.src='img/default/team.jpg';" style="height:100px;"/>
+			{{teamInfo.name}}
 		</h3>
 	</div>
 </div>
@@ -18,74 +19,63 @@
 	</div>
 	<br>
 	<div class="panel-group" id="accordion">
-        <div class="panel panel-default">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne">
-            <h4 class="panel-title">
-                Equipa Técnica
-                <span class="glyphicon glyphicon-arrow-down" style="float:right"></span>
+		<div class="panel panel-default">
+		<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne">
+			<h4 class="panel-title">
+				Equipa Técnica
+				<span class="glyphicon glyphicon-arrow-down" style="float:right"></span>
 
-            </h4>
+			</h4>
 
-          </div>
-          <div id="collapseOne" class="panel-collapse collapse">
-            <div class="panel-body">
+		</div>
+		<div id="collapseOne" class="panel-collapse collapse">
+			<div class="panel-body">
 
-              <div class="row">
+			<div class="row">
 
-                <div class="col-sm-4 col-md-2">
-                  <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                      <h3>Treinador Principal</h3>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-sm-4 col-md-2">
-                  <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                      <h3>Treinador Adjunto</h3>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-sm-4 col-md-2">
-                  <div class="thumbnail">
-                    <img src="img/default.png" alt="...">
-                    <div class="caption">
-                      <h3>Seccionista</h3>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo">
-            <h4 class="panel-title">
-                Jogadores
-                <span class="glyphicon glyphicon-arrow-down" style="float:right"></span>
-            </h4>
-          </div>
-          <div id="collapseTwo" class="panel-collapse collapse">
-            <div class="panel-body">
-				<div class="row">
-					<div ng-repeat="player in players">
-						<a href="#/teamStats/player/{{player.player}}">
-							<div class="col-xs-4 col-sm-4 col-md-2">
-								<div class="thumbnail">
-									<img ng-src="{{player.img}}" src="" onError="this.onerror=null;this.src='img/default/player.png';" style="height:100px;"/>
-									<div class="caption">
-										<h3>{{player.name}}</h3>
-									</div>
-								</div>
-							</div>
-						</a>
+				<div class="col-sm-4 col-md-2">
+				<div class="thumbnail">
+					<img src="img/default.png" alt="...">
+					<div class="caption">
+					<h3>Treinador Principal</h3>
 					</div>
+				</div>
+				</div>
+
+				<div class="col-sm-4 col-md-2">
+				<div class="thumbnail">
+					<img src="img/default.png" alt="...">
+					<div class="caption">
+					<h3>Treinador Adjunto</h3>
+					</div>
+				</div>
+				</div>
+
+				<div class="col-sm-4 col-md-2">
+				<div class="thumbnail">
+					<img src="img/default.png" alt="...">
+					<div class="caption">
+					<h3>Seccionista</h3>
+					</div>
+				</div>
+				</div>
+
+			</div>
+
+			</div>
+		</div>
+		</div>
+		<div class="panel panel-default">
+		<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo">
+			<h4 class="panel-title">
+				Jogadores
+				<span class="glyphicon glyphicon-arrow-down" style="float:right"></span>
+			</h4>
+		</div>
+		<div id="collapseTwo" class="panel-collapse collapse">
+			<div class="panel-body">
+				<div class="row">
+					
 				<div>
 					<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target=".bs-example-modal-sm">
 						<span class="glyphicon glyphicon-plus"></span>
@@ -94,31 +84,35 @@
 					<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
 					<div class="modal-dialog modal-sm">
 						<div class="modal-content" ng-controller="AddPlayer">
-							<form novalidate class="simple-form" ng-submit="addPlayer()">
-								Nome do Jogador:	<input type="text" class="form-control" id="name" placeholder="Nome" ng-model="player.name" required>
-								Data de Nascimento:	<input type="date" class="form-control" id="birth" placeholder="Data de Nascimento" ng-model="player.birth">
-								Número de telefone:	<input type="text" class="form-control" id="phone" placeholder="Telefone" ng-model="player.phone">
+							<form novalidate class="simple-form" ng-submit="addPlayer()"><br>
+								Nome do Jogador
+								<input type="text" class="form-control" id="name" placeholder="Nome" ng-model="player.name" required><br>
+								Data de Nascimento
+								<input type="date" class="form-control" id="birth" placeholder="Data de Nascimento" ng-model="player.birth"><br>
+								Número de telefone
+								<input type="text" class="form-control" id="phone" placeholder="Telefone" ng-model="player.phone"><br>
 								<button class="btn btn-primary">Adicionar Jogador</button>
+								<br>
+								<br>
 							</form>
-							<pre>master = {{player | json}}</pre>
 						</div>
 					</div>
 					</div>
 
 				</div>
-            </div>
-          </div>
-        </div>
+			</div>
+		</div>
+		</div>
 		
-        <div class="panel panel-default">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseThree">
-            <h4 class="panel-title">
-                Jogos
-                <span class="glyphicon glyphicon-arrow-down" style="float:right"></span>
-            </h4>
-          </div>
-		  <div id="collapseThree" class="panel-collapse collapse">
-            <div class="panel-body">
+		<div class="panel panel-default">
+		<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseThree">
+			<h4 class="panel-title">
+				Jogos
+				<span class="glyphicon glyphicon-arrow-down" style="float:right"></span>
+			</h4>
+		</div>
+		<div id="collapseThree" class="panel-collapse collapse">
+			<div class="panel-body">
 				<div class="row">
 					<div class="col-sm-4 col-md-4">
 						<div class="caption">
@@ -178,5 +172,5 @@
 				</div>
 			</div>
 		</div>
-    </div>
+	</div>
 </div>

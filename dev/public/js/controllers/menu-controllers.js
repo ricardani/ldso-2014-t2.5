@@ -34,3 +34,11 @@ menuControllers.controller('MenuPlayerCtrl', ['$scope', '$http','$routeParams',
 
         $scope.playerID = $routeParams.playerID;
     }]);
+	
+menuControllers.controller('MenuTeamCtrl', ['$scope', '$http','$routeParams',
+    function($scope, $http, $routeParams) {
+
+        $scope.menu = 'my_team';
+
+        $scope.teamID = $routeParams.teamID;
+    }]);

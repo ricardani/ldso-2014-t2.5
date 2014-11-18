@@ -548,18 +548,45 @@ app.post('/api/insert-player', function (request, response) {
     var name = request.body.name;
     var birth = request.body.birth;
     var phone = request.body.phone;
+	var teamID = request.body.teamID;
         
     pg.connect(conString, function(err, client, done) {
-        client.query('INSERT INTO player(name, birth_date, phone) VALUES($1,$2,$3);', 
+        client.query('INSERT INTO player(name, birth_date, phone) VALUES($1,$2,$3) RETURNING id', 
         [name,birth,phone], function(err, result) {
             done();
             if (err)
             { console.error(err); response.json(err); }
             else
-            { response.send(result); }
+            {
+				client.query('INSERT INTO team_player(id_team,id_player) VALUES($1,$2)',
+				[teamID,result.rows[0].id],
+				function(err, result) {
+					done();
+					if (err)
+					{ console.error(err); response.json(err); }
+					else
+					{ response.send(result) }
+				}
+			)}
         });
     });
+});
 
+app.get('/api/get-teamInfo', function (request, response) {
+
+    var teamID = request.param("teamID")
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('SELECT team.* ' +
+            'FROM login_team, team ' +
+            'WHERE login_team.id_login = $1 AND login_team.id_team = $2 AND login_team.id_team = team.id', [request.user.id, teamID] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
 });
 
 // ====================================================================================

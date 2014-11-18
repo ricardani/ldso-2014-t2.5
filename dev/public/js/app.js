@@ -33,6 +33,9 @@ ldsoAPP.config(['$routeProvider',
             when('/teamStats/player/:playerID', {
                 templateUrl: 'partials/menu.html',
                 controller: 'MenuPlayerCtrl'
+            }).when('/teamStats/my_team/:teamID', {
+                templateUrl: 'partials/menu.html',
+                controller: 'MenuTeamCtrl'
             }).
             otherwise({
                 redirectTo: '/login/login'

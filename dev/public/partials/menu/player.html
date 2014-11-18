@@ -1,11 +1,11 @@
 <div ng-controller="PlayerPageCtrl">
 
 
-<div class="row" ng-controller="PlayerInfoCtrl">
+<div class="row" ng-controller="PlayerInfoCtrl" style="text-align: center;">
 
     <div class="col-sm-4 col-md-2 col-md-offset-1">
         <h3 style="text-decoration: none;">{{playerInfo.name}}</h3>
-        <img ng-src="" src="" onError="this.onerror=null;this.src='img/default/player.png';" style="height:200px;"/>
+        <img ng-src="{{playerInfo.img}}" src="" onError="this.onerror=null;this.src='img/default/player.png';" style="height:200px;"/>
     </div>
 
     <div class="col-sm-5 col-md-3">
