@@ -543,20 +543,20 @@ app.post('/api/delete-infoBlock', function (request, response) {
 
 // ==================================================================================================================================
 
-app.post('/api/add-player', function (request, response) {
+app.post('/api/insert-player', function (request, response) {
     
-    var name = $scope.master.name;
-    var birth = $scope.master.birth;
-    var phone = $scope.master.phone;
+    var name = request.body.name;
+    var birth = request.body.birth;
+    var phone = request.body.phone;
         
     pg.connect(conString, function(err, client, done) {
-        client.query('INSERT INTO player(name, birth_date, phone) VALUES($1,$2,$3); ', 
+        client.query('INSERT INTO player(name, birth_date, phone) VALUES($1,$2,$3);', 
         [name,birth,phone], function(err, result) {
             done();
             if (err)
             { console.error(err); response.json(err); }
             else
-            { response.send(); }
+            { response.send(result); }
         });
     });
 

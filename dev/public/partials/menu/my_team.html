@@ -96,11 +96,11 @@
 						<div class="modal-content" ng-controller="AddPlayer">
 							<form novalidate class="simple-form" ng-submit="addPlayer()">
 								Nome do Jogador:	<input type="text" class="form-control" id="name" placeholder="Nome" ng-model="player.name" required>
-								Data de Nascimento:	<input type="date" class="form-control" id="birth" placeholder="Data de Nascimento" ng-model="player.birth" required>
-								Número de telefone:	<input type="text" class="form-control" id="phone" placeholder="Telefone" ng-model="player.phone" required>
-								 <button class="btn btn-primary" ng-click="update(player); addPlayer();">Adicionar Jogador</button>
+								Data de Nascimento:	<input type="date" class="form-control" id="birth" placeholder="Data de Nascimento" ng-model="player.birth">
+								Número de telefone:	<input type="text" class="form-control" id="phone" placeholder="Telefone" ng-model="player.phone">
+								<button class="btn btn-primary">Adicionar Jogador</button>
 							</form>
-							<pre>master = {{master | json}}</pre>
+							<pre>master = {{player | json}}</pre>
 						</div>
 					</div>
 					</div>
