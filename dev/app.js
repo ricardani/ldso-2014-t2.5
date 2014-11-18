@@ -21,7 +21,9 @@ var pg = require("pg");
 
 //conString -> pg://username:password@server:port/database
 //var conString = "postgres://ohvgctbdgijnjk:MYqBzVTqdaUn-6hjEXgsZxlJlo@ec2-54-235-99-46.compute-1.amazonaws.com:5432/ddphlm2hsa5h6a"; //Ligação à base de dados no Heroku
+//var conString = "postgres://postgres:postgres@localhost:5432/team_stats";
 var conString = "postgres://ldso:ldso@localhost:5432/team_stats";
+
 
 var port     = process.env.PORT || 3000; // set our port
 
@@ -127,6 +129,38 @@ app.get('/api/get-userinfo', function (request, response) {
     });
 
 });
+
+// ================================================== All Staff Page ==================================================
+
+app.get('/api/get-staff', function (request, response) {
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('SELECT email, firstname, lastname FROM login',function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
+
+});
+
+app.get('/api/get-staffs', function (request, response) {
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('SELECT email, firstname, lastname FROM login '+
+            'WHERE firstname = $1', [request.name] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
+
+});
+
 
 // ================================================== All Players Page ==================================================
 

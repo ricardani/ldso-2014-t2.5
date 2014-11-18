@@ -1,0 +1,18 @@
+ <div data-ng-controller="StaffPageCtrl">
+        <input data-ng-model="input" data-ng-change="doSearch(input)" autofocus>
+        <h2>There are {{ staff.length }} results</h2>
+		<table class="table table-striped">
+		<tr>
+			<td><h3>Firstname</h3></td>
+			<td><h3>Lastname</h3></td>
+			<td><h3>Email</h3></td>
+			<td></td>
+		</tr>
+		<tr data-ng-repeat="staffs in staff">
+			<td>{{staffs.firstname}}</td>
+			<td>{{staffs.lastname}}</td>
+			<td>{{staffs.email}}</td>
+			<td><button type="button" class="btn btn-primary">Adicionar ao staff</button></td>
+		</tr>
+		</table>
+    </div>

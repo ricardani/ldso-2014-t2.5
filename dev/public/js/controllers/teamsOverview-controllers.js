@@ -31,3 +31,22 @@ teamOverviewControllers.controller('TeamsOverviewCtrl', function ($scope, $http)
         });
 
 });
+
+teamOverviewControllers.controller('CollapseDemoCtrl', function ($scope) {
+  $scope.isCollapsed = false;
+});
+
+  teamOverviewControllers.controller("TabsParentController", function ($scope) {
+ 
+    var setAllInactive = function() {
+        angular.forEach($scope.teams, function(team) {
+            team.active = false;
+        });
+    };
+      
+ 
+});
+
+teamOverviewControllers.controller ("TabsChildController", function($scope, $log){
+  
+});

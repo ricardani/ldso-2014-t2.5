@@ -11,6 +11,7 @@ var ldsoAPP = angular.module('ldsoAPP', [
     'teamOverviewControllers',
     'playerControllers',
 	'teamControllers',
+	'staffControllers',
     'ui-rangeSlider'
 ]);
 
