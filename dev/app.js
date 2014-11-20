@@ -589,6 +589,27 @@ app.get('/api/get-teamInfo', function (request, response) {
     });
 });
 
+app.get('/api/get-players', function (request, response) {
+
+    var teamID = request.param("teamID")
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('SELECT player.* ' +
+			'FROM login_team, team_player, player ' +
+			'WHERE login_team.id_login = $1 ' +
+			'AND login_team.id_team = $2 ' +
+			'AND team_player.id_team = $2 ' +
+			'AND team_player.id_player = player.id', [request.user.id, teamID] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            {console.log(result);
+			response.send(result);}
+        });
+    });
+});
+
 // ====================================================================================
 
 // catch 404 and forward to error handler

@@ -36,4 +36,11 @@ teamControllers.controller('TeamPageCtrl', function ($scope, $window, $location,
         }).error(function (data, status, headers, config) {
             console.log(data);
         });
+
+	$http({url: '/api/get-players', method: 'GET', params: {'teamID': $scope.teamID}})
+        .success(function (data, status, headers, config) {
+            $scope.players = data;
+        }).error(function (data, status, headers, config) {
+            console.log(data);
+        });
 });
