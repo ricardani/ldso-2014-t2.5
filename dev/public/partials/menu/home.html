@@ -1,14 +1,11 @@
 <div class="bs-example" ng-controller="TeamsOverviewCtrl">
     <ul class="nav nav-tabs">
 
-        <li ng-repeat="team in teams">
+        <li ng-repeat="team in teams" style="text-align: center;">
             <a data-toggle="tab" href="/teamStats/home#{{team.id}}">
-                <button type="button" class="btn btn-primary btn-block">
-                    <img src="/img/logo-o.png" alt="..." class="img-rounded">
-                    <dl>
-                        <dt>{{team.name}}</dt>
-                    </dl>
-                </button></a>
+				<img ng-src="{{team.img}}" class="img-rounded" style="height:155px;">
+				<h3>{{team.name}}</h3>				
+			</a>
         </li>
 
     </ul>
@@ -122,9 +119,12 @@
 </div>
 
 
-<div class="jumbotron row">
-		<button type="button" class="btn btn-success btn-lg btn-block" onclick="window.location.href='#/teamStats/addstaff'">Adicionar novo membro do staff</button>
-
-		<button type="button" class="btn btn-success btn-lg btn-block" onclick="window.location.href='#/teamStats/add_team'">Adicionar nova equipa</button>
-	
+<div class="jumbotron row" style="text-align: center;">
+	<div>
+		<button type="button" class="btn btn-success btn-lg" onclick="window.location.href='#/teamStats/addstaff'">Adicionar novo membro do staff</button>
+	</div>
+	<br>
+	<div>	
+		<button type="button" class="btn btn-success btn-lg" onclick="window.location.href='#/teamStats/add_team'">Adicionar nova equipa</button>
+	<div>
 </div>

@@ -542,6 +542,7 @@ app.post('/api/delete-infoBlock', function (request, response) {
 
 
 // ==================================================================================================================================
+// ===================================================  Team Page  ==================================================================
 
 app.post('/api/insert-player', function (request, response) {
     
@@ -604,9 +605,43 @@ app.get('/api/get-players', function (request, response) {
             if (err)
             { console.error(err); response.send("Error " + err); }
             else
-            {console.log(result);
-			response.send(result);}
+            {response.send(result);}
         });
+    });
+});
+
+app.get('/api/get-teamStaff', function (request, response) {
+
+	var teamID = request.param("teamID")
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('SELECT login.* ' +
+				'FROM login, login_team ' +
+				'WHERE login_team.id_team = $1 ' +
+				'AND login_team.id_login = login.id',[teamID],function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
+
+});
+
+app.get('/api/leave-team', function (request, response) {
+
+	var teamID = request.body.teamID;
+        
+    pg.connect(conString, function(err, client, done) {
+        client.query('DELETE FROM login_team ' +
+			'WHERE id_login = $1 AND id_team = $2',[request.user.id,teamID], function(err, result) {
+		done();
+		if (err)
+		{ console.error(err); response.json(err); }
+		else
+		{response.send(result) }
+		});
     });
 });
 

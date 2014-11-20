@@ -18,6 +18,7 @@ teamControllers.controller('AddPlayer', function ($scope, $http, $window, $locat
 					$rootScope.alert = 'error';
 				} else {
 					$rootScope.alert = 'success';
+					$location.path('/teamStats/my_team');
 				}
 			})
 			.error(function (data, status, headers, config) {
@@ -43,4 +44,31 @@ teamControllers.controller('TeamPageCtrl', function ($scope, $window, $location,
         }).error(function (data, status, headers, config) {
             console.log(data);
         });
+		
+	$http({url: '/api/get-teamStaff', method: 'GET', params: {'teamID': $scope.teamID}})
+        .success(function (data, status, headers, config) {
+            $scope.staff = data;
+        }).error(function (data, status, headers, config) {
+            console.log(data);
+        });
+});
+
+teamControllers.controller('LeaveTeam', function ($scope, $window, $location, $http) {
+	 $scope.leaveTeam = function () {
+		
+		$http.get('/api/leave-team', $scope.teamID)
+		.success(function (data, status, headers, config) {
+			console.log(data);
+			if (data.name === 'error') {      
+				$rootScope.alert = 'error';
+			} else {
+				$rootScope.alert = 'success';
+				$location.path('/teamStats/my_team');
+			}
+		})
+		.error(function (data, status, headers, config) {
+			$rootScope.alert = 'error';
+			$location.path('/teamStats/my_team');
+		});
+	};
 });
