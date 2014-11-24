@@ -590,7 +590,7 @@ app.get('/api/get-teamInfo', function (request, response) {
     });
 });
 
-app.get('/api/get-players', function (request, response) {
+app.get('/api/get-teamPlayers', function (request, response) {
 
     var teamID = request.param("teamID")
 
@@ -605,7 +605,7 @@ app.get('/api/get-players', function (request, response) {
             if (err)
             { console.error(err); response.send("Error " + err); }
             else
-            {response.send(result);}
+            {response.send(result.rows);}
         });
     });
 });

@@ -18,13 +18,12 @@ teamControllers.controller('AddPlayer', function ($scope, $http, $window, $locat
 					$rootScope.alert = 'error';
 				} else {
 					$rootScope.alert = 'success';
-					$location.path('/teamStats/my_team');
-				}
+					
+				}$location.path('/teamStats/my_team/'+ $scope.teamID);
+                $( ".modal-backdrop" ).remove();
 			})
 			.error(function (data, status, headers, config) {
-			
 				$rootScope.alert = 'error';
-				$location.path('/teamStats/my_team');
 			});
 	};
 });
@@ -38,7 +37,7 @@ teamControllers.controller('TeamPageCtrl', function ($scope, $window, $location,
             console.log(data);
         });
 
-	$http({url: '/api/get-players', method: 'GET', params: {'teamID': $scope.teamID}})
+	$http({url: '/api/get-teamPlayers', method: 'GET', params: {'teamID': $scope.teamID}})
         .success(function (data, status, headers, config) {
             $scope.players = data;
         }).error(function (data, status, headers, config) {

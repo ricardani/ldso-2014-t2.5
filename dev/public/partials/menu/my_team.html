@@ -58,8 +58,8 @@
 					<div ng-repeat="p in players" >
 						<div class="col-xs-4 col-sm-4 col-md-2">
 							<div class="thumbnail">
-								<a href="#/teamStats/player/{{p.player}}">
-									<img ng-src="{{p.img}}" id="{{p.player}}" src="" onError="this.onerror=null;this.src='img/default/player.png';" style="height:155px;">
+								<a href="#/teamStats/player/{{p.id}}">
+									<img ng-src="{{p.img}}" id="{{p.id}}" src="" onError="this.onerror=null;this.src='img/default/player.png';" style="height:155px;">
 									<h3> {{p.name}}</h3>
 								</a>
 							</div>
@@ -77,14 +77,14 @@
 					<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
 					<div class="modal-dialog modal-sm">
 						<div class="modal-content" ng-controller="AddPlayer">
-							<form novalidate class="simple-form" ng-submit="addPlayer()"><br>
+							<form novalidate class="simple-form"><br>
 								Nome do Jogador
 								<input type="text" class="form-control" id="name" placeholder="Nome" ng-model="player.name" required><br>
 								Data de Nascimento
 								<input type="date" class="form-control" id="birth" placeholder="Data de Nascimento" ng-model="player.birth"><br>
 								Número de telefone
 								<input type="text" class="form-control" id="phone" placeholder="Telefone" ng-model="player.phone"><br>
-								<button class="btn btn-primary">Adicionar Jogador</button>
+								<button class="btn btn-primary" ng-click="addPlayer()">Adicionar Jogador</button>
 								<br>
 								<br>
 							</form>
@@ -168,18 +168,8 @@
 	</div>
 	</div>
 	</div>
-	<div ng-controller="LeaveTeam">
-		<button type="button" class="btn btn-danger btn-lg" data-toggle="modal2" data-target=".bs-example-modal-sm">
+		<button type="button" class="btn btn-danger btn-lg">
 			Deixar Equipa 
 		</button>
-		<div class="modal2 fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-			<div class="modal-dialog modal-sm">
-				<div class="modal-content" ng-controller="AddPlayer">
-					<h3>Tem a certeza que quer deixar esta equipa?</h3>
-					<button type="button" class="btn btn-success btn-lg" ng-click="leaveTeam()">Sim </button>	
-						<button type="button" class="btn btn-danger btn-lg">Não </button>
-				</div>
-			</div>
-		</div>
 	</div>
 </div>
