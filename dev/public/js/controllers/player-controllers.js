@@ -164,9 +164,35 @@ playerControllers.controller('StaticBlockCtrl', function ($scope, $http) {
 
 playerControllers.controller('DynamiccBlockCtrl', function ($scope, $http) {
 
-    $scope.insertLine = function (blockID) {
+    $scope.items = [];
+    $scope.moreItems = true;
+    $scope.minusItems = false;
+    $scope.items.push({
+        id : $scope.items.length,
+        field : ''
+    });
+    $scope.insertValues = [];
 
-        console.log("Inserir Linha no bloco : " + blockID);
+    $scope.insertLine = function (blockID, date) {
+
+        var tempDate = {block : blockID, date: date};
+        $scope.dynamicDates.push(tempDate);
+
+        var tempLine;
+
+        $('#ModalDynamicBlockInsertLine' + blockID).modal('toggle');
+
+        $scope.insertValues.forEach(function(e){
+
+            $http({url: '/api/insert-dynamicLine', method: 'POST', params: {'field': e.field, 'value' : e.value, 'blockID': blockID, 'date' : date}})
+                .success(function (data, status, headers, config) {
+                    tempLine = {block : blockID, date : date, id : data[0].id, value: e.value};
+                    $scope.dynamicLines.push(tempLine);
+                }).error(function (data, status, headers, config) {
+                    console.log(data);
+                });
+
+        })
 
     };
 
@@ -179,9 +205,19 @@ playerControllers.controller('DynamiccBlockCtrl', function ($scope, $http) {
     $scope.updateLine = function (lineID) {
 
         var lineValue = document.getElementById("lineID"+lineID).value;
-        console.log("Update da linha : " + lineID + " -> " + lineValue);
+        var originalLine = $.grep($scope.dynamicLines, function(e){ return e.id == lineID; });
 
-        document.getElementById("inputLine"+lineID).className = "has-success";
+        if(lineValue != originalLine[0].value) {
+
+            $http({url: '/api/update-staticLine', method: 'POST', params: {'lineID': lineID, 'value' : lineValue}})
+                .success(function (data, status, headers, config) {
+                    console.log("Update da linha : " + lineID + " -> " + lineValue );
+                    document.getElementById("inputLine" + lineID).className = "has-success";
+                }).error(function (data, status, headers, config) {
+                    document.getElementById("inputLine" + lineID).className = "has-error";
+                    console.log(data);
+                });
+        }
 
     };
 
@@ -189,11 +225,98 @@ playerControllers.controller('DynamiccBlockCtrl', function ($scope, $http) {
 
         console.log("Inserir bloco dynamic no jogador : " + PlayerID);
 
+
+        if ($scope.dynamicBlockTitle && $scope.dynamicBlockTitle.trim() != '') {
+
+            $http({url: '/api/insert-dynamicBlock', method: 'POST', params: {'title': $scope.dynamicBlockTitle, 'playerID': PlayerID}})
+                .success(function (data, status, headers, config) {
+                    console.log("Inserir bloco static no jogador : " + PlayerID + " com o titulo: " + $scope.dynamicBlockTitle);
+
+                    $('#ModalDynamicBlock').modal('toggle');
+
+                    var blockID = data[0].id;
+                    var temp = {'id' : blockID, 'title' : $scope.dynamicBlockTitle};
+                    $scope.dynamicBlocks.push(temp);
+
+                    $scope.dynamicBlockTitle = '';
+
+                    $scope.items.forEach(function (item){
+
+                        $http({url: '/api/insert-dynamicLine', method: 'POST', params: {'field': item.field, 'value' : '', 'blockID': blockID, 'date' : '9999-09-09'}})
+                            .success(function (data, status, headers, config) {
+                                var tempFields = {id : data[0].id, block : blockID, field: item.field}
+                                $scope.dynamicFields.push(tempFields);
+                            }).error(function (data, status, headers, config) {
+                                console.log(data);
+                            });
+                    })
+
+                }).error(function (data, status, headers, config) {
+                    console.log(data);
+                });
+        }
+
     };
 
     $scope.deleteBlock = function (blockID) {
 
-        console.log("Remover bloco : " + blockID);
+        $http({url: '/api/delete-infoBlock', method: 'POST', params: {'blockID': blockID}})
+            .success(function (data, status, headers, config) {
+                console.log("Remover bloco : " + blockID);
+                $('#ModalDynamicBlock'+blockID).modal('hide');
+
+                $scope.dynamicBlocks = $scope.dynamicBlocks.filter(function (el) {
+                    return el.id !== blockID;
+                });
+
+                $( ".modal-backdrop" ).remove();
+
+            }).error(function (data, status, headers, config) {
+                console.log(data);
+            });
+
+    };
+
+    $scope.addItem = function () {
+        $scope.items.push({
+            id : $scope.items.length,
+            field : ''
+        });
+
+        if($scope.items.length <= 5)
+            $scope.moreItems = true;
+        else
+            $scope.moreItems = false;
+
+        if($scope.items.length <= 1)
+            $scope.minusItems = false;
+        else
+            $scope.minusItems = true;
+    };
+
+    $scope.removeItem = function () {
+        $scope.items.pop();
+
+        if($scope.items.length <= 5)
+            $scope.moreItems = true;
+        else
+            $scope.moreItems = false;
+
+        if($scope.items.length <= 1)
+            $scope.minusItems = false;
+        else
+            $scope.minusItems = true;
+    };
+
+    $scope.addInsertValues = function (blockID) {
+        $scope.insertValues = [];
+
+        $scope.dynamicFields.forEach(function(dFields){
+            if(dFields.block === blockID){
+                var temp = {id: $scope.insertValues.length, field : dFields.field, value : ''};
+                $scope.insertValues.push(temp);
+            }
+        })
 
     };
 
