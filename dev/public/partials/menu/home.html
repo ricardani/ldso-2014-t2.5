@@ -122,9 +122,42 @@
 </div>
 
 
-<div class="jumbotron row">
-		<button type="button" class="btn btn-success btn-lg btn-block" onclick="window.location.href='#/teamStats/addstaff'">Adicionar novo membro do staff</button>
+<div class="jumbotron row" ng-controller="TeamsOverviewCtrl">
+		<button type="button" class="btn btn-success btn-lg btn-block" data-toggle="modal" data-target="#addStaff"">Adicionar novo membro do staff</button>
 
 		<button type="button" class="btn btn-success btn-lg btn-block" onclick="window.location.href='#/teamStats/add_team'">Adicionar nova equipa</button>
-	
+		
+		<!-- Modal -->
+	<div class="modal fade" id="addStaff" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+		<div id="modalheader" class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+			<h4 class="modal-title" id="myModalLabel">Adicionar staff</h4>
+		</div>
+		<div class="modal-body">
+		
+		<form id="addStaffForm"ng-submit="submit()" ng-controller="TeamsOverviewCtrl">
+			<input type="email" class="form-control" ng-model="input1"  placeholder="Email" />
+			<br>
+
+			<select form="addStaffForm"  ng-model="input2">
+				<option  ng-selected="{{team.name == input2}}" ng-repeat="team in teams" value="{{team.name}}">{{team.name}}</option>
+			</select>
+
+
+			<br><br>
+			<input class="btn btn-primary" type="submit" id="submit" value="Convidar" />
+		</form>
+		
+			
+				
+		
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+		</div>
+		</div>
+	</div>
+	</div>
 </div>

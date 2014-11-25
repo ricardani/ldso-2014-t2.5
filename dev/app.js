@@ -146,6 +146,20 @@ app.get('/api/get-staff', function (request, response) {
 
 });
 
+app.get('/api/get-teamid', function (request, response) {
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('SELECT id FROM team WHERE name = $1',[request.name] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
+
+});
+
 app.get('/api/get-staffs', function (request, response) {
 
     pg.connect(conString, function(err, client, done) {
@@ -161,6 +175,23 @@ app.get('/api/get-staffs', function (request, response) {
 
 });
 
+app.post('/api/insert-teamstaff', function (request, response) {
+
+    var name = request.param("name")
+    var email = request.param("email")
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('INSERT INTO login_team(id_login, id_team) VALUES '+
+					'((SELECT id FROM login WHERE email = $1),(SELECT id FROM team '+
+					'WHERE name = $2))', [email, name] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
+});
 
 // ================================================== All Players Page ==================================================
 

@@ -1,7 +1,7 @@
 var teamOverviewControllers = angular.module('teamOverviewControllers', []);
 
 teamOverviewControllers.controller('TeamsOverviewCtrl', function ($scope, $http) {
-
+	
     $http({url: '/api/get-teams', method: 'GET'})
         .success(function (data, status, headers, config) {
             $scope.teams = data;
@@ -29,6 +29,21 @@ teamOverviewControllers.controller('TeamsOverviewCtrl', function ($scope, $http)
         }).error(function (data, status, headers, config) {
             console.log(data);
         });
+		
+
+	$scope.submit = function() {
+
+		$http({url: '/api/insert-teamstaff', method: 'POST', params: {'email': $scope.input1, 'name' : $scope.input2}})
+        .success(function (data, status, headers, config) {
+			console.log("Insert staff in team : " + $scope.input1 + " -> " + $scope.input2);
+			document.getElementById("modalheader").innerHTML = '<div class="alert alert-success">Staff adicionado com sucesso!</div>';
+        }).error(function (data, status, headers, config) {
+            console.log(data);
+        });
+
+      };
+		
+	
 
 });
 
