@@ -614,7 +614,21 @@ app.post('/api/insert-dynamicLine', function (request, response) {
     });
 });
 
-
+app.post('/api/update-playerImg', function(request, response) {
+	var playerID = request.param("playerID")
+    var img = request.param("img")
+	
+	pg.connect(conString, function(err, client, done) {
+		client.query('UPDATE player SET img = $1 WHERE id = $2',
+			[img,playerID],function(err, result) {
+            done();
+			if(err) 
+			{ console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+		});
+	});
+});
 // ==================================================================================================================================
 // ===================================================  Team Page  ==================================================================
 
@@ -632,7 +646,7 @@ app.post('/api/insert-player', function (request, response) {
             if (err)
             { console.error(err); response.json(err); }
             else
-            {
+            {	var Player = result.rows;
 				client.query('INSERT INTO team_player(id_team,id_player) VALUES($1,$2)',
 				[teamID,result.rows[0].id],
 				function(err, result) {
@@ -640,7 +654,7 @@ app.post('/api/insert-player', function (request, response) {
 					if (err)
 					{ console.error(err); response.json(err); }
 					else
-					{ response.send(result) }
+					{ response.send(Player) }
 				}
 			)}
         });
@@ -703,9 +717,9 @@ app.get('/api/get-teamStaff', function (request, response) {
 
 });
 
-app.get('/api/leave-team', function (request, response) {
+app.post('/api/leave-team', function (request, response) {
 
-	var teamID = request.body.teamID;
+	var teamID = request.param("teamID")
         
     pg.connect(conString, function(err, client, done) {
         client.query('DELETE FROM login_team ' +
@@ -751,9 +765,6 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
-
-
-
 
 module.exports = app;
 

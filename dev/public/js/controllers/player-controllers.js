@@ -361,7 +361,6 @@ playerControllers.controller('PlayerInfoCtrl', function ($scope, $http) {
     $scope.updateBirth = function (PlayerID) {
 
         var birth = document.getElementById("playerBirth"+PlayerID).value;
-
         $http({url: '/api/update-playerBirth', method: 'POST', params: {'birth': birth, 'playerID' : PlayerID}})
             .success(function (data, status, headers, config) {
                 console.log("Update data nascimento no ID : " + PlayerID + " -> " + birth);
@@ -370,9 +369,30 @@ playerControllers.controller('PlayerInfoCtrl', function ($scope, $http) {
             }).error(function (data, status, headers, config) {
                 document.getElementById("playerBirth").className = "has-error";
                 console.log(data);
-            });
-
+            }); 
     };
+});
 
-
+playerControllers.controller('ImageController', function ($scope, $http) {
+	
+	$scope.updateImg = function () {	
+		var img =document.getElementById('playerImg').files[0];
+		var imgsrc = 'img/players/' + img;
+		var f = img,
+		r = new FileReader();
+		r.onload = function(e){
+			var data = e.target.result;
+		}
+		
+		r.readAsDataURL(f);
+		$http({url: '/api/update-playerImg', method: 'POST', params: {'img': img, 'playerID' : PlayerID}})
+			.success(function(data, status, headers, config) {
+				console.log("Update Image no ID : " + PlayerID + " -> " + img);
+				$scope.playerInfo.img = img;
+			}).error(function (data, status, headers, config) {
+                document.getElementById("playerBirth").className = "has-error";
+                console.log(data);
+            });
+	};
+	
 });

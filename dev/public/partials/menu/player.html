@@ -2,9 +2,14 @@
 
 <div class="row" ng-controller="PlayerInfoCtrl">
 
-    <div class="col-sm-4 col-md-2 col-md-offset-1">
+    <div class="col-sm-4 col-md-2 col-md-offset-1" style="text-align: center;" ng-controller="ImageController">
         <h3 style="text-decoration: none;">{{playerInfo.name}}</h3>
-        <img ng-src="" src="" onError="this.onerror=null;this.src='img/default/player.png';" style="height:200px;"/>
+        <img ng-src={{playerInfo.img}} src="" onError="this.onerror=null;this.src='img/default/player.png';" style="height:200px;"/>
+		<br>
+		<form >
+			<input type="file" id="playerImg" accept="image/*">
+			<button class="btn btn-primary" ng-click="updateImg()"> Mudar imagem </button>
+		</form>
     </div>
 
     <div class="col-sm-5 col-md-3">
