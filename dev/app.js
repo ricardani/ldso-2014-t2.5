@@ -146,6 +146,20 @@ app.get('/api/get-staff', function (request, response) {
 
 });
 
+app.get('/api/get-teamid', function (request, response) {
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('SELECT id FROM team WHERE name = $1',[request.name] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
+
+});
+
 app.get('/api/get-staffs', function (request, response) {
 
     pg.connect(conString, function(err, client, done) {
@@ -161,6 +175,23 @@ app.get('/api/get-staffs', function (request, response) {
 
 });
 
+app.post('/api/insert-teamstaff', function (request, response) {
+
+    var name = request.param("name")
+    var email = request.param("email")
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('INSERT INTO login_team(id_login, id_team) VALUES '+
+					'((SELECT id FROM login WHERE email = $1),(SELECT id FROM team '+
+					'WHERE name = $2))', [email, name] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
+});
 
 // ================================================== All Players Page ==================================================
 
@@ -340,7 +371,8 @@ app.get('/api/get-playerDynamicLines', function (request, response) {
             'FROM login_team, team_player, info_block, info_line ' +
             'WHERE login_team.id_login = $1 AND login_team.id_team = team_player.id_team ' +
             'AND team_player.id_player = $2 AND info_block.id_player = team_player.id_player ' +
-            'AND info_block.type = \'dynamic\' AND info_line.id_info_block = info_block.id ORDER BY info_line.date, info_line.field ASC', [request.user.id, playerID] ,function(err, result) {
+            'AND info_block.type = \'dynamic\' AND info_line.id_info_block = info_block.id AND info_line.date != \'9999-09-09\' ' +
+            'ORDER BY info_line.date, info_line.field ASC', [request.user.id, playerID] ,function(err, result) {
             done();
             if (err)
             { console.error(err); response.send("Error " + err); }
@@ -380,7 +412,7 @@ app.get('/api/get-playerDynamicDates', function (request, response) {
             'WHERE login_team.id_login = $1 AND login_team.id_team = team_player.id_team ' +
             'AND team_player.id_player = $2 AND info_block.id_player = team_player.id_player ' +
             'AND info_block.type = \'dynamic\' AND info_line.id_info_block = info_block.id ' +
-            'ORDER BY info_line.date', [request.user.id, playerID] ,function(err, result) {
+            'AND info_line.date != \'9999-09-09\' ORDER BY info_line.date', [request.user.id, playerID] ,function(err, result) {
             done();
             if (err)
             { console.error(err); response.send("Error " + err); }
@@ -531,6 +563,48 @@ app.post('/api/delete-infoBlock', function (request, response) {
         client.query('DELETE FROM info_block WHERE id = ' +
             '(SELECT info_block.id FROM login_team, team_player, info_block WHERE login_team.id_login = $1 AND login_team. id_team = team_player.id_team ' +
             'AND team_player.id_player = info_block.id_player AND info_block.id = $2)', [request.user.id, blockID] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
+});
+
+app.post('/api/insert-dynamicBlock', function (request, response) {
+
+    var playerID = request.param("playerID")
+    var title = request.param("title")
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('INSERT INTO info_block(id_player, title, type, is_default) ' +
+            'VALUES ( ' +
+            '(SELECT team_player.id_player FROM login_team, team_player ' +
+            'WHERE login_team.id_login = $1 AND login_team. id_team = team_player.id_team ' +
+            'AND team_player.id_player = $2) ' +
+            ', $3, \'dynamic\', false) RETURNING id', [request.user.id, playerID, title] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
+});
+
+app.post('/api/insert-dynamicLine', function (request, response) {
+
+    var blockID = request.param("blockID")
+    var field = request.param("field")
+    var value = request.param("value")
+    var date = request.param("date")
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('INSERT INTO info_line(id_info_block, field, value, date) ' +
+            'VALUES ((SELECT info_block.id FROM login_team, team_player, info_block ' +
+            'WHERE login_team.id_login = $1 AND login_team. id_team = team_player.id_team ' +
+            'AND team_player.id_player = info_block.id_player AND info_block.id = $2), $3, $4, $5) RETURNING id', [request.user.id, blockID, field, value, date] ,function(err, result) {
             done();
             if (err)
             { console.error(err); response.send("Error " + err); }

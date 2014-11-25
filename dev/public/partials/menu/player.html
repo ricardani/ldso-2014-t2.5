@@ -1,11 +1,10 @@
 <div ng-controller="PlayerPageCtrl">
 
-
-<div class="row" ng-controller="PlayerInfoCtrl" style="text-align: center;">
+<div class="row" ng-controller="PlayerInfoCtrl">
 
     <div class="col-sm-4 col-md-2 col-md-offset-1">
         <h3 style="text-decoration: none;">{{playerInfo.name}}</h3>
-        <img ng-src="{{playerInfo.img}}" src="" onError="this.onerror=null;this.src='img/default/player.png';" style="height:200px;"/>
+        <img ng-src="" src="" onError="this.onerror=null;this.src='img/default/player.png';" style="height:200px;"/>
     </div>
 
     <div class="col-sm-5 col-md-3">
@@ -94,7 +93,7 @@
 
 <div class="container-fluid" ng-controller="StaticBlockCtrl">
 
-    <div class="panel panel-info col-md-6" ng-repeat="staticBlock in staticBlocks">
+    <div class="panel panel-info" ng-repeat="staticBlock in staticBlocks">
         <div class="panel-heading">
             <h3 class="panel-title">
                 {{staticBlock.title}}
@@ -151,17 +150,20 @@
         <div class="panel-body">
             <div ng-repeat="staticLine in staticLines" ng-if="staticBlock.id === staticLine.block">
                 <div class="input-group" >
-                    <span class="input-group-addon">{{staticLine.field}}</span>
-
-                    <div id="inputLine{{staticLine.id}}" class="">
-                        <input type="text" class="form-control text-align-center" id="lineID{{staticLine.id}}"
-                               value="{{staticLine.value}}" style="width: 90%" ng-blur="updateLine(staticLine.id)">
+                    <div class="col-xs-2">
+                        <span class="input-group-addon" style="padding-bottom: 10px">{{staticLine.field}}</span>
                     </div>
-
-                    <button  type="button" class="btn btn-link pull-right" data-toggle="modal" data-target="#ModalStaticBlockDeleteLine{{staticLine.id}}">
-                        <span class="glyphicon glyphicon-remove" style="color:red"></span>
-                    </button>
-
+                    <div class="col-xs-9">
+                        <div id="inputLine{{staticLine.id}}" class="">
+                            <input type="text" class="form-control text-align-center" id="lineID{{staticLine.id}}"
+                                   value="{{staticLine.value}}" style="width: 90%" ng-blur="updateLine(staticLine.id)">
+                        </div>
+                    </div>
+                    <div class="col-xs-1">
+                        <button  type="button" class="btn btn-link pull-right" data-toggle="modal" data-target="#ModalStaticBlockDeleteLine{{staticLine.id}}">
+                            <span class="glyphicon glyphicon-remove" style="color:red"></span>
+                        </button>
+                    </div>
                     <div class="modal fade" id="ModalStaticBlockDeleteLine{{staticLine.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -194,18 +196,63 @@
 
 <br><br><br>
 
-
 <div class="page-header" ng-controller="DynamiccBlockCtrl">
     <legend>
         <h1>
             Registos
-            <button type="button" class="btn btn-link btn-lg" ng-click="insertBlock(playerInfo.id)">
+            <button type="button" class="btn btn-link btn-lg" data-toggle="modal" data-target="#ModalDynamicBlock" >
                 <span class="glyphicon glyphicon-plus-sign" style="color:green"></span>
             </button>
         </h1>
     </legend>
-</div>
 
+    <div class="modal fade" id="ModalDynamicBlock" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Adicionar Bloco de Registo</h4>
+                </div>
+                <form ng-submit="insertBlock(playerInfo.id)">
+
+                    <div class="modal-body">
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-addon">Título do Bloco</span>
+                            <input ng-model="dynamicBlockTitle" type="text" class="form-control" required>
+                        </div>
+
+                        <br>
+
+                        <div class="page-header">
+                            <h1>Campos do bloco (min:1, max:6)</h1>
+                        </div>
+
+                        <div ng-repeat="item in items">
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-addon">Nome do campo</span>
+                                <input ng-model="item.field" type="text" class="form-control" required autocomplete="false">
+                            </div>
+                            <br>
+                        </div>
+
+                        <button type="button" class="btn btn-link btn-lg" ng-click="addItem()" ng-if="moreItems">
+                            <span class="glyphicon glyphicon-plus-sign" style="color:green"></span>
+                        </button>
+
+                        <button type="button" class="btn btn-link btn-lg" ng-click="removeItem()" ng-if="minusItems">
+                            <span class="glyphicon glyphicon-minus" style="color:red"></span>
+                        </button>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Adicionar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 <div class="" ng-controller="DynamiccBlockCtrl">
 
@@ -213,13 +260,70 @@
         <div class="panel-heading">
             <h3 class="panel-title">
                 {{dynamicBlock.title}}
-                <button type="button" class="btn btn-link btn-lg" ng-click="insertLine(dynamicBlock.id)">
+                <button type="button" class="btn btn-link btn-lg" data-toggle="modal" data-target="#ModalDynamicBlockInsertLine{{dynamicBlock.id}}" ng-click="addInsertValues(dynamicBlock.id)">
                     <span class="glyphicon glyphicon-plus-sign" style="color:green"></span>
                 </button>
-                <button  type="button" class="btn btn-link pull-right" ng-click="deleteBlock(dynamicBlock.id)">
+                <button  type="button" class="btn btn-link pull-right" data-toggle="modal" data-target="#ModalDynamicBlockDelete{{dynamicBlock.id}}">
                     <span class="glyphicon glyphicon-remove" style="color:red"></span>
                 </button>
             </h3>
+
+            <div class="modal fade" id="ModalDynamicBlockInsertLine{{dynamicBlock.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h4 class="modal-title" >Insirir Linha em : {{dynamicBlock.title}} ?</h4>
+                        </div>
+                        <form ng-submit="insertLine(dynamicBlock.id, insertLineDate)">
+                            <div class="modal-body">
+                                <div class="input-group input-group-lg">
+                                    <div class="col-xs-2">
+                                        <span class="input-group-addon" style="padding-bottom: 10px">Data</span>
+                                    </div>
+                                    <div class="col-xs-10">
+                                        <input ng-model="insertLineDate" type="date" class="form-control" required>
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div ng-repeat="insertValue in insertValues">
+                                    <div class="input-group input-group-lg">
+                                        <div class="col-xs-2">
+                                            <span class="input-group-addon" style="padding-bottom: 10px">{{insertValue.field}}</span>
+                                        </div>
+                                        <div class="col-xs-10">
+                                            <input ng-model="insertValue.value" type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-success">Inserir</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="ModalDynamicBlockDelete{{dynamicBlock.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h4 class="modal-title" >Remover Bloco : {{dynamicBlock.title}} ?</h4>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" ng-click="deleteBlock(dynamicBlock.id)">Sim</button>
+                            <button type="button" class="btn btn-info" data-dismiss="modal">Não</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
         <div class="panel-body">
             <div class="table-responsive">
