@@ -3,40 +3,71 @@
     <h1>Team Stats</h1>
 </div>
 
-<div class="col-md-6 col-md-push-2">
+<div class="col-md-6 col-md-push-2" ng-controller="ProfileController">
     <br>
     <div class="form-group" style="width:100%">
         <button type="button" disabled class="btn btn-primary col-xs-12 col-sm-8 col-md-3">Nome</button>
-        <button type="button" disabled class="btn btn-default col-xs-12 col-sm-8 col-md-9">&nbsp;Team Stats&nbsp;</button>
+        <button type="button" disabled class="btn btn-default col-xs-12 col-sm-8 col-md-9">&nbsp;{{profile.firstname}} {{profile.lastname}}&nbsp;</button>
     </div>
 
     <br><br>
 
     <div class="form-group" style="width:100%">
         <button type="button" disabled class="btn btn-primary col-xs-12 col-sm-8 col-md-3">Email</button>
-        <button type="button" disabled class="btn btn-default col-xs-12 col-sm-8 col-md-9">&nbsp;teamStats@gmail.com&nbsp;</button>
+        <button type="button" disabled class="btn btn-default col-xs-12 col-sm-8 col-md-9">&nbsp;{{profile.email}}&nbsp;</button>
     </div>
 
     <br><br>
 
     <div class="btn-group pull-right">
-        <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#myModal">Alterar</button>
+        <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#myModal1">Alterar nome</button>  
+		<button type="button" class="btn btn-primary " data-toggle="modal" data-target="#myModal2">Alterar email</button>
     </div>
 	
 	<!-- Modal -->
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
-		<div class="modal-header">
+		<div class="modal-header" id="modal-header1">
 			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-			<h4 class="modal-title" id="myModalLabel">Mudar nome/e-mail</h4>
+			<h4 class="modal-title" id="myModalLabel">Mudar nome</h4>
 		</div>
 		<div class="modal-body">
-			...
+			<form id="editProfile1"ng-submit="submit1()">
+			<input type="text" class="form-control" ng-model="input1"  placeholder="Primeiro nome" />
+			<br>
+
+			<input type="text" class="form-control" ng-model="input2"  placeholder="Último nome" />
+			<br>
+
+			<input class="btn btn-primary" type="submit" id="submit1" value="Submeter" />
+			</form>
 		</div>
 		<div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			<button type="button" class="btn btn-primary" data-dismiss="modal">Submit</button>
+			<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+		</div>
+		</div>
+	</div>
+	</div>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+		<div class="modal-header" id="modal-header2">
+			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+			<h4 class="modal-title" id="myModalLabel">Mudar email</h4>
+		</div>
+		<div class="modal-body">
+			<form id="editProfile2"ng-submit="submit2()">
+			<input type="email" class="form-control" ng-model="input3"  placeholder="email" />
+			<br>
+
+			<input class="btn btn-primary" type="submit" id="submit2" value="Submeter" />
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
 		</div>
 		</div>
 	</div>

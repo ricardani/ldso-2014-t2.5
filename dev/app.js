@@ -130,6 +130,20 @@ app.get('/api/get-userinfo', function (request, response) {
 
 });
 
+app.get('/api/get-userprofile', function (request, response) {
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('SELECT firstname, lastname, email FROM login Where id = $1', [request.user.id] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
+
+});
+
 // ================================================== All Staff Page ==================================================
 
 app.get('/api/get-staff', function (request, response) {
@@ -621,6 +635,37 @@ app.post('/api/update-playerImg', function(request, response) {
 	pg.connect(conString, function(err, client, done) {
 		client.query('UPDATE player SET img = $1 WHERE id = $2',
 			[img,playerID],function(err, result) {
+            done();
+			if(err) 
+			{ console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+		});
+	});
+});
+
+app.post('/api/update-profilename', function(request, response) {
+	var fname = request.param("fname")
+    var lname = request.param("lname")
+	
+	pg.connect(conString, function(err, client, done) {
+		client.query('UPDATE login SET firstname = $1, lastname = $2 WHERE id = $3',
+			[fname,lname,request.user.id],function(err, result) {
+            done();
+			if(err) 
+			{ console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+		});
+	});
+});
+
+app.post('/api/update-profileemail', function(request, response) {
+	var email = request.param("email")
+	
+	pg.connect(conString, function(err, client, done) {
+		client.query('UPDATE login SET email = $1 WHERE id = $2',
+			[email,request.user.id],function(err, result) {
             done();
 			if(err) 
 			{ console.error(err); response.send("Error " + err); }
