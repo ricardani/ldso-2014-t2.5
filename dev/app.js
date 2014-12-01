@@ -778,6 +778,43 @@ app.post('/api/leave-team', function (request, response) {
     });
 });
 
+app.post('/api/delete-team', function (request, response) {
+
+	var teamID = request.param("teamID")
+        
+    pg.connect(conString, function(err, client, done) {
+        client.query('SELECT COUNT(*) FROM login_team ' +
+			'WHERE id_team = $1',[teamID], function(err, result) {
+		done();
+		if (err)
+		{ console.error(err); response.json(err); }
+		else{
+			if(result.rows[0].count == 0){
+				client.query('DELETE FROM team ' +
+				'WHERE id_team = $1',[teamID], function(err, result) {
+				done();
+				if (err)
+				{ console.error(err); response.json(err); }
+				else
+				{
+					client.query('DELETE FROM team_player ' +
+						'WHERE id_team = $1',[teamID], function(err, result) {
+					done();
+					if (err)
+					{ console.error(err); response.json(err); }
+					else
+					{response.send(result) }
+					});
+				}
+				});				
+			}
+		}
+		});
+    });
+});
+
+
+
 // ====================================================================================
 
 // catch 404 and forward to error handler

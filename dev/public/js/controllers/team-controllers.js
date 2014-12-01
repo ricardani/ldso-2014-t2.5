@@ -75,6 +75,18 @@ teamControllers.controller('LeaveTeam', function ($scope, $window, $location, $h
 			
 		});
 		
+		$http({url: '/api/delete-team', method: 'POST', params: {'teamID': $scope.teamID}})
+		.success(function (data, status, headers, config) {
+			console.log(data);
+			if (data.name === 'error') {
+				
+			} else {
+				console.log(data);
+			}
+		})
+		.error(function (data, status, headers, config) {
+			
+		});
+		
 		};
-	
 });
