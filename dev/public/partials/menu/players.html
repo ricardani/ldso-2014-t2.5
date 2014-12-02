@@ -56,7 +56,7 @@
             <div class="panel panel-default" id="team{{team.id}}">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                        <img ng-src="{{team.img}}" src="" onError="this.onerror=null;this.src='img/default/team.jpg';" style="height:100px;"/>
+                        <img ng-src="/img/uploadteam/{{team.img}}" src="" onError="this.onerror=null;this.src='img/default/team.jpg';" style="height:100px;"/>
                         {{team.name}}
 
                     </h3>
@@ -69,7 +69,7 @@
                                 <a href="#/teamStats/player/{{player.player}}">
                                     <div class="col-xs-4 col-sm-4 col-md-2">
                                         <div class="thumbnail">
-                                            <img ng-src="{{player.img}}" src="" onError="this.onerror=null;this.src='img/default/player.png';" style="height:155px;"/>
+                                            <img ng-src="/img/uploadplayer/{{player.img}}" src="" onError="this.onerror=null;this.src='img/default/player.png';" style="height:155px;"/>
 											<h3>{{player.name}}</h3>
                                         </div>
                                     </div>

@@ -70,9 +70,8 @@ teamControllers.controller('LeaveTeam', function ($scope, $window, $location, $h
 				$( "#LeaveTeam" ).modal('hide');
 				$location.path('/teamStats/teams');
 			}
-		})
-		.error(function (data, status, headers, config) {
-			
+		}).error(function (data, status, headers, config) {
+			console.log(data);
 		});
 	};
 });
@@ -84,12 +83,12 @@ teamControllers.controller('EditName', function ($scope, $window, $location, $ht
 		$http({url: '/api/update-teamname', method: 'POST', params: {'name': $scope.input1, 'teamid': $scope.teamID}})
         .success(function (data, status, headers, config) {
 			console.log("Update team name with : " + $scope.input1 + " -> " + $scope.teamID);
-        }).error(function (data, status, headers, config) {
+        })
+.error(function (data, status, headers, config) {
             console.log(data);
         });
 				window.location.reload();
       };
-	
 });
 
 teamControllers.directive('fileModel', ['$parse', function ($parse) {

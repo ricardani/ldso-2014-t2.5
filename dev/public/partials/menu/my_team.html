@@ -2,7 +2,7 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-			<img ng-src="/img/upload/{{teamInfo.img}}" src="" onError="this.onerror=null;this.src='img/default/team.jpg';" style="height:155px;"/>
+			<img ng-src="/img/uploadteam/{{teamInfo.img}}" src="" onError="this.onerror=null;this.src='img/default/team.jpg';" style="height:155px;"/>
 			<h2 >{{teamInfo.name}}</h2>
 	</div>
 </div>
@@ -200,8 +200,10 @@
 			<h4 class="modal-title" id="myModalLabel">Mudar emblema</h4>
 		</div>
 		<div class="modal-body" ng-controller="myCtrl">
-		<form method='post' action='/fileupload' enctype="multipart/form-data">
-        <input type='file' file-model="myFile" name='fileUploaded'>
+		<form method='post' action='/team-emblem-upload' enctype="multipart/form-data">
+		<input type='hidden' name ="teamid" value="{{teamInfo.id}}">
+        <input type='file' class="form-control input-lg" file-model="myFile" name='fileUploaded' required>
+		<br>
 		<input class="btn btn-primary" type="submit"  ng-click="uploadFile()" value="Submeter" />		
 		</form>
 		</div>
@@ -222,7 +224,7 @@
 		</div>
 		<div class="modal-body">
 			<form id="editName1" ng-submit="submit1()">
-			<input type="text" class="form-control" ng-model="input1"  placeholder="Nome da equipa" />
+			<input type="text" class="form-control" ng-model="input1"  placeholder="Nome da equipa" required/>
 			<br>
 			<input class="btn btn-primary" type="submit" id="submit1" value="Submeter" />
 			</form>

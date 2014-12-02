@@ -373,26 +373,36 @@ playerControllers.controller('PlayerInfoCtrl', function ($scope, $http) {
     };
 });
 
-playerControllers.controller('ImageController', function ($scope, $http) {
-	
-	$scope.updateImg = function () {	
-		var img =document.getElementById('playerImg').files[0];
-		var imgsrc = 'img/players/' + img;
-		var f = img,
-		r = new FileReader();
-		r.onload = function(e){
-			var data = e.target.result;
-		}
-		
-		r.readAsDataURL(f);
-		$http({url: '/api/update-playerImg', method: 'POST', params: {'img': img, 'playerID' : PlayerID}})
-			.success(function(data, status, headers, config) {
-				console.log("Update Image no ID : " + PlayerID + " -> " + img);
-				$scope.playerInfo.img = img;
-			}).error(function (data, status, headers, config) {
-                document.getElementById("playerBirth").className = "has-error";
-                console.log(data);
+playerControllers.directive('fileModel', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+
+            element.bind('change', function () {
+                scope.$apply(function () {
+                    modelSetter(scope, element[0].files[0]);
+                });
             });
-	};
-	
-});
+        }
+    };
+}]);
+
+
+playerControllers.controller('myCtrl1', ['$scope', '$http', function($scope, $http){
+    
+	$scope.uploadFile = function() {
+	var str = $scope.myFile.name.split(".");
+		var extension = str[str.length -1];
+		var img = $scope.playerID + "." + extension;
+		$http({url: '/api/update-playerImg', method: 'POST', params: {'img': img, 'playerid': $scope.playerID}})
+        .success(function (data, status, headers, config) {
+			console.log("Update player img with : " + img + " -> " + $scope.playerID);
+        }).error(function (data, status, headers, config) {
+            console.log(data);
+        });
+		
+    };
+    
+}]);
