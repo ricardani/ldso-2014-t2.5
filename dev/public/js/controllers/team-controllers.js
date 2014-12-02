@@ -74,7 +74,7 @@ teamControllers.controller('LeaveTeam', function ($scope, $window, $location, $h
 		.error(function (data, status, headers, config) {
 			
 		});
-	};
+		
 });
 
 
@@ -112,9 +112,12 @@ teamControllers.directive('fileModel', ['$parse', function ($parse) {
 teamControllers.controller('myCtrl', ['$scope', '$http', function($scope, $http){
     
 	$scope.uploadFile = function() {
-		$http({url: '/api/update-teamimg', method: 'POST', params: {'img': $scope.myFile.name, 'teamid': $scope.teamID}})
+		var str = $scope.myFile.name.split(".");
+		var extension = str[str.length -1];
+		var img = $scope.teamID + "." + extension;
+		$http({url: '/api/update-teamimg', method: 'POST', params: {'img': img, 'teamid': $scope.teamID}})
         .success(function (data, status, headers, config) {
-			console.log("Update team img with : " + $scope.myFile.name + " -> " + $scope.teamID);
+			console.log("Update team img with : " + img + " -> " + $scope.teamID);
         }).error(function (data, status, headers, config) {
             console.log(data);
         });

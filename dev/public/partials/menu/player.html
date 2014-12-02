@@ -2,17 +2,38 @@
 
 <div class="row" ng-controller="PlayerInfoCtrl">
 
-    <div class="col-sm-4 col-md-2 col-md-offset-1" style="text-align: center;" ng-controller="ImageController">
+    <div class="col-md-6" style="text-align: center;">
         <h3 style="text-decoration: none;">{{playerInfo.name}}</h3>
-        <img ng-src={{playerInfo.img}} src="" onError="this.onerror=null;this.src='img/default/player.png';" style="height:200px;"/>
+        <img ng-src="/img/uploadplayer/{{playerInfo.img}}" src="" onError="this.onerror=null;this.src='img/default/player.png';" style="height:200px;"/>
 		<br>
-		<form >
-			<input type="file" id="playerImg" accept="image/*">
-			<button class="btn btn-primary" ng-click="updateImg()"> Mudar imagem </button>
+		<br>
+		<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#imgjogador">Alterar imagem do jogador</button>
+		<!-- MODAL DE MUDAR IMAGEM DO JOGADOR-->
+	<div class="modal fade" id="imgjogador" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+	<div class="modal-dialog">
+		<div class="modal-content">
+		<div class="modal-header" id="modal-header1">
+			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+			<h4 class="modal-title" id="myModalLabel">Mudar imagem</h4>
+		</div>
+		<div class="modal-body" ng-controller="myCtrl1">
+		<form method='post' action='/player-image-upload' enctype="multipart/form-data">
+		<input type='hidden' name ="playerid" value="{{playerInfo.id}}">
+        <input type='file' class="form-control input-lg" file-model="myFile" name='fileUploaded' required>
+		<br>
+		<input class="btn btn-primary" type="submit"  ng-click="uploadFile()" value="Submeter" />		
 		</form>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+		</div>
+		</div>
+	</div>
+	</div>
+		
     </div>
 
-    <div class="col-sm-5 col-md-3">
+    <div class="col-md-6">
         <br>
         <fieldset>
             <legend>Informação Pessoal</legend>
