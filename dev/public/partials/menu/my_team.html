@@ -2,7 +2,7 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-			<img ng-src="{{teamInfo.img}}" src="" onError="this.onerror=null;this.src='img/default/team.jpg';" style="height:155px;"/>
+			<img ng-src="/img/upload/{{teamInfo.img}}" src="" onError="this.onerror=null;this.src='img/default/team.jpg';" style="height:155px;"/>
 			<h2 >{{teamInfo.name}}</h2>
 	</div>
 </div>
@@ -169,11 +169,12 @@
 	</div>
 	</div>
 	<div>
-		<button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#LeaveTeam">
-			Deixar Equipa
-		</button>
+		<button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#LeaveTeam">Deixar Equipa</button>
+		<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#emblemadaequipa">Alterar emblema da equipa</button>
+		<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#nomedaequipa">Alterar nome da equipa</button>  		
 	</div>
 	
+	<!-- MODAL DE DEIXAR EQUIPA-->
 	<div class="modal fade" id="LeaveTeam" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" ng-controller="LeaveTeam">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -189,4 +190,48 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- MODAL DE MUDAR EMBLEMA DA EQUIPA-->
+	<div class="modal fade" id="emblemadaequipa" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+	<div class="modal-dialog">
+		<div class="modal-content">
+		<div class="modal-header" id="modal-header1">
+			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+			<h4 class="modal-title" id="myModalLabel">Mudar emblema</h4>
+		</div>
+		<div class="modal-body" ng-controller="myCtrl">
+		<form method='post' action='/fileupload' enctype="multipart/form-data">
+        <input type='file' file-model="myFile" name='fileUploaded'>
+		<input class="btn btn-primary" type="submit"  ng-click="uploadFile()" value="Submeter" />		
+		</form>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+		</div>
+		</div>
+	</div>
+	</div>
+	
+	<!-- MODAL DE MUDAR NOME DA EQUIPA-->
+	<div class="modal fade" id="nomedaequipa" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" ng-controller="EditName">
+	<div class="modal-dialog">
+		<div class="modal-content">
+		<div class="modal-header" id="modal-header2">
+			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+			<h4 class="modal-title" id="myModalLabel">Mudar nome da equipa</h4>
+		</div>
+		<div class="modal-body">
+			<form id="editName1" ng-submit="submit1()">
+			<input type="text" class="form-control" ng-model="input1"  placeholder="Nome da equipa" />
+			<br>
+			<input class="btn btn-primary" type="submit" id="submit1" value="Submeter" />
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+		</div>
+		</div>
+	</div>
+	</div>
+	
 </div>

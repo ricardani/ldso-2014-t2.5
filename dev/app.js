@@ -4,7 +4,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var busboy = require('connect-busboy');
+var fs = require('fs-extra'); 
 //sha256
 var crypto = require('crypto');
 
@@ -45,6 +46,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(busboy());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
@@ -814,6 +816,54 @@ app.post('/api/delete-team', function (request, response) {
 });
 
 
+app.post('/api/update-teamname', function(request, response) {
+	var name = request.param("name")
+    var teamid = request.param("teamid")
+	
+	pg.connect(conString, function(err, client, done) {
+		client.query('UPDATE team SET name = $1 WHERE id = $2',
+			[name,teamid],function(err, result) {
+            done();
+			if(err) 
+			{ console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+		});
+	});
+});
+
+app.post('/api/update-teamimg', function(request, response) {
+	var img = request.param("img")
+    var teamid = request.param("teamid")
+	
+	pg.connect(conString, function(err, client, done) {
+		client.query('UPDATE team SET img = $1 WHERE id = $2',
+			[img,teamid],function(err, result) {
+            done();
+			if(err) 
+			{ console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+		});
+	});
+});
+
+app.post('/fileupload', function(req, res) {
+    var fstream;
+    req.pipe(req.busboy);
+    req.busboy.on('file', function (fieldname, file, filename) {
+        console.log("Uploading: " + filename);
+		if(filename){
+        fstream = fs.createWriteStream(__dirname + '/public/img/upload/' + filename);
+        file.pipe(fstream);
+        fstream.on('close', function () {
+            //res.end();
+        });}
+		else{
+		res.end();
+		}
+    });
+});	
 
 // ====================================================================================
 

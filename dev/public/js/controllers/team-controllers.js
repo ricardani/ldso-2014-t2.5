@@ -90,3 +90,49 @@ teamControllers.controller('LeaveTeam', function ($scope, $window, $location, $h
 		
 		};
 });
+
+
+teamControllers.controller('EditName', function ($scope, $window, $location, $http) {
+	 $scope.submit1 = function() {
+
+		$http({url: '/api/update-teamname', method: 'POST', params: {'name': $scope.input1, 'teamid': $scope.teamID}})
+        .success(function (data, status, headers, config) {
+			console.log("Update team name with : " + $scope.input1 + " -> " + $scope.teamID);
+        }).error(function (data, status, headers, config) {
+            console.log(data);
+        });
+				window.location.reload();
+      };
+	
+});
+
+teamControllers.directive('fileModel', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+
+            element.bind('change', function () {
+                scope.$apply(function () {
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
+}]);
+
+
+teamControllers.controller('myCtrl', ['$scope', '$http', function($scope, $http){
+    
+	$scope.uploadFile = function() {
+		$http({url: '/api/update-teamimg', method: 'POST', params: {'img': $scope.myFile.name, 'teamid': $scope.teamID}})
+        .success(function (data, status, headers, config) {
+			console.log("Update team img with : " + $scope.myFile.name + " -> " + $scope.teamID);
+        }).error(function (data, status, headers, config) {
+            console.log(data);
+        });
+		
+    };
+    
+}]);

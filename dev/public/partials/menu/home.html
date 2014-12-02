@@ -3,7 +3,7 @@
 
         <li ng-repeat="team in teams" style="text-align: center;">
             <a data-toggle="tab" href="/teamStats/home#{{team.id}}">
-				<img ng-src="{{team.img}}" class="img-rounded" style="height:155px;">
+				<img ng-src="/img/{{team.img}}" src="" onError="this.onerror=null;this.src='img/default/team.jpg';" class="img-rounded" style="height:155px;">
 				<h3>{{team.name}}</h3>				
 			</a>
         </li>
