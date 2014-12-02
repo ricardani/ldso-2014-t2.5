@@ -23,7 +23,7 @@ var pg = require("pg");
 //conString -> pg://username:password@server:port/database
 //var conString = "postgres://ohvgctbdgijnjk:MYqBzVTqdaUn-6hjEXgsZxlJlo@ec2-54-235-99-46.compute-1.amazonaws.com:5432/ddphlm2hsa5h6a"; //Ligação à base de dados no Heroku
 //var conString = "postgres://postgres:postgres@localhost:5432/team_stats";
-var conString = "postgres://ldso:ldso@localhost:5432/team_stats";
+var conString = "postgres://postgres:48461245@localhost:5432/team_stats";
 
 
 var port     = process.env.PORT || 3000; // set our port
@@ -775,41 +775,38 @@ app.post('/api/leave-team', function (request, response) {
 		if (err)
 		{ console.error(err); response.json(err); }
 		else
-		{response.send(result) }
-		});
-    });
-});
-
-app.post('/api/delete-team', function (request, response) {
-
-	var teamID = request.param("teamID")
-        
-    pg.connect(conString, function(err, client, done) {
-        client.query('SELECT COUNT(*) FROM login_team ' +
-			'WHERE id_team = $1',[teamID], function(err, result) {
-		done();
-		if (err)
-		{ console.error(err); response.json(err); }
-		else{
-			if(result.rows[0].count == 0){
-				client.query('DELETE FROM team ' +
-				'WHERE id_team = $1',[teamID], function(err, result) {
-				done();
-				if (err)
-				{ console.error(err); response.json(err); }
-				else
-				{
-					client.query('DELETE FROM team_player ' +
-						'WHERE id_team = $1',[teamID], function(err, result) {
+		{
+			client.query('SELECT COUNT(*) FROM login_team WHERE id_team = $1',[teamID], function(err, result) {
+			done();
+			if (err)
+			{ console.error(err); response.json(err); }
+			else{
+				if(result.rows[0].count == 0){
+					client.query('DELETE FROM team WHERE id = $1',[teamID], function(err, result) {
 					done();
 					if (err)
 					{ console.error(err); response.json(err); }
 					else
-					{response.send(result) }
-					});
+					{
+						client.query('DELETE FROM player WHERE id IN ' + 
+						'(SELECT id FROM player LEFT JOIN team_player ON player.id = team_player.id_player WHERE id_team IS NULL)'
+						,[], function(err, result) {
+						done();
+						if (err)
+						{ console.error(err); response.json(err); }
+						else
+						{
+							response.send(result) 
+						}
+						});
+					}
+					});				
 				}
-				});				
+				else{
+					response.send(result) 
+				}
 			}
+			});
 		}
 		});
     });
@@ -860,7 +857,7 @@ app.post('/fileupload', function(req, res) {
             //res.end();
         });}
 		else{
-		res.end();
+		//res.end();
 		}
     });
 });	
