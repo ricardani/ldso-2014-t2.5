@@ -23,7 +23,7 @@ var pg = require("pg");
 //conString -> pg://username:password@server:port/database
 //var conString = "postgres://ohvgctbdgijnjk:MYqBzVTqdaUn-6hjEXgsZxlJlo@ec2-54-235-99-46.compute-1.amazonaws.com:5432/ddphlm2hsa5h6a"; //Ligação à base de dados no Heroku
 //var conString = "postgres://postgres:postgres@localhost:5432/team_stats";
-var conString = "postgres://ldso:ldso@localhost:5432/team_stats";
+var conString = "postgres://postgres:48461245@localhost:5432/team_stats";
 
 
 var port     = process.env.PORT || 3000; // set our port
@@ -631,7 +631,7 @@ app.post('/api/insert-dynamicLine', function (request, response) {
 });
 
 app.post('/api/update-playerImg', function(request, response) {
-	var playerID = request.param("playerid")
+	var playerID = request.param("playerID")
     var img = request.param("img")
 	
 	pg.connect(conString, function(err, client, done) {
@@ -813,7 +813,6 @@ app.post('/api/leave-team', function (request, response) {
 });
 
 
-
 app.post('/api/update-teamname', function(request, response) {
 	var name = request.param("name")
     var teamid = request.param("teamid")
@@ -846,56 +845,22 @@ app.post('/api/update-teamimg', function(request, response) {
 	});
 });
 
-app.post('/team-emblem-upload', function(req, res) {
-	var teamid;
+app.post('/fileupload', function(req, res) {
     var fstream;
-	
     req.pipe(req.busboy);
-	req.busboy.on('field', function(fieldname, val) {
-    console.log(fieldname, val);
-	teamid = val;});
-	
-    req.busboy.on('file', function (fieldname, file, filename) {
-        console.log("Uploading: " + filename);
-		console.log("aadasasf: " + teamid);
-		if(filename){
-		var str = filename.split(".");
-		var extension = str[str.length -1];
-        fstream = fs.createWriteStream(__dirname + '/public/img/uploadteam/' + teamid + '.' + extension);
-        file.pipe(fstream);
-        fstream.on('close', function () {
-		res.redirect('../#/teamStats/my_team/' + teamid);
-        });}
-		else{
-		res.redirect('../#/teamStats/my_team/' + teamid);
-		}
-    });
-});
-
-app.post('/player-image-upload', function(req, res) {
-	var playerid;
-    var fstream;
-	
-	req.pipe(req.busboy);
-	req.busboy.on('field', function(fieldname, val) {
-    console.log(fieldname, val);
-	playerid = val;});
-    
     req.busboy.on('file', function (fieldname, file, filename) {
         console.log("Uploading: " + filename);
 		if(filename){
-		var str = filename.split(".");
-		var extension = str[str.length -1];
-        fstream = fs.createWriteStream(__dirname + '/public/img/uploadplayer/' + playerid + '.' + extension);
+        fstream = fs.createWriteStream(__dirname + '/public/img/upload/' + filename);
         file.pipe(fstream);
         fstream.on('close', function () {
-		res.redirect('../#/teamStats/player/' + playerid);
+            //res.end();
         });}
 		else{
-		res.redirect('../#/teamStats/player/' + playerid);
+		//res.end();
 		}
     });
-});		
+});	
 
 // ====================================================================================
 

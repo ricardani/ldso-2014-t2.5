@@ -70,11 +70,10 @@ teamControllers.controller('LeaveTeam', function ($scope, $window, $location, $h
 				$( "#LeaveTeam" ).modal('hide');
 				$location.path('/teamStats/teams');
 			}
-		})
-		.error(function (data, status, headers, config) {
-			
+		}).error(function (data, status, headers, config) {
+			console.log(data);
 		});
-		
+	};
 });
 
 
@@ -84,12 +83,12 @@ teamControllers.controller('EditName', function ($scope, $window, $location, $ht
 		$http({url: '/api/update-teamname', method: 'POST', params: {'name': $scope.input1, 'teamid': $scope.teamID}})
         .success(function (data, status, headers, config) {
 			console.log("Update team name with : " + $scope.input1 + " -> " + $scope.teamID);
-        }).error(function (data, status, headers, config) {
+        })
+.error(function (data, status, headers, config) {
             console.log(data);
         });
 				window.location.reload();
       };
-	
 });
 
 teamControllers.directive('fileModel', ['$parse', function ($parse) {
@@ -112,12 +111,9 @@ teamControllers.directive('fileModel', ['$parse', function ($parse) {
 teamControllers.controller('myCtrl', ['$scope', '$http', function($scope, $http){
     
 	$scope.uploadFile = function() {
-		var str = $scope.myFile.name.split(".");
-		var extension = str[str.length -1];
-		var img = $scope.teamID + "." + extension;
-		$http({url: '/api/update-teamimg', method: 'POST', params: {'img': img, 'teamid': $scope.teamID}})
+		$http({url: '/api/update-teamimg', method: 'POST', params: {'img': $scope.myFile.name, 'teamid': $scope.teamID}})
         .success(function (data, status, headers, config) {
-			console.log("Update team img with : " + img + " -> " + $scope.teamID);
+			console.log("Update team img with : " + $scope.myFile.name + " -> " + $scope.teamID);
         }).error(function (data, status, headers, config) {
             console.log(data);
         });
