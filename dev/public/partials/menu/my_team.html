@@ -2,7 +2,7 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-			<img ng-src="/img/uploadteam/{{teamInfo.img}}" src="" onError="this.onerror=null;this.src='img/default/team.jpg';" style="height:155px;"/>
+			<img ng-src="/img/upload/{{teamInfo.img}}" src="" onError="this.onerror=null;this.src='img/default/team.jpg';" style="height:155px;"/>
 			<h2 >{{teamInfo.name}}</h2>
 	</div>
 </div>
@@ -84,10 +84,21 @@
 								<input type="date" class="form-control" id="birth" placeholder="Data de Nascimento" ng-model="player.birth"><br>
 								Número de telefone
 								<input type="text" class="form-control" id="phone" placeholder="Telefone" ng-model="player.phone"><br>
-								<button class="btn btn-primary" ng-click="addPlayer()">Adicionar Jogador</button>
-								<br>
-								<br>
+								<button class="btn btn-primary" ng-click="addPlayer()">Adicionar Jogador</button>								
 							</form>
+							<form novalidate class="simple-form" ><br>
+							<h3>Jogadores já existentes </h3>	
+								<div class="row">
+									<div ng-repeat="p in userPlayers" >
+										<div class="col-md-6">
+											{{p.name}}<br><input type="checkbox" id="{{p.id}}" ng-model="check">
+										</div>
+									</div>
+								</div>
+								<br>
+								<button class="btn btn-primary" ng-click="addExistingPlayer()">Adicionar Jogadores</button>	
+							</form>
+							<br>
 						</div>
 					</div>
 					</div>
@@ -224,7 +235,7 @@
 		</div>
 		<div class="modal-body">
 			<form id="editName1" ng-submit="submit1()">
-			<input type="text" class="form-control" ng-model="input1"  placeholder="Nome da equipa" required/>
+			<input type="text" class="form-control" ng-model="input1"  placeholder="Nome da equipa" />
 			<br>
 			<input class="btn btn-primary" type="submit" id="submit1" value="Submeter" />
 			</form>

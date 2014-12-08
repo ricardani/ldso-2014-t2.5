@@ -1,7 +1,21 @@
 var teamControllers = angular.module('teamControllers', []);
 
 teamControllers.controller('AddPlayer', function ($scope, $http, $window, $location, $rootScope) {
-		
+	$http({url: '/api/get-userPlayers', method: 'GET', params: {'teamID': $scope.teamID}})
+		.success(function (data, status, headers, config) {
+			console.log(data);
+			if (data.name === 'error') {      
+				$rootScope.alert = 'error';
+			} else {
+				$scope.userPlayers = data;
+				$rootScope.alert = 'success';
+			}
+		})
+		.error(function (data, status, headers, config) {
+			$rootScope.alert = 'error';
+		});
+
+	
     $scope.addPlayer = function () {
 		$scope.TeamInfo =
 		{
@@ -12,6 +26,38 @@ teamControllers.controller('AddPlayer', function ($scope, $http, $window, $locat
 		};
 	
 		$http.post('/api/insert-player', $scope.TeamInfo)
+			.success(function (data, status, headers, config) {
+				console.log(data);
+				if (data.name === 'error') {      
+					$rootScope.alert = 'error';
+				} else {
+					$rootScope.alert = 'success';
+					$( ".modal-backdrop" ).remove();
+					$( "#AddPlayerModal" ).modal('hide');
+					var temp = {
+						id: data[0].id,
+						name: $scope.TeamInfo.name
+					};
+					$scope.players.push(temp);
+				}
+			})
+			.error(function (data, status, headers, config) {
+				$rootScope.alert = 'error';
+			});
+	};
+	
+	 $scope.addExistingPlayer = function () {
+		$scope.TeamInfo =
+		{
+			playerIDs : [],
+			teamID : $scope.teamID
+		};
+		for(var i = 0; i < $scope.userPlayers.length ; ++i){
+			if(document.getElementById($scope.userPlayers[i].id).checked){
+				$scope.TeamInfo.playerIDs.push($scope.userPlayers[i]);
+			}
+		}
+		$http.post('/api/insert-existing-player', $scope.TeamInfo)
 			.success(function (data, status, headers, config) {
 				console.log(data);
 				if (data.name === 'error') {      
@@ -70,8 +116,9 @@ teamControllers.controller('LeaveTeam', function ($scope, $window, $location, $h
 				$( "#LeaveTeam" ).modal('hide');
 				$location.path('/teamStats/teams');
 			}
-		}).error(function (data, status, headers, config) {
-			console.log(data);
+		})
+		.error(function (data, status, headers, config) {
+			
 		});
 	};
 });
@@ -83,12 +130,12 @@ teamControllers.controller('EditName', function ($scope, $window, $location, $ht
 		$http({url: '/api/update-teamname', method: 'POST', params: {'name': $scope.input1, 'teamid': $scope.teamID}})
         .success(function (data, status, headers, config) {
 			console.log("Update team name with : " + $scope.input1 + " -> " + $scope.teamID);
-        })
-.error(function (data, status, headers, config) {
+        }).error(function (data, status, headers, config) {
             console.log(data);
         });
 				window.location.reload();
       };
+	
 });
 
 teamControllers.directive('fileModel', ['$parse', function ($parse) {

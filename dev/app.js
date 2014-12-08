@@ -22,8 +22,8 @@ var pg = require("pg");
 
 //conString -> pg://username:password@server:port/database
 //var conString = "postgres://ohvgctbdgijnjk:MYqBzVTqdaUn-6hjEXgsZxlJlo@ec2-54-235-99-46.compute-1.amazonaws.com:5432/ddphlm2hsa5h6a"; //Ligação à base de dados no Heroku
-var conString = "postgres://postgres:festas@localhost:5432/team_stats";
-//var conString = "postgres://ldso:ldso@localhost:5432/team_stats";
+//var conString = "postgres://postgres:postgres@localhost:5432/team_stats";
+var conString = "postgres://postgres:48461245@localhost:5432/team_stats";
 
 
 var port     = process.env.PORT || 3000; // set our port
@@ -135,7 +135,7 @@ app.get('/api/get-userinfo', function (request, response) {
 app.get('/api/get-userprofile', function (request, response) {
 
     pg.connect(conString, function(err, client, done) {
-        client.query('SELECT id, firstname, lastname, email, img FROM login Where id = $1', [request.user.id] ,function(err, result) {
+        client.query('SELECT firstname, lastname, email FROM login Where id = $1', [request.user.id] ,function(err, result) {
             done();
             if (err)
             { console.error(err); response.send("Error " + err); }
@@ -198,8 +198,8 @@ app.post('/api/insert-teamstaff', function (request, response) {
 
     pg.connect(conString, function(err, client, done) {
         client.query('INSERT INTO login_team(id_login, id_team) VALUES '+
-                    '((SELECT id FROM login WHERE email = $1),(SELECT id FROM team '+
-                    'WHERE name = $2))', [email, name] ,function(err, result) {
+					'((SELECT id FROM login WHERE email = $1),(SELECT id FROM team '+
+					'WHERE name = $2))', [email, name] ,function(err, result) {
             done();
             if (err)
             { console.error(err); response.send("Error " + err); }
@@ -299,6 +299,33 @@ app.get('/api/get-teamsStatsLine', function (request, response) {
         });
     });
 
+});
+
+app.post('/api/insert-team', function (request, response) {
+    
+    var name = request.param("name");
+    var img = request.param("img");
+        
+    pg.connect(conString, function(err, client, done) {
+        client.query('INSERT INTO team(name, img) VALUES($1,$2) RETURNING id', 
+        [name,img], function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.json(err); }
+            else
+            {	var Team = result.rows;
+				client.query('INSERT INTO login_team(id_login,id_team) VALUES($1,$2)',
+				[request.user.id,result.rows[0].id],
+				function(err, result) {
+					done();
+					if (err)
+					{ console.error(err); response.json(err); }
+					else
+					{ response.send(Team) }
+				}
+			)}
+        });
+    });
 });
 
 // ================================================== Player Page ==================================================
@@ -631,35 +658,35 @@ app.post('/api/insert-dynamicLine', function (request, response) {
 });
 
 app.post('/api/update-playerImg', function(request, response) {
-    var playerID = request.param("playerid")
+	var playerID = request.param("playerID")
     var img = request.param("img")
-    
-    pg.connect(conString, function(err, client, done) {
-        client.query('UPDATE player SET img = $1 WHERE id = $2',
-            [img,playerID],function(err, result) {
+	
+	pg.connect(conString, function(err, client, done) {
+		client.query('UPDATE player SET img = $1 WHERE id = $2',
+			[img,playerID],function(err, result) {
             done();
-            if(err) 
-            { console.error(err); response.send("Error " + err); }
+			if(err) 
+			{ console.error(err); response.send("Error " + err); }
             else
             { response.send(result.rows); }
-        });
-    });
+		});
+	});
 });
 
 app.post('/api/update-profilename', function(request, response) {
-    var fname = request.param("fname")
+	var fname = request.param("fname")
     var lname = request.param("lname")
-    
-    pg.connect(conString, function(err, client, done) {
-        client.query('UPDATE login SET firstname = $1, lastname = $2 WHERE id = $3',
-            [fname,lname,request.user.id],function(err, result) {
+	
+	pg.connect(conString, function(err, client, done) {
+		client.query('UPDATE login SET firstname = $1, lastname = $2 WHERE id = $3',
+			[fname,lname,request.user.id],function(err, result) {
             done();
-            if(err) 
-            { console.error(err); response.send("Error " + err); }
+			if(err) 
+			{ console.error(err); response.send("Error " + err); }
             else
             { response.send(result.rows); }
-        });
-    });
+		});
+	});
 });
 
 app.post('/api/update-profileemail', function(request, response) {
@@ -685,14 +712,13 @@ app.post('/api/update-profileImg', function(request, response) {
         client.query('UPDATE login SET img = $1 WHERE id = $2',
             [img,id],function(err, result) {
             done();
-            if(err) 
-            { console.error(err); response.send("Error " + err); }
+			if(err) 
+			{ console.error(err); response.send("Error " + err); }
             else
             { response.send(result.rows); }
-        });
-    });
+		});
+	});
 });
-
 // ==================================================================================================================================
 // ===================================================  Team Page  ==================================================================
 
@@ -701,7 +727,7 @@ app.post('/api/insert-player', function (request, response) {
     var name = request.body.name;
     var birth = request.body.birth;
     var phone = request.body.phone;
-    var teamID = request.body.teamID;
+	var teamID = request.body.teamID;
         
     pg.connect(conString, function(err, client, done) {
         client.query('INSERT INTO player(name, birth_date, phone) VALUES($1,$2,$3) RETURNING id', 
@@ -710,19 +736,40 @@ app.post('/api/insert-player', function (request, response) {
             if (err)
             { console.error(err); response.json(err); }
             else
-            {   var Player = result.rows;
-                client.query('INSERT INTO team_player(id_team,id_player) VALUES($1,$2)',
-                [teamID,result.rows[0].id],
-                function(err, result) {
-                    done();
-                    if (err)
-                    { console.error(err); response.json(err); }
-                    else
-                    { response.send(Player) }
-                }
-            )}
+            {	var Player = result.rows;
+				client.query('INSERT INTO team_player(id_team,id_player) VALUES($1,$2)',
+				[teamID,result.rows[0].id],
+				function(err, result) {
+					done();
+					if (err)
+					{ console.error(err); response.json(err); }
+					else
+					{ response.send(Player) }
+				}
+			)}
         });
     });
+});
+
+app.post('/api/insert-existing-player', function (request, response) {
+    
+    var IDs = request.body.playerIDs;
+	var teamID = request.body.teamID;
+        
+	for (var i = 0; i < IDs.length ; ++i){		
+		pg.connect(conString, function(err, client, done) {
+			client.query('INSERT INTO team_player(id_team,id_player) VALUES($1,$2)',
+			[teamID,IDs[i].id],
+			function(err, result) {
+				done();
+				if (err)
+				{ console.error(err); response.json(err); }
+				else{ }
+				}
+			)
+		});
+	}
+	response.send(result);
 });
 
 app.get('/api/get-teamInfo', function (request, response) {
@@ -748,11 +795,11 @@ app.get('/api/get-teamPlayers', function (request, response) {
 
     pg.connect(conString, function(err, client, done) {
         client.query('SELECT player.* ' +
-            'FROM login_team, team_player, player ' +
-            'WHERE login_team.id_login = $1 ' +
-            'AND login_team.id_team = $2 ' +
-            'AND team_player.id_team = $2 ' +
-            'AND team_player.id_player = player.id', [request.user.id, teamID] ,function(err, result) {
+			'FROM login_team, team_player, player ' +
+			'WHERE login_team.id_login = $1 ' +
+			'AND login_team.id_team = $2 ' +
+			'AND team_player.id_team = $2 ' +
+			'AND team_player.id_player = player.id', [request.user.id, teamID] ,function(err, result) {
             done();
             if (err)
             { console.error(err); response.send("Error " + err); }
@@ -764,13 +811,13 @@ app.get('/api/get-teamPlayers', function (request, response) {
 
 app.get('/api/get-teamStaff', function (request, response) {
 
-    var teamID = request.param("teamID")
+	var teamID = request.param("teamID")
 
     pg.connect(conString, function(err, client, done) {
         client.query('SELECT login.* ' +
-                'FROM login, login_team ' +
-                'WHERE login_team.id_team = $1 ' +
-                'AND login_team.id_login = login.id',[teamID],function(err, result) {
+				'FROM login, login_team ' +
+				'WHERE login_team.id_team = $1 ' +
+				'AND login_team.id_login = login.id',[teamID],function(err, result) {
             done();
             if (err)
             { console.error(err); response.send("Error " + err); }
@@ -783,52 +830,51 @@ app.get('/api/get-teamStaff', function (request, response) {
 
 app.post('/api/leave-team', function (request, response) {
 
-    var teamID = request.param("teamID")
+	var teamID = request.param("teamID")
         
     pg.connect(conString, function(err, client, done) {
         client.query('DELETE FROM login_team ' +
-            'WHERE id_login = $1 AND id_team = $2',[request.user.id,teamID], function(err, result) {
-        done();
-        if (err)
-        { console.error(err); response.json(err); }
-        else
-        {
-            client.query('SELECT COUNT(*) FROM login_team WHERE id_team = $1',[teamID], function(err, result) {
-            done();
-            if (err)
-            { console.error(err); response.json(err); }
-            else{
-                if(result.rows[0].count == 0){
-                    client.query('DELETE FROM team WHERE id = $1',[teamID], function(err, result) {
-                    done();
-                    if (err)
-                    { console.error(err); response.json(err); }
-                    else
-                    {
-                        client.query('DELETE FROM player WHERE id IN ' + 
-                        '(SELECT id FROM player LEFT JOIN team_player ON player.id = team_player.id_player WHERE id_team IS NULL)'
-                        ,[], function(err, result) {
-                        done();
-                        if (err)
-                        { console.error(err); response.json(err); }
-                        else
-                        {
-                            response.send(result) 
-                        }
-                        });
-                    }
-                    });             
-                }
-                else{
-                    response.send(result) 
-                }
-            }
-            });
-        }
-        });
+			'WHERE id_login = $1 AND id_team = $2',[request.user.id,teamID], function(err, result) {
+		done();
+		if (err)
+		{ console.error(err); response.json(err); }
+		else
+		{
+			client.query('SELECT COUNT(*) FROM login_team WHERE id_team = $1',[teamID], function(err, result) {
+			done();
+			if (err)
+			{ console.error(err); response.json(err); }
+			else{
+				if(result.rows[0].count == 0){
+					client.query('DELETE FROM team WHERE id = $1',[teamID], function(err, result) {
+					done();
+					if (err)
+					{ console.error(err); response.json(err); }
+					else
+					{
+						client.query('DELETE FROM player WHERE id IN ' + 
+						'(SELECT id FROM player LEFT JOIN team_player ON player.id = team_player.id_player WHERE id_team IS NULL)'
+						,[], function(err, result) {
+						done();
+						if (err)
+						{ console.error(err); response.json(err); }
+						else
+						{
+							response.send(result) 
+						}
+						});
+					}
+					});				
+				}
+				else{
+					response.send(result) 
+				}
+			}
+			});
+		}
+		});
     });
 });
-
 
 
 app.post('/api/update-teamname', function(request, response) {
@@ -973,3 +1019,5 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+
