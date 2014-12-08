@@ -1,9 +1,11 @@
-<div class="col-md-4 col-md-push-4">
-    <img ng-src="img/avatars/mourinho.png" class="img-circle">
-    <h1>Team Stats</h1>
+<div class="col-md-6 " ng-controller="myCtrl2">
+	<img ng-src="/img/uploadlogin/{{login.img}}" class="img-circle" onError="this.onerror=null;this.src='img/default/player.png';" style="height:200px;"/>
+    
+	
+	
 </div>
 
-<div class="col-md-6 col-md-push-2" ng-controller="ProfileController">
+<div class="col-md-6" ng-controller="ProfileController">
     <br>
     <div class="form-group" style="width:100%">
         <button type="button" disabled class="btn btn-primary col-xs-12 col-sm-8 col-md-3">Nome</button>
@@ -20,6 +22,7 @@
     <br><br>
 
     <div class="btn-group pull-right">
+		<button type="button" class="btn btn-primary " data-toggle="modal" data-target="#alterarImg">Alterar imagem </button>
         <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#myModal1">Alterar nome</button>  
 		<button type="button" class="btn btn-primary " data-toggle="modal" data-target="#myModal2">Alterar email</button>
     </div>
@@ -73,100 +76,56 @@
 	</div>
 	</div>
 	
+			<!-- MODAL DE MUDAR IMAGEM DO PERFIL-->
+	<div class="modal fade" id="alterarImg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+	<div class="modal-dialog">
+		<div class="modal-content">
+		<div class="modal-header" id="modal-header1">
+			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+			<h4 class="modal-title" id="myModalLabel">Mudar imagem</h4>
+		</div>
+		<div class="modal-body" ng-controller="myCtrl2">
+		<form method='post' action='/login-image-upload' enctype="multipart/form-data">
+		<input type='hidden' name ="profileid" value="{{login.id}}">
+        <input type='file' class="form-control input-lg" file-model="myFile" name='fileUploaded' required>
+		<br>
+		<input class="btn btn-primary" type="submit"  ng-click="uploadFile()" value="Submeter" />		
+		</form>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+		</div>
+		</div>
+	</div>
+	</div>
+	
 </div>
 
-<div class="col-xs-12">
-    <ul class="timeline">
-        <li>
-            <div class="timeline-badge"><i class="glyphicon glyphicon-check"></i></div>
-            <div class="timeline-panel">
-                <div class="timeline-heading">
-                    <h4 class="timeline-title">Mussum ipsum cacilds</h4>
-                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> 11 hours ago via Twitter</small></p>
-                </div>
-                <div class="timeline-body">
-                    <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
-                </div>
-            </div>
-        </li>
-        <li class="timeline-inverted">
-            <div class="timeline-badge warning"><i class="glyphicon glyphicon-credit-card"></i></div>
-            <div class="timeline-panel">
-                <div class="timeline-heading">
-                    <h4 class="timeline-title">Mussum ipsum cacilds</h4>
-                </div>
-                <div class="timeline-body">
-                    <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
-                    <p>Suco de cevadiss, é um leite divinis, qui tem lupuliz, matis, aguis e fermentis. Interagi no mé, cursus quis, vehicula ac nisi. Aenean vel dui dui. Nullam leo erat, aliquet quis tempus a, posuere ut mi. Ut scelerisque neque et turpis posuere pulvinar pellentesque nibh ullamcorper. Pharetra in mattis molestie, volutpat elementum justo. Aenean ut ante turpis. Pellentesque laoreet mé vel lectus scelerisque interdum cursus velit auctor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac mauris lectus, non scelerisque augue. Aenean justo massa.</p>
-                </div>
-            </div>
-        </li>
-        <li>
-            <div class="timeline-badge danger"><i class="glyphicon glyphicon-credit-card"></i></div>
-            <div class="timeline-panel">
-                <div class="timeline-heading">
-                    <h4 class="timeline-title">Mussum ipsum cacilds</h4>
-                </div>
-                <div class="timeline-body">
-                    <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
-                </div>
-            </div>
-        </li>
-        <li class="timeline-inverted">
-            <div class="timeline-panel">
-                <div class="timeline-heading">
-                    <h4 class="timeline-title">Mussum ipsum cacilds</h4>
-                </div>
-                <div class="timeline-body">
-                    <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
-                </div>
-            </div>
-        </li>
-        <li>
-            <div class="timeline-badge info"><i class="glyphicon glyphicon-floppy-disk"></i></div>
-            <div class="timeline-panel">
-                <div class="timeline-heading">
-                    <h4 class="timeline-title">Mussum ipsum cacilds</h4>
-                </div>
-                <div class="timeline-body">
-                    <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
-                    <hr>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
-                            <i class="glyphicon glyphicon-cog"></i> <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </li>
-        <li>
-            <div class="timeline-panel">
-                <div class="timeline-heading">
-                    <h4 class="timeline-title">Mussum ipsum cacilds</h4>
-                </div>
-                <div class="timeline-body">
-                    <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
-                </div>
-            </div>
-        </li>
-        <li class="timeline-inverted">
-            <div class="timeline-badge success"><i class="glyphicon glyphicon-thumbs-up"></i></div>
-            <div class="timeline-panel">
-                <div class="timeline-heading">
-                    <h4 class="timeline-title">Mussum ipsum cacilds</h4>
-                </div>
-                <div class="timeline-body">
-                    <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
-                </div>
-            </div>
-        </li>
-    </ul>
+
+<br><br>
+<div class="col-xs-12" ng-controller= "UserTeamsCtrl">
+<br>
+<br>
+
+<br><br>
+<br><br>
+<h3><strong><em>Equipas a Treinar</em></strong></h3>
+<br>
+	<div class="row">
+		<div ng-repeat="team in teams" >
+			<div class="col-lg-2 col-md-6">
+				<div class="input-group">
+					<a href="#/teamStats/my_team/{{team.id}}">
+						<img ng-src="/img/uploadteam/{{team.img}}" id="{{team.id}}" src="" onError="this.onerror=null;this.src='img/default/team.jpg';" style="height:75px;">
+						<h3> {{team.name}}</h3>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+		<br><br><br>
+
+		</div>
+	</div>
 </div>
 

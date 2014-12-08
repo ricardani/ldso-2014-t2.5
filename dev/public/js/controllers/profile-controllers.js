@@ -38,3 +38,56 @@ profileControllers.controller('ProfileController', function ($scope, $http) {
 });
 
 
+profileControllers.directive('fileModel', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+
+            element.bind('change', function () {
+                scope.$apply(function () {
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
+}]);
+
+
+profileControllers.controller('myCtrl2', ['$scope', '$http', function($scope, $http){
+    
+		
+    $http({url: '/api/get-userprofile', method: 'GET'})
+        .success(function (data, status, headers, config) {
+            $scope.login = data[0];
+        }).error(function (data, status, headers, config) {
+            console.log(data);
+        });
+	
+	$scope.uploadFile = function() {
+	var str = $scope.myFile.name.split(".");
+		var extension = str[str.length -1];
+		var img = $scope.login.id + "." + extension;
+		$http({url: '/api/update-profileImg', method: 'POST', params: {'img': img, 'id': $scope.login.id}})
+        .success(function (data, status, headers, config) {
+			console.log("Update login img with : " + img);
+        }).error(function (data, status, headers, config) {
+            console.log(data);
+        });
+		
+    };
+    
+}]);
+
+
+profileControllers.controller('ProfileTeamController', function ($scope, $http) {
+	
+    $http({url: '/api/get-teams', method: 'GET'})
+        .success(function (data, status, headers, config) {
+            $scope.profile = data[0];
+        }).error(function (data, status, headers, config) {
+            console.log(data);
+        });
+		
+});

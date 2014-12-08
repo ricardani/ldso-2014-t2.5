@@ -22,7 +22,7 @@ var pg = require("pg");
 
 //conString -> pg://username:password@server:port/database
 //var conString = "postgres://ohvgctbdgijnjk:MYqBzVTqdaUn-6hjEXgsZxlJlo@ec2-54-235-99-46.compute-1.amazonaws.com:5432/ddphlm2hsa5h6a"; //Ligação à base de dados no Heroku
-var conString = "postgres://ldso:ldso@localhost:5432/team_stats";
+var conString = "postgres://postgres:festas@localhost:5432/team_stats";
 //var conString = "postgres://ldso:ldso@localhost:5432/team_stats";
 
 
@@ -135,7 +135,7 @@ app.get('/api/get-userinfo', function (request, response) {
 app.get('/api/get-userprofile', function (request, response) {
 
     pg.connect(conString, function(err, client, done) {
-        client.query('SELECT firstname, lastname, email FROM login Where id = $1', [request.user.id] ,function(err, result) {
+        client.query('SELECT id, firstname, lastname, email, img FROM login Where id = $1', [request.user.id] ,function(err, result) {
             done();
             if (err)
             { console.error(err); response.send("Error " + err); }
@@ -676,6 +676,23 @@ app.post('/api/update-profileemail', function(request, response) {
         });
     });
 });
+
+app.post('/api/update-profileImg', function(request, response) {
+    var img = request.param("img")
+	var id = request.param("id")
+    
+    pg.connect(conString, function(err, client, done) {
+        client.query('UPDATE login SET img = $1 WHERE id = $2',
+            [img,id],function(err, result) {
+            done();
+            if(err) 
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
+});
+
 // ==================================================================================================================================
 // ===================================================  Team Page  ==================================================================
 
@@ -896,6 +913,31 @@ app.post('/player-image-upload', function(req, res) {
         }
     });
 });     
+
+app.post('/login-image-upload', function(req, res) {
+    var loginid;
+    var fstream;
+    
+    req.pipe(req.busboy);
+    req.busboy.on('field', function(fieldname, val) {
+    console.log(fieldname, val);
+    loginid = val;});
+    
+    req.busboy.on('file', function (fieldname, file, filename) {
+        console.log("Uploading: " + filename);
+        if(filename){
+        var str = filename.split(".");
+        var extension = str[str.length -1];
+        fstream = fs.createWriteStream(__dirname + '/public/img/uploadlogin/' + loginid + '.' + extension);
+        file.pipe(fstream);
+        fstream.on('close', function () {
+        res.redirect('../#/teamStats/profile/');
+        });}
+        else{
+        res.redirect('../#/teamStats/profile/');
+        }
+    });
+});   
 
 // ====================================================================================
 
