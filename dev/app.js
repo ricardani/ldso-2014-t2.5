@@ -754,20 +754,19 @@ app.post('/api/insert-player', function (request, response) {
 app.get('/api/get-userPlayers', function (request, response) {
 	
 	var teamID = request.param("teamID");
-        	
-		pg.connect(conString, function(err, client, done) {
-			client.query('SELECT player.* FROM player,team_player,login_team WHERE login_team.id_login = $1' +
-							'AND login_team.id_team = team_player.id_team AND team_player.id_team != $2 AND ' +
-							'team_player.id_player = player.id',
-			[request.user.id, teamID],
-			function(err, result) {
-				done();
-				if (err)
-				{ console.error(err); response.json(err); }
-				else{response.send(result.rows); }
-				}
-			)
-		});
+	pg.connect(conString, function(err, client, done) {
+		client.query('SELECT player.* FROM player,team_player,login_team WHERE login_team.id_login = $1 ' +
+						'AND login_team.id_team = team_player.id_team AND team_player.id_player = player.id ' +
+						'AND team_player.id_player NOT IN(SELECT id_player FROM login_team, team_player WHERE login_team.id_login = $1 AND login_team.id_team = $2 AND team_player.id_team = $2)',
+		[request.user.id, teamID],
+		function(err, result) {
+			done();
+			if (err)
+			{ console.error(err); response.json(err); }
+			else{response.send(result.rows); }
+			}
+		)
+	});
 	
 });
 
@@ -776,20 +775,21 @@ app.post('/api/insert-existing-player', function (request, response) {
     var IDs = request.body.playerIDs;
 	var teamID = request.body.teamID;
         
-	for (var i = 0; i < IDs.length ; ++i){		
+			
 		pg.connect(conString, function(err, client, done) {
-			client.query('INSERT INTO team_player(id_team,id_player) VALUES($1,$2)',
-			[teamID,IDs[i].id],
-			function(err, result) {
-				done();
-				if (err)
-				{ console.error(err); response.json(err); }
-				else{ }
-				}
-			)
+			for (var i = 0; i < IDs.length ; ++i){
+				client.query('INSERT INTO team_player(id_team,id_player) VALUES($1,$2)',
+				[teamID,IDs[i].id],
+				function(err, result) {
+					done();
+					if (err)
+					{ console.error(err); response.json(err); }
+					else{ }
+					}
+				)
+			}
 		});
-	}
-	response.send(result);
+		response.send("");
 });
 
 app.get('/api/get-teamInfo', function (request, response) {

@@ -59,18 +59,20 @@ teamControllers.controller('AddPlayer', function ($scope, $http, $window, $locat
 		}
 		$http.post('/api/insert-existing-player', $scope.TeamInfo)
 			.success(function (data, status, headers, config) {
-				console.log(data);
 				if (data.name === 'error') {      
 					$rootScope.alert = 'error';
 				} else {
 					$rootScope.alert = 'success';
 					$( ".modal-backdrop" ).remove();
 					$( "#AddPlayerModal" ).modal('hide');
-					var temp = {
-						id: data[0].id,
-						name: $scope.TeamInfo.name
-					};
-					$scope.players.push(temp);
+					for(var i = 0; i < $scope.TeamInfo.playerIDs.length ; ++i){
+						var temp = {
+							id: $scope.TeamInfo.playerIDs[i].id,
+							img: $scope.TeamInfo.playerIDs[i].img,
+							name: $scope.TeamInfo.playerIDs[i].name
+						};
+						$scope.players.push(temp);
+					}
 				}
 			})
 			.error(function (data, status, headers, config) {
