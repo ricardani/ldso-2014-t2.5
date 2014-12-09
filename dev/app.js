@@ -23,7 +23,7 @@ var pg = require("pg");
 //conString -> pg://username:password@server:port/database
 //var conString = "postgres://ohvgctbdgijnjk:MYqBzVTqdaUn-6hjEXgsZxlJlo@ec2-54-235-99-46.compute-1.amazonaws.com:5432/ddphlm2hsa5h6a"; //Ligação à base de dados no Heroku
 //var conString = "postgres://postgres:postgres@localhost:5432/team_stats";
-var conString = "postgres://postgres:48461245@localhost:5432/team_stats";
+var conString = "postgres://ldso:ldso@localhost:5432/team_stats";
 
 
 var port     = process.env.PORT || 3000; // set our port
@@ -749,6 +749,26 @@ app.post('/api/insert-player', function (request, response) {
 			)}
         });
     });
+});
+
+app.get('/api/get-userPlayers', function (request, response) {
+	
+	var teamID = request.param("teamID");
+        	
+		pg.connect(conString, function(err, client, done) {
+			client.query('SELECT player.* FROM player,team_player,login_team WHERE login_team.id_login = $1' +
+							'AND login_team.id_team = team_player.id_team AND team_player.id_team != $2 AND ' +
+							'team_player.id_player = player.id',
+			[request.user.id, teamID],
+			function(err, result) {
+				done();
+				if (err)
+				{ console.error(err); response.json(err); }
+				else{response.send(result.rows); }
+				}
+			)
+		});
+	
 });
 
 app.post('/api/insert-existing-player', function (request, response) {
