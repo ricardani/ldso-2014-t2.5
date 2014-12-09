@@ -2,7 +2,7 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-			<img ng-src="/img/upload/{{teamInfo.img}}" src="" onError="this.onerror=null;this.src='img/default/team.jpg';" style="height:155px;"/>
+			<img ng-src="/img/uploadteam/{{teamInfo.img}}" src="" onError="this.onerror=null;this.src='img/default/team.jpg';" style="height:155px;"/>
 			<h2 >{{teamInfo.name}}</h2>
 	</div>
 </div>
@@ -34,7 +34,7 @@
 							<div class="col-xs-4 col-sm-4 col-md-2">
 								<div class="thumbnail">
 									<a href="#/teamStats/profile/{{s.id}}">
-										<img ng-src="{{s.img}}" id="{{s.id}}" src="" onError="this.onerror=null;this.src='img/default/player.png';" style="height:155px;">
+										<img ng-src="/img/uploadlogin/{{s.img}}" id="{{s.id}}" src="" onError="this.onerror=null;this.src='img/default/player.png';" style="height:155px;">
 										<h3>  {{s.firstname}} {{s.lastname}}</h3>
 									</a>
 									</div>
@@ -59,7 +59,7 @@
 						<div class="col-xs-4 col-sm-4 col-md-2">
 							<div class="thumbnail">
 								<a href="#/teamStats/player/{{p.id}}">
-									<img ng-src="{{p.img}}" id="{{p.id}}" src="" onError="this.onerror=null;this.src='img/default/player.png';" style="height:155px;">
+									<img ng-src="/img/uploadplayer/{{p.img}}" id="{{p.id}}" src="" onError="this.onerror=null;this.src='img/default/player.png';" style="height:155px;">
 									<h3> {{p.name}}</h3>
 								</a>
 							</div>
@@ -107,76 +107,6 @@
 			</div>
 		</div>
 		</div>
-		
-	<div class="panel panel-default">
-		<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseThree">
-			<h4 class="panel-title">
-				Jogos
-				<span class="glyphicon glyphicon-arrow-down" style="float:right"></span>
-			</h4>
-		</div>
-		<div id="collapseThree" class="panel-collapse collapse">
-			<div class="panel-body">
-				<div class="row">
-					<div class="col-sm-4 col-md-4">
-						<div class="caption">
-							<h4 class="panel-title" style="text-align: center">
-							Real Madrid
-								<span class="label label-success">3 - 1</span>
-							SL Benfica
-							</h4>
-						</div>
-					</div>
-					<div class="col-sm-4 col-md-4">
-						<div class="caption">
-							<h4 class="panel-title" style="text-align: center" style="text-align: center">
-							Barcelona FC
-								<span class="label label-warning">2 - 2</span>
-							Real Madrid
-							</h4>
-						</div>
-					</div>
-					<div class="col-sm-4 col-md-4">
-						<div class="caption">
-							<h4 class="panel-title" style="text-align: center">
-							Real Madrid
-								<span class="label label-success">2 - 0</span>
-							Malaga FC
-							</h4>
-						</div>
-					</div>
-					<br><br>
-					<div class="col-sm-4 col-md-4">
-						<div class="caption">
-							<h4 class="panel-title" style="text-align: center">
-							Atlético Bilbao
-								<span class="label label-success">0 - 4</span>
-							Real Madrid
-							</h4>
-						</div>
-					</div>
-					<div class="col-sm-4 col-md-4">
-						<div class="caption">
-							<h4 class="panel-title" style="text-align: center" style="text-align: center">
-							FC Porto
-								<span class="label label-danger">3 - 2</span>
-							Real Madrid
-							</h4>
-						</div>
-					</div>
-					<div class="col-sm-4 col-md-4">
-						<div class="caption">
-							<h4 class="panel-title" style="text-align: center">
-							Real Madrid
-								<span class="label label-success">1 - 0</span>
-							Villareal FC
-							</h4>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 	</div>
 	</div>
 	<div>
