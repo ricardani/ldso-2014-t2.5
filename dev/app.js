@@ -135,7 +135,7 @@ app.get('/api/get-userinfo', function (request, response) {
 app.get('/api/get-userprofile', function (request, response) {
 
     pg.connect(conString, function(err, client, done) {
-        client.query('SELECT firstname, lastname, email FROM login Where id = $1', [request.user.id] ,function(err, result) {
+        client.query('SELECT id, firstname, lastname, email, img FROM login Where id = $1', [request.user.id] ,function(err, result) {
             done();
             if (err)
             { console.error(err); response.send("Error " + err); }
