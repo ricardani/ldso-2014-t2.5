@@ -704,13 +704,28 @@ app.post('/api/update-profileemail', function(request, response) {
     });
 });
 
+app.post('/api/update-changePW', function(request, response) {
+	var oldPW = crypto.createHash('sha256').update(request.param("oldPW")).digest("hex");
+	var newPW = crypto.createHash('sha256').update(request.param("newPW")).digest("hex");
+	
+		pg.connect(conString, function(err, client, done) {
+			client.query('UPDATE login SET password = $1 WHERE id = $2 AND password = $3',
+				[newPW,request.user.id, oldPW],function(err, result) {
+				done();
+				if(err) 
+				{ console.error(err); response.send("Error " + err); }
+				else
+				{ response.send(result); }
+			});
+		});
+});
+
 app.post('/api/update-profileImg', function(request, response) {
     var img = request.param("img")
-	var id = request.param("id")
     
     pg.connect(conString, function(err, client, done) {
         client.query('UPDATE login SET img = $1 WHERE id = $2',
-            [img,id],function(err, result) {
+            [img,request.user.id],function(err, result) {
             done();
 			if(err) 
 			{ console.error(err); response.send("Error " + err); }

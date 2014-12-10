@@ -22,7 +22,7 @@ profileControllers.controller('ProfileController', function ($scope, $http) {
 				window.location.reload();
       };
 	  
-	  $scope.submit2 = function() {
+	$scope.submit2 = function() {
 
 		$http({url: '/api/update-profileemail', method: 'POST', params: {'email': $scope.input3}})
         .success(function (data, status, headers, config) {
@@ -31,9 +31,38 @@ profileControllers.controller('ProfileController', function ($scope, $http) {
             console.log(data);
         });
 				window.location.reload();
-      };
+	};
 		
-	
+	$scope.changePassword = function() {
+		if($scope.newPW1 != $scope.newPW2){
+				document.getElementById("changePassword").innerHTML = '<div class="alert alert-danger alert-dismissible" role="alert">' +
+                '<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>'+
+                '<strong>Erro!</strong> New Password and Confirm New Password must be the same.  '+
+                '</div>';
+		}else{
+		
+			$scope.PWInfo =
+			{
+				oldPW : $scope.oldPW,
+				newPW: $scope.newPW1
+			};
+			console.log($scope.PWInfo.oldPW + " " + $scope.PWInfo.newPW)
+			$http({url: '/api/update-changePW', method: 'POST', params: {'oldPW': $scope.oldPW, 'newPW' : $scope.newPW1}})
+			.success(function (data, status, headers, config) {
+				console.log("Password Updated");
+				document.getElementById("changePassword").innerHTML = '<div class="alert alert-success alert-dismissible" role="alert">' +
+                '<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>'+
+                '<strong>Success!</strong> Password Updated Successfully.  '+
+                '</div>';
+			}).error(function (data, status, headers, config) {
+				console.log("Error Updating Password");
+				document.getElementById("changePassword").innerHTML = '<div class="alert alert-danger alert-dismissible" role="alert">' +
+                '<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>'+
+                '<strong>Erro!</strong> Old Password does not match with your current Password.  '+
+                '</div>';
+			});
+		}
+	};
 
 });
 
@@ -69,7 +98,7 @@ profileControllers.controller('myCtrl2', ['$scope', '$http', function($scope, $h
 	var str = $scope.myFile.name.split(".");
 		var extension = str[str.length -1];
 		var img = $scope.login.id + "." + extension;
-		$http({url: '/api/update-profileImg', method: 'POST', params: {'img': img, 'id': $scope.login.id}})
+		$http({url: '/api/update-profileImg', method: 'POST', params: {'img': img}})
         .success(function (data, status, headers, config) {
 			console.log("Update login img with : " + img);
         }).error(function (data, status, headers, config) {

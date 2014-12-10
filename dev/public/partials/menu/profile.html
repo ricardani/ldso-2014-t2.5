@@ -25,6 +25,7 @@
 		<button type="button" class="btn btn-primary " data-toggle="modal" data-target="#alterarImg">Alterar imagem </button>
         <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#myModal1">Alterar nome</button>  
 		<button type="button" class="btn btn-primary " data-toggle="modal" data-target="#myModal2">Alterar email</button>
+		<button type="button" class="btn btn-primary " data-toggle="modal" data-target="#myModal3">Alterar password</button>
     </div>
 	
 	<!-- Modal -->
@@ -91,6 +92,33 @@
 		<br>
 		<input class="btn btn-primary" type="submit"  ng-click="uploadFile()" value="Submeter" />		
 		</form>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+		</div>
+		</div>
+	</div>
+	</div>
+	
+	<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+		<div class="modal-header" id="modal-header2">
+			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+			<h4 class="modal-title" id="myModalLabel">Alterar password</h4>
+		</div>
+		<div class="modal-body" >
+			<form id="editProfile3" ng-submit="changePassword()">
+				<input type="password" class="form-control" ng-model="oldPW"  placeholder="Old Password" required/>
+				<br>
+				<input type="password" class="form-control" ng-model="newPW1"  placeholder="New Password" required/>
+				<br>
+				<input type="password" class="form-control" ng-model="newPW2"  placeholder="Confirm New Password" required/>
+				<br>
+				<input class="btn btn-primary" type="submit" id="submit3" value="Submeter" />
+			</form>
+			<div id="changePassword">
+			</div>
 		</div>
 		<div class="modal-footer">
 			<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
