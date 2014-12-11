@@ -77,6 +77,10 @@
 					<div id="AddPlayerModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
 					<div class="modal-dialog modal-sm">
 						<div class="modal-content" ng-controller="AddPlayer">
+						<div id="modalheader" class="modal-header">
+							<h4 class="modal-title" id="myModalLabel">Adicionar Novo Jogador</h4>
+						</div>	
+						<div class="modal-body">
 							<form novalidate class="simple-form"><br>
 								Nome do Jogador
 								<input type="text" class="form-control" id="name" placeholder="Nome" ng-model="player.name" required><br>
@@ -86,8 +90,11 @@
 								<input type="text" class="form-control" id="phone" placeholder="Telefone" ng-model="player.phone"><br>
 								<button class="btn btn-primary" ng-click="addPlayer()">Adicionar Jogador</button>								
 							</form>
+							<div id="modalheader" class="modal-header">
+								<h4 class="modal-title" id="myModalLabel">Adicionar Jogador Existente</h4>
+							</div>	
 							<form novalidate class="simple-form" ><br>
-							<h3>Jogadores já existentes </h3>	
+								
 								<div class="row">
 									<div ng-repeat="p in userPlayers" >
 										<div class="col-md-6">
@@ -99,6 +106,10 @@
 								<button class="btn btn-primary" ng-click="addExistingPlayer()">Adicionar Jogadores</button>	
 							</form>
 							<br>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+							</div>
+						</div>
 						</div>
 					</div>
 					</div>

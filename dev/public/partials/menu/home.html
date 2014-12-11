@@ -1,159 +1,176 @@
-<div class="bs-example" ng-controller="TeamsOverviewCtrl">
-    <ul class="nav nav-tabs">
-
-        <li ng-repeat="team in teams" style="text-align: center;">
-            <a data-toggle="tab" href="/teamStats/home#{{team.id}}">
-				<img ng-src="/img/uploadteam/{{team.img}}" src="" onError="this.onerror=null;this.src='img/default/team.jpg';" class="img-rounded" style="height:155px;">
-				<h3>{{team.name}}</h3>				
-			</a>
-        </li>
-
-    </ul>
-
-    <div class="tab-content">
-        <div id="{{team.id}}" class="tab-pane fade in" ng-repeat="team in teams">
-            <h3>{{team.name}}</h3>
-            <p>Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui. Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth.</p>
-
-            <h3>Últimas Competições</h3>
-            <div class="panel-group" id="accordion">
-
-                <div ng-repeat="game in games" ng-if="team.id === game.team_id">
-
-
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title" style="text-align: center">
-                                <a data-toggle="collapse" data-parent="#accordion" href="/teamStats/home#{{game.id}}">
-                                    {{game.title}}
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="{{game.id}}" class="panel-collapse collapse container-fluid">
-
-                            <div class="panel-body">
-
-                                <div class="well col-md-6"  ng-repeat="block in blocks" ng-if="game.id === block.game_id">
-                                    <div class="page-header">
-                                        <h1>{{block.title}} <small>Subtext for header</small></h1>
-
-
-                                        <div class="input-group"  ng-repeat="line in lines" ng-if="block.id === line.block" style="width: 100%">
-                                            <span class="input-group-addon" style="width: 50%;white-space: normal;">{{line.field}}</span>
-                                            <input type="text" class="form-control" value="{{line.value}}" disabled style="width: 50%">
-                                        </div>
-
-
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-
-
-                </div>
-            </div>
-
-            <h3>Estatísticas</h3>
-
-        </div>
-
-        <div id="sectionB" class="tab-pane fade">
-            <h3>Equipa B</h3>
-            <p>Vestibulum nec erat eu nulla rhoncus fringilla ut non neque. Vivamus nibh urna, ornare id gravida ut, mollis a magna. Aliquam porttitor condimentum nisi, eu viverra ipsum porta ut. Nam hendrerit bibendum turpis, sed molestie mi fermentum id. Aenean volutpat velit sem. Sed consequat ante in rutrum convallis. Nunc facilisis leo at faucibus adipiscing.</p>
-
-            <h3>Últimos jogos</h3>
-            <div class="panel-group" id="accordion2">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title" style="text-align: center">
-                            <a data-toggle="collapse" data-parent="#accordion2" href="/teamStats/home#collapseOne2">
-                                Vitória 0 - 7 SL Benfica
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseOne2" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title" style="text-align: center" style="text-align: center">
-                            <a data-toggle="collapse" data-parent="#accordion2" href="/teamStats/home#collapseTwo2" >
-                                Vitória 2 - 7 SL Benfica
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseTwo2" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title" style="text-align: center">
-                            <a data-toggle="collapse" data-parent="#accordion2" href="/teamStats/home#collapseThree2" style="text-align: center">
-                                Vitória 4 - 7 SL Benfica
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseThree2" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
-                    </div>
-                </div>
-
-                <h3>Estatísticas</h3>
-
-            </div>
-
-
-        </div>
-    </div>
-</div>
-
-<div class="jumbotron row" ng-controller="TeamsOverviewCtrl">
-		<button type="button" class="btn btn-success btn-lg btn-block" data-toggle="modal" data-target="#addStaff"">Adicionar novo membro do staff</button>
-
-		<button type="button" class="btn btn-success btn-lg btn-block" onclick="window.location.href='#/teamStats/add_team'">Adicionar nova equipa</button>
-		
-		<!-- Modal -->
-	<div class="modal fade" id="addStaff" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-		<div id="modalheader" class="modal-header">
-			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-			<h4 class="modal-title" id="myModalLabel">Adicionar staff</h4>
-		</div>
-		<div class="modal-body">
-		
-		<form id="addStaffForm"ng-submit="submit()" ng-controller="TeamsOverviewCtrl">
-			<input type="email" class="form-control" ng-model="input1"  placeholder="Email" />
-			<br>
-
-			<select form="addStaffForm"  ng-model="input2">
-				<option  ng-selected="{{team.name == input2}}" ng-repeat="team in teams" value="{{team.name}}">{{team.name}}</option>
-			</select>
-
-
-			<br><br>
-			<input class="btn btn-primary" type="submit" id="submit" value="Convidar" />
-		</form>
-		
-			
-				
-		
-		</div>
-		<div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-		</div>
+<div ng-controller="TeamsOverviewCtrl">
+	<div class="bs-example" >
+		<ul class="nav nav-tabs">
+	
+			<li ng-repeat="team in teams" style="text-align: center;">
+				<a data-toggle="tab" href="/teamStats/home#{{team.id}}">
+					<img ng-src="/img/uploadteam/{{team.img}}" src="" onError="this.onerror=null;this.src='img/default/team.jpg';" class="img-rounded" style="height:155px;">
+					<h3>{{team.name}}</h3>				
+				</a>
+			</li>
+	
+		</ul>
+	
+		<div class="tab-content">
+			<div id="{{team.id}}" class="tab-pane fade in" ng-repeat="team in teams">
+				<h3>{{team.name}}</h3>
+				<p>Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui. Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth.</p>
+	
+				<h3>Últimas Competições</h3>
+				<div class="panel-group" id="accordion">
+	
+					<div ng-repeat="game in games" ng-if="team.id === game.team_id">
+	
+	
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title" style="text-align: center">
+									<a data-toggle="collapse" data-parent="#accordion" href="/teamStats/home#{{game.id}}">
+										{{game.title}}
+									</a>
+								</h4>
+							</div>
+							<div id="{{game.id}}" class="panel-collapse collapse container-fluid">
+	
+								<div class="panel-body">
+	
+									<div class="well col-md-6"  ng-repeat="block in blocks" ng-if="game.id === block.game_id">
+										<div class="page-header">
+											<h1>{{block.title}} <small>Subtext for header</small></h1>
+	
+	
+											<div class="input-group"  ng-repeat="line in lines" ng-if="block.id === line.block" style="width: 100%">
+												<span class="input-group-addon" style="width: 50%;white-space: normal;">{{line.field}}</span>
+												<input type="text" class="form-control" value="{{line.value}}" disabled style="width: 50%">
+											</div>
+	
+	
+										</div>
+									</div>
+	
+								</div>
+	
+							</div>
+						</div>
+	
+	
+					</div>
+				</div>
+	
+				<h3>Estatísticas</h3>
+	
+			</div>
+	
+			<div id="sectionB" class="tab-pane fade">
+				<h3>Equipa B</h3>
+				<p>Vestibulum nec erat eu nulla rhoncus fringilla ut non neque. Vivamus nibh urna, ornare id gravida ut, mollis a magna. Aliquam porttitor condimentum nisi, eu viverra ipsum porta ut. Nam hendrerit bibendum turpis, sed molestie mi fermentum id. Aenean volutpat velit sem. Sed consequat ante in rutrum convallis. Nunc facilisis leo at faucibus adipiscing.</p>
+	
+				<h3>Últimos jogos</h3>
+				<div class="panel-group" id="accordion2">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title" style="text-align: center">
+								<a data-toggle="collapse" data-parent="#accordion2" href="/teamStats/home#collapseOne2">
+									Vitória 0 - 7 SL Benfica
+								</a>
+							</h4>
+						</div>
+						<div id="collapseOne2" class="panel-collapse collapse in">
+							<div class="panel-body">
+								Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+							</div>
+						</div>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title" style="text-align: center" style="text-align: center">
+								<a data-toggle="collapse" data-parent="#accordion2" href="/teamStats/home#collapseTwo2" >
+									Vitória 2 - 7 SL Benfica
+								</a>
+							</h4>
+						</div>
+						<div id="collapseTwo2" class="panel-collapse collapse">
+							<div class="panel-body">
+								Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+							</div>
+						</div>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title" style="text-align: center">
+								<a data-toggle="collapse" data-parent="#accordion2" href="/teamStats/home#collapseThree2" style="text-align: center">
+									Vitória 4 - 7 SL Benfica
+								</a>
+							</h4>
+						</div>
+						<div id="collapseThree2" class="panel-collapse collapse">
+							<div class="panel-body">
+								Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+							</div>
+						</div>
+					</div>
+	
+					<h3>Estatísticas</h3>
+	
+				</div>
+	
+	
+			</div>
 		</div>
 	</div>
+	
+	<div class="jumbotron row">
+			<button type="button" class="btn btn-success btn-lg btn-block" data-toggle="modal" data-target="#addStaff"">Adicionar novo membro do staff</button>
+	
+			<button type="button" class="btn btn-success btn-lg btn-block" onclick="window.location.href='#/teamStats/add_team'">Adicionar nova equipa</button>
+			
+			<!-- Modal -->
+		<div class="modal fade" id="addStaff" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+			<div id="modalheader" class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="myModalLabel">Adicionar staff</h4>
+			</div>
+			<div class="modal-body">
+			
+			<form id="addStaffForm"ng-submit="submit()">
+				<input type="email" class="form-control" ng-model="input1"  placeholder="Email" required/>
+				<br>
+	
+				<select form="addStaffForm"  ng-model="input2">
+					<option  ng-selected="{{team.name == input2}}" ng-repeat="team in teams" value="{{team.name}}">{{team.name}}</option>
+				</select>
+	
+	
+				<br><br>
+				<input class="btn btn-primary" type="submit" id="submit" value="Convidar" />
+			</form>
+			<div id="modalheader" class="modal-header">
+				<h4 class="modal-title" id="myModalLabel">Adicionar staff de outra Equipa</h4>
+			</div>	
+			<form id="addStaffForm">
+				<div class="row">
+					<div ng-repeat="s in userStaff" >
+						<div class="col-md-6" style="text-align: center;">
+							{{s.firstname}} {{s.lastname}}<br><input type="checkbox" id="{{s.id}}" ng-model="check">
+						</div>
+					</div>
+				</div>
+				<br>
+				<select form="addStaffForm"  ng-model="selectedTeam">
+					<option  ng-selected="{{team.name == selectedTeam}}" ng-repeat="team in teams" value="{{team.name}}">{{team.name}}</option>
+				</select>
+				<br><br>
+				<button class="btn btn-primary" ng-click="addExistingStaff()">Adicionar Staff</button>	
+			</form>			
+			
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+			</div>
+			</div>
+		</div>
+		</div>
 	</div>
 </div>

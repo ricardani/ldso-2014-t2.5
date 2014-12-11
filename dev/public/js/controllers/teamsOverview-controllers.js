@@ -1,6 +1,6 @@
 var teamOverviewControllers = angular.module('teamOverviewControllers', []);
 
-teamOverviewControllers.controller('TeamsOverviewCtrl', function ($scope, $http) {
+teamOverviewControllers.controller('TeamsOverviewCtrl', function ($scope, $http, $rootScope) {
 	
     $http({url: '/api/get-teams', method: 'GET'})
         .success(function (data, status, headers, config) {
@@ -43,7 +43,44 @@ teamOverviewControllers.controller('TeamsOverviewCtrl', function ($scope, $http)
 
       };
 		
-	
+	$http({url: '/api/get-userStaff', method: 'GET'})
+		.success(function (data, status, headers, config) {
+			if (data.name === 'error') {      
+				$rootScope.alert = 'error';
+			} else {
+				$scope.userStaff = data;
+				$rootScope.alert = 'success';
+			}
+		})
+		.error(function (data, status, headers, config) {
+			$rootScope.alert = 'error';
+		});	
+		
+	$scope.addExistingStaff = function () {
+		$scope.TeamInfo =
+		{
+			staffIDs : [],
+			teamName : $scope.selectedTeam
+		};
+		for(var i = 0; i < $scope.userStaff.length ; ++i){
+			if(document.getElementById($scope.userStaff[i].id).checked){
+				$scope.TeamInfo.staffIDs.push($scope.userStaff[i]);
+			}
+		}
+		$http.post('/api/insert-existing-staff', $scope.TeamInfo)
+			.success(function (data, status, headers, config) {
+				if (data.name === 'error') { 
+					document.getElementById("modalheader").innerHTML = '<div class="alert alert-danger">Impossível adicionar esse staff nessa equipa!</div>';
+					$rootScope.alert = 'error';
+				} else {
+					document.getElementById("modalheader").innerHTML = '<div class="alert alert-success">Staff adicionado com sucesso!</div>';
+					$rootScope.alert = 'success';
+				}
+			})
+			.error(function (data, status, headers, config) {
+				$rootScope.alert = 'error';
+			});
+	};
 
 });
 

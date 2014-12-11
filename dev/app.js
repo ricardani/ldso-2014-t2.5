@@ -198,8 +198,8 @@ app.post('/api/insert-teamstaff', function (request, response) {
 
     pg.connect(conString, function(err, client, done) {
         client.query('INSERT INTO login_team(id_login, id_team) VALUES '+
-					'((SELECT id FROM login WHERE email = $1),(SELECT id FROM team '+
-					'WHERE name = $2))', [email, name] ,function(err, result) {
+					'((SELECT id FROM login WHERE email = $1),(SELECT team.id FROM team, login_team '+
+					'WHERE team.name = $2 AND login_team.id_login = $3 AND login_team.id_team = team.id))', [email, name, request.user.id] ,function(err, result) {
             done();
             if (err)
             { console.error(err); response.send("Error " + err); }
@@ -326,6 +326,46 @@ app.post('/api/insert-team', function (request, response) {
 			)}
         });
     });
+});
+
+app.get('/api/get-userStaff', function (request, response) {
+	
+	pg.connect(conString, function(err, client, done) {
+		client.query('SELECT login.* FROM login, login_team WHERE id = id_login AND id_team IN (SELECT id_team FROM login_team WHERE id_login = $1) AND id_login != $1 GROUP BY id',
+		[request.user.id],
+		function(err, result) {
+			done();
+			if (err)
+			{ console.error(err); response.json(err); }
+			else{response.send(result.rows); }
+			}
+		)
+	});
+	
+});
+
+app.post('/api/insert-existing-staff', function (request, response) {
+    
+    var IDs = request.body.staffIDs;
+	var teamName = request.body.teamName;
+			
+		pg.connect(conString, function(err, client, done) {
+			for (var i = 0; i < IDs.length ; ++i){
+				client.query('INSERT INTO login_team(id_login,id_team) VALUES($1,(SELECT team.id FROM team, login_team '+
+					'WHERE team.name = $2 AND login_team.id_login = $3 AND login_team.id_team = team.id))',
+				[IDs[i].id, teamName, request.user.id],
+				function(err, result) {
+					done();
+					if (err)
+					{ console.error(err); response.json(err); }
+					else{ if(i ==  IDs.length - 1)
+						{response.send(result)}
+					}
+					}
+				)
+			}
+		});
+		
 });
 
 // ================================================== Player Page ==================================================
@@ -799,12 +839,12 @@ app.post('/api/insert-existing-player', function (request, response) {
 					done();
 					if (err)
 					{ console.error(err); response.json(err); }
-					else{ }
+					else{if(i ==  IDs.length - 1)
+						{response.send(result)} }
 					}
 				)
 			}
 		});
-		response.send("");
 });
 
 app.get('/api/get-teamInfo', function (request, response) {
