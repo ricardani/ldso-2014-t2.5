@@ -22,8 +22,8 @@ var pg = require("pg");
 
 //conString -> pg://username:password@server:port/database
 //var conString = "postgres://ohvgctbdgijnjk:MYqBzVTqdaUn-6hjEXgsZxlJlo@ec2-54-235-99-46.compute-1.amazonaws.com:5432/ddphlm2hsa5h6a"; //Ligação à base de dados no Heroku
-//var conString = "postgres://postgres:postgres@localhost:5432/team_stats";
-var conString = "postgres://ldso:ldso@localhost:5432/team_stats";
+var conString = "postgres://postgres:festas@localhost:5432/team_stats";
+//var conString = "postgres://ldso:ldso@localhost:5432/team_stats";
 
 
 var port     = process.env.PORT || 3000; // set our port
@@ -1059,6 +1059,106 @@ app.post('/login-image-upload', function(req, res) {
         }
     });
 });   
+
+
+
+
+
+app.post('/login-send-mail', function(request, res) {
+
+
+	var randomstring = Math.random().toString(36).slice(-8);
+	var newPW = crypto.createHash('sha256').update(randomstring).digest("hex");
+	
+		
+	var aaa;
+	aaa =  request.body.email;
+	
+
+
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('SELECT id FROM login WHERE email=$1', [aaa], function(err, result) {
+            done();
+            if (err)
+            { console.error(err); res.json(err); }
+            else{
+                if(result.rows[0])
+                     var id = result.rows[0].id;
+				
+				
+				console.log("O ID: " + id);
+                //if is invalid, return 401
+                if (!id) {
+					console.log("Email invalido.");
+                    res.send(401, 'Wrong user or password');
+                    return;
+                }
+
+				
+			pg.connect(conString, function(err, client, done) {
+				client.query('UPDATE login SET password = $1 WHERE email = $2',
+					[newPW,aaa],function(err, result) {
+					done();
+					if(err) 
+					{ console.error(err); res.send("Error " + err); }
+					else
+					{ //response.send(result); 
+					}
+				});
+			});
+
+
+
+	 console.log("Introduzido: " + aaa);
+	 console.log("Nova pass vai ser: " + randomstring);
+
+	
+	var nodemailer = require('nodemailer');
+
+	// create reusable transporter object using SMTP transport
+	var transporter = nodemailer.createTransport({
+		service: 'Gmail',
+		auth: {
+			user: 'planetegazette@gmail.com',
+			pass: 'festas00'
+		}
+	});
+
+	// NB! No need to recreate the transporter object. You can use
+	// the same transporter object for all e-mails
+
+	// setup e-mail data with unicode symbols
+	var mailOptions = {
+		from: 'Team Stats ✔ <foo@blurdybloop.com>', // sender address
+		to: request.body.email, // list of receivers
+		subject: 'Nova Password', // Subject line
+		text: 'Hello', // plaintext body
+		html: 'A nova password é: ' + randomstring // html body
+	};
+
+	
+	
+	
+	// send mail with defined transport object
+	transporter.sendMail(mailOptions, function(error, info){
+		if(error){
+			console.log(error);
+		}else{
+			console.log('Message sent: ' + info.response);
+		}
+	});
+
+	//res.redirect('../#/teamStats/login/forgotpassword');
+				
+				
+
+            }
+        });
+    });
+
+});  
+
 
 // ====================================================================================
 

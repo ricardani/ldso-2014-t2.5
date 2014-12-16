@@ -144,5 +144,32 @@ loginControllers.controller('LoggedInCtrl', function ($scope, $window, $location
     };
 });
 
+loginControllers.controller('ForgotPasswordCtrl', function ($scope, $http, $window, $location) {
 
+    $scope.forgotpass = function () {
+
+            $http
+                .post('/login-send-mail', $scope.user)
+                .success(function (data, status, headers, config) {
+                    console.log(data);
+                   $location.path('/teamStats/login/forgotpassword');
+
+
+                })
+                .error(function (data, status, headers, config) {
+                    
+                   
+                    $scope.alert = 'error';
+                    
+					
+			// Handle email errors here
+                document.getElementById("alerts").innerHTML = '<div class="alert alert-danger alert-dismissible" role="alert">' +
+                '<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>'+
+                '<strong>Erro!</strong> Email não é válido.'+
+                '</div>';
+                });
+				
+			//$location.path('../#/login/forgotpassword');
+    };
+});
 

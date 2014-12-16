@@ -149,16 +149,13 @@
             </div>
         </div>
     </div>
-
-
-
 </div>
 
-<div ng-switch-when="forgotpassword">
+<div ng-switch-when="forgotpassword" ng-controller="ForgotPasswordCtrl">
 
     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
         <div class="well no-padding">
-            <form method='post' action='/resetpassword' enctype="multipart/form-data" class="smart-form client-form">
+            <form method='post' ng-submit="forgotpass()" id = "forgotForm"enctype="multipart/form-data" class="smart-form client-form">
                 <header>
                     Forgot Password
                 </header>
@@ -168,21 +165,10 @@
                     <section>
                         <label class="label">Enter your email address</label>
                         <label class="input"> <i class="icon-append fa fa-envelope"></i>
-                            <input type="email" name="email">
+                            <input ng-model="user.email" type="email" name="email" id="email">
                             <b class="tooltip tooltip-top-right"><i class="fa fa-envelope txt-color-teal"></i> Please enter email address for password reset</b></label>
                     </section>
-                    <section>
-                        <span class="timeline-seperator text-center text-primary"> <span class="font-sm">OR</span> </span>
-                    </section>
-                    <section>
-                        <label class="label">Your Username</label>
-                        <label class="input"> <i class="icon-append fa fa-user"></i>
-                            <input type="text" name="username">
-                            <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Enter your username</b> </label>
-                        <div class="note">
-                            <a href="#/login/login">I remembered my password!</a>
-                        </div>
-                    </section>
+
 
                 </fieldset>
                 <footer>
