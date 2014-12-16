@@ -5,6 +5,8 @@ playerControllers.controller('PlayerPageCtrl', function ($scope, $window, $locat
     $http({url: '/api/get-playerInfo', method: 'GET', params: {'playerID': $scope.playerID}})
         .success(function (data, status, headers, config) {
             $scope.playerInfo = data[0];
+			if($scope.playerInfo.birth_date)
+			$scope.playerAge = $scope.getAge($scope.playerInfo.birth_date);
         }).error(function (data, status, headers, config) {
             console.log(data);
         });
@@ -50,6 +52,22 @@ playerControllers.controller('PlayerPageCtrl', function ($scope, $window, $locat
         }).error(function (data, status, headers, config) {
             console.log(data);
         });
+	
+	$scope.getAge = function(date){
+	
+	var today = new Date();
+	var mm = today.getMonth()+1; //January is 0!
+	var yyyy = today.getFullYear();
+	
+    var res = date.split("-");
+
+	if(parseInt(res[1]) > parseInt(mm)){
+	return parseInt(yyyy) - parseInt(res[0]) - 1;
+	}
+	else{
+	return parseInt(yyyy) - parseInt(res[0]);
+	}
+	}
 
 });
 
@@ -323,6 +341,8 @@ playerControllers.controller('DynamiccBlockCtrl', function ($scope, $http) {
 });
 
 playerControllers.controller('PlayerInfoCtrl', function ($scope, $http) {
+
+	
 
     $scope.updateName = function (PlayerID) {
 
