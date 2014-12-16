@@ -1,85 +1,142 @@
-<div class="page-header col-xs-offset-5">
-    <h1>Planos de Treino</h1> <br><br><br>
-</div>
+<div ng-controller="WorkoutMainCtrl">
+    <div class="page-header col-xs-offset-5">
+        <h1>Planos de Treino</h1> <br><br><br>
+    </div>
 
-<!--
+    <div class="col-md-2" ng-controller="AllWorkouts">
+        <br>
+        <table class="table table-hover table-responsive">
+            <thead>
+            <tr>
+                <th>Planos já criados <input type="text" class="form-control" placeholder="Título" ng-model="titleSearch" autocomplete="off"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="w in workouts | filter : titleSearch" ng-if="$index < 10">
+                <td><a href="" ng-click="showWorkout(w)">{{w.title}}  </a></td>
+            </tr>
+            </tbody>
+        </table>
+        <br><br><br><br>
+    </div>
+
+    <div ng-if="workoutPlan.id > 0">
+        <div class="col-md-10">
+
+            <h3 class="text-align-center">
+                Plano
+                <button ng-click="newWorkout()" type="button" class="btn btn-link">
+                    <span class="glyphicon glyphicon-file" aria-hidden="true" style="top:0px"></span>
+                </button>
+            </h3>
 
 
-        -->
+            <form class="form-horizontal">
+                <fieldset>
+                    <div class="form-group">
+                        <label class="control-label col-xs-2">Título</label>
+                        <div class="col-xs-9">
+                            <input type="text" class="form-control" ng-model="workoutPlan.title" placeholder="Título" autocomplete="off">
+                        </div>
+                    </div>
 
-<div class="col-md-2" ng-controller="AllWorkouts">
-    <br>
-    <table class="table table-hover table-responsive">
-        <thead>
-        <tr>
-            <th>Planos já criados <input type="text" class="form-control" placeholder="Título" ng-model="titleSearch" autocomplete="off"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="w in workouts | filter : titleSearch" ng-if="$index < 10">
-            <td><a href="">{{w.title}}  </a></td>
-        </tr>
-        </tbody>
-    </table>
-    <br><br><br><br>
-</div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-2">Material Necessário</label>
+                        <div class="col-xs-9">
+                            <textarea class="form-control" ng-model="workoutPlan.material" rows="5" style="resize:none" autocomplete="off" placeholder="Material Necessário"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-2">Objectivos</label>
+                        <div class="col-xs-9">
+                            <textarea class="form-control" ng-model="workoutPlan.objectives" rows="5" style="resize:none" autocomplete="off" placeholder="Objectivos"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-11" style="padding-left: 19%">
+                        <table class="table table-hover table-responsive">
+                            <thead>
+                            <tr>
+                                <th class="col-xs-4">Exercícios</th>
+                                <th class="col-xs-2">Duração</th>
+                                <th class="col-xs-3">Focos</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="exercise in workoutPlan.exercises">
+                                <td><textarea  ng-model="exercise.description" class="form-control" name="inputExercise[]" rows="5" style="resize:none" autocomplete="off" placeholder="Exercício"></textarea></td>
+                                <td><input  ng-model="exercise.duration" type="text" class="form-control" name="inputDuration[]" placeholder="Duração" autocomplete="off"></td>
+                                <td><textarea  ng-model="exercise.focus" class="form-control" name="inputExercise[]" rows="5" style="resize:none" autocomplete="off" placeholder="Exercício"></textarea></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </fieldset>
+            </form>
+            <br><br><br><br>
+        </div>
+    </div>
 
+    <div ng-if="workoutPlan.id == 0">
 
-<div class="col-md-10">
+        <div class="col-md-10">
 
-    <h3 class="text-align-center">Criar Plano</h3>
+            <h3 class="text-align-center">Novo Plano</h3>
 
-    <form class="form-horizontal">
-        <fieldset>
-            <div class="form-group">
-                <label for="inputLocal" class="control-label col-xs-2">Título</label>
-                <div class="col-xs-9">
-                    <input type="text" class="form-control" id="inputLocal" placeholder="Título" autocomplete="off">
-                </div>
-            </div>
+            <form class="form-horizontal">
+                <fieldset>
+                    <div class="form-group">
+                        <label class="control-label col-xs-2">Título</label>
+                        <div class="col-xs-9">
+                            <input type="text" class="form-control" ng-model="workoutPlan.title" placeholder="Título" autocomplete="off" required>
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label for="inputMaterial" class="control-label col-xs-2">Material Necessário</label>
-                <div class="col-xs-9">
-                    <textarea class="form-control" id="inputMaterial" rows="5" style="resize:none" autocomplete="off" placeholder="Material Necessário"></textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="inputObjectives" class="control-label col-xs-2">Objectivos</label>
-                <div class="col-xs-9">
-                    <textarea class="form-control" id="inputObjectives" rows="5" style="resize:none" autocomplete="off" placeholder="Objectivos"></textarea>
-                </div>
-            </div>
-            <div class="form-group col-xs-11" style="padding-left: 19%">
-                <table class="table table-hover table-responsive">
-                    <thead>
-                    <tr>
-                        <th class="col-xs-4">Exercícios</th>
-                        <th class="col-xs-2">Duração</th>
-                        <th class="col-xs-3">Focos</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td><textarea class="form-control" name="inputExercise[]" rows="5" style="resize:none" autocomplete="off" placeholder="Exercício"></textarea></td>
-                        <td><input type="text" class="form-control" name="inputDuration[]" placeholder="Duração" autocomplete="off"></td>
-                        <td><textarea class="form-control" name="inputExercise[]" rows="5" style="resize:none" autocomplete="off" placeholder="Exercício"></textarea></td>
-                    </tr>
-                    <tr>
-                        <td><textarea class="form-control" name="inputExercise[]" rows="5" style="resize:none" autocomplete="off" placeholder="Exercício"></textarea></td>
-                        <td><input type="text" class="form-control" name="inputDuration[]" placeholder="Duração" autocomplete="off"></td>
-                        <td><textarea class="form-control" name="inputExercise[]" rows="5" style="resize:none" autocomplete="off" placeholder="Exercício"></textarea></td>
-                    </tr>
-                    <tr>
-                        <td><textarea class="form-control" name="inputExercise[]" rows="5" style="resize:none" autocomplete="off" placeholder="Exercício"></textarea></td>
-                        <td><input type="text" class="form-control" name="inputDuration[]" placeholder="Duração" autocomplete="off"></td>
-                        <td><textarea class="form-control" name="inputExercise[]" rows="5" style="resize:none" autocomplete="off" placeholder="Exercício"></textarea></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </fieldset>
-    </form>
-    <br><br><br><br>
+                    <div class="form-group">
+                        <label class="control-label col-xs-2">Material Necessário</label>
+                        <div class="col-xs-9">
+                            <textarea class="form-control" ng-model="workoutPlan.material" rows="5" style="resize:none" autocomplete="off" placeholder="Material Necessário"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-2">Objectivos</label>
+                        <div class="col-xs-9">
+                            <textarea class="form-control" ng-model="workoutPlan.objectives" rows="5" style="resize:none" autocomplete="off" placeholder="Objectivos"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-11" style="padding-left: 19%">
+                        <table class="table table-hover table-responsive">
+                            <thead>
+                            <tr>
+                                <th class="col-xs-4">Exercícios</th>
+                                <th class="col-xs-2">Duração</th>
+                                <th class="col-xs-3">Focos</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="exercise in workoutPlan.exercises">
+                                <td><textarea  ng-model="exercise.description" class="form-control" name="inputExercise[]" rows="5" style="resize:none" autocomplete="off" placeholder="Exercício"></textarea></td>
+                                <td><input  ng-model="exercise.duration" type="text" class="form-control" name="inputDuration[]" placeholder="Duração" autocomplete="off"></td>
+                                <td><textarea  ng-model="exercise.focus" class="form-control" name="inputExercise[]" rows="5" style="resize:none" autocomplete="off" placeholder="Exercício"></textarea></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <button type="button" class="btn btn-link btn-lg pull-left" ng-click="addLine()">
+                            <span class="glyphicon glyphicon-plus-sign" style="color:green"></span>
+                        </button>
+
+                        <button type="submit" class="btn btn-info col-xs-offset-5 col-xs-2">
+                            Guardar
+                        </button>
+
+                        <button  type="button" class="btn btn-link pull-right" ng-click="removeLine()">
+                            <span class="glyphicon glyphicon-remove" style="color:red"></span>
+                        </button>
+                    </div>
+                </fieldset>
+            </form>
+            <br><br><br><br>
+        </div>
+
+    </div>
 </div>
 

@@ -1156,7 +1156,40 @@ app.post('/login-send-mail', function(request, res) {
         });
     });
 
-});  
+});
+
+
+// ==================================================================================================================================
+// ===================================================  Workout Page  ===============================================================
+
+app.get('/api/get-allWorkouts', function (request, response) {
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('SELECT id, title, material, objectives FROM workoutplan WHERE id_login = $1 ORDER BY id', [request.user.id] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
+});
+
+app.get('/api/get-workoutExercises', function (request, response) {
+
+    var workoutID = request.param("workoutID");
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('SELECT exercise.* FROM exercise, workout_exercise, workoutplan ' +
+            'WHERE id_workout = $2 AND id_exercise = exercise.id AND id_workout = workoutplan.id AND id_login = $1', [request.user.id, workoutID] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
+});
 
 
 // ====================================================================================

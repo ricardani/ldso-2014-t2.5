@@ -42,3 +42,10 @@ menuControllers.controller('MenuTeamCtrl', ['$scope', '$http','$routeParams',
 
         $scope.teamID = $routeParams.teamID;
     }]);
+
+menuControllers.controller('MenuWorkoutCtrl', ['$scope', '$http','$routeParams',
+    function($scope, $http, $routeParams) {
+
+        $scope.menu = 'workout';
+
+    }]);
