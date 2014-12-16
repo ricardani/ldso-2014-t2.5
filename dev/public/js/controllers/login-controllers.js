@@ -152,9 +152,16 @@ loginControllers.controller('ForgotPasswordCtrl', function ($scope, $http, $wind
                 .post('/login-send-mail', $scope.user)
                 .success(function (data, status, headers, config) {
                     console.log(data);
-                   $location.path('/teamStats/login/forgotpassword');
+				   
+				    document.getElementById("alerts").innerHTML = '<div class="alert alert-success alert-dismissible" role="alert">' +
+                '<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>'+
+                '<strong>Sucesso!</strong> O registo foi um sucesso!' +
+                '</div>';
+			
+				$location.path('/teamStats/login/forgotpassword');
 
 
+				
                 })
                 .error(function (data, status, headers, config) {
                     
