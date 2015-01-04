@@ -22,8 +22,8 @@ var pg = require("pg");
 
 //conString -> pg://username:password@server:port/database
 //var conString = "postgres://ohvgctbdgijnjk:MYqBzVTqdaUn-6hjEXgsZxlJlo@ec2-54-235-99-46.compute-1.amazonaws.com:5432/ddphlm2hsa5h6a"; //Ligação à base de dados no Heroku
-var conString = "postgres://postgres:festas@localhost:5432/team_stats";
-//var conString = "postgres://ldso:ldso@localhost:5432/team_stats";
+//var conString = "postgres://postgres:festas@localhost:5432/team_stats";
+var conString = "postgres://ldso:ldso@localhost:5432/team_stats";
 
 
 var port     = process.env.PORT || 3000; // set our port
@@ -1228,6 +1228,7 @@ app.post('/login-send-mail', function(request, res) {
 });
 
 
+
 // ==================================================================================================================================
 // ===================================================  Workout Page  ===============================================================
 
@@ -1256,6 +1257,47 @@ app.get('/api/get-workoutExercises', function (request, response) {
             { console.error(err); response.send("Error " + err); }
             else
             { response.send(result.rows); }
+        });
+    });
+});
+
+
+app.post('/api/delete-workoutPlan', function (request, response) {
+
+    var workoutID = request.param("workoutID")
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('DELETE FROM workoutplan WHERE id = $1;', [workoutID] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            { response.send(result.rows); }
+        });
+    });
+});
+
+app.post('/api/insert-workoutPlan', function (request, response) {
+
+    var workout = {};
+
+    workout.title = request.body.title;
+    workout.material = request.body.material;
+    workout.objectives = request.body.objectives;
+    workout.exercises = request.body.exercises;
+
+    console.log(workout);
+
+    pg.connect(conString, function(err, client, done) {
+        client.query('INSERT INTO workoutplan(id_login, title, material, objectives) ' +
+            'VALUES ($1, $2, $3, $4);', [request.user.id, workout.title, workout.material, workout.objectives] ,function(err, result) {
+            done();
+            if (err)
+            { console.error(err); response.send("Error " + err); }
+            else
+            {
+                response.send(result.rows);
+            }
         });
     });
 });

@@ -13,11 +13,35 @@
             </thead>
             <tbody>
             <tr ng-repeat="w in workouts | filter : titleSearch" ng-if="$index < 10">
-                <td><a href="" ng-click="showWorkout(w)">{{w.title}}  </a></td>
+                <td>
+                    <button  type="button" class="btn btn-link pull-right" data-toggle="modal" data-target="#ModalRemoveWorkout{{w.id}}">
+                        <span class="glyphicon glyphicon-remove" style="color:red"></span>
+                    </button>
+                    <a href="" ng-click="showWorkout(w)">{{w.title}}  </a>
+
+                    <div class="modal fade" id="ModalRemoveWorkout{{w.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                    <h4 class="modal-title" >Remover plano : {{w.title}} ?</h4>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" ng-click="removeWorkout(w.id)">Sim</button>
+                                    <button type="button" class="btn btn-info" data-dismiss="modal">Não</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </td>
             </tr>
             </tbody>
         </table>
         <br><br><br><br>
+
+
     </div>
 
     <div ng-if="workoutPlan.id > 0">
@@ -82,7 +106,7 @@
 
             <h3 class="text-align-center">Novo Plano</h3>
 
-            <form class="form-horizontal">
+            <form class="form-horizontal" ng-submit="insertWorkout()">
                 <fieldset>
                     <div class="form-group">
                         <label class="control-label col-xs-2">Título</label>
