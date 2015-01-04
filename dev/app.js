@@ -22,8 +22,8 @@ var pg = require("pg");
 
 //conString -> pg://username:password@server:port/database
 //var conString = "postgres://ohvgctbdgijnjk:MYqBzVTqdaUn-6hjEXgsZxlJlo@ec2-54-235-99-46.compute-1.amazonaws.com:5432/ddphlm2hsa5h6a"; //Ligação à base de dados no Heroku
-//var conString = "postgres://postgres:festas@localhost:5432/team_stats";
-var conString = "postgres://ldso:ldso@localhost:5432/team_stats";
+var conString = "postgres://postgres:festas@localhost:5432/team_stats";
+//var conString = "postgres://ldso:ldso@localhost:5432/team_stats";
 
 
 var port     = process.env.PORT || 3000; // set our port
@@ -71,16 +71,82 @@ app.post('/register-user', function (request, response) {
     var password = crypto.createHash('sha256').update(request.body.password).digest("hex");
     var firstname = request.body.firstname, lastname = request.body.lastname;
 
-    pg.connect(conString, function(err, client, done) {
-        client.query('INSERT INTO login(email, password, firstname, lastname) VALUES($1, $2, $3, $4)', [email, password, firstname, lastname], function(err, result) {
+	
+	
+	    pg.connect(conString, function(err, client, done) {
+        client.query('SELECT id FROM login WHERE email=$1', [email], function(err, result) {
             done();
             if (err)
-            { console.error(err); response.json(err); }
-            else
-            { response.send(); }
-        });
-    });
-
+            { console.error(err); res.json(err); }
+            else{
+                if(result.rows[0])
+                     var id = result.rows[0].id;
+				
+				
+				console.log("O ID: " + id);
+				
+                //if is invalid, return 401
+                if (!id) {
+					console.log("Email invalido.");
+                    //response.send(401, 'Wrong user or password');
+                   
+				   
+					pg.connect(conString, function(err, client, done) {
+						client.query('SELECT * FROM login', function(err, result) {
+							done();
+							if (err)
+							{ console.error(err); response.json(err); }
+							else
+							{ 
+								
+									var tamanho = result.rows.length;
+									
+								console.log("O tamanho: " + tamanho);
+							
+							tamanho = tamanho +1;
+												
+									
+									
+									
+										pg.connect(conString, function(err, client, done) {
+											client.query('INSERT INTO login(id, email, password, firstname, lastname) VALUES($1, $2, $3, $4, $5)', [tamanho, email, password, firstname, lastname], function(err, result) {
+												done();
+												if (err)
+												{ console.error(err); response.json(err); }
+												else
+												{ response.send(); }
+											});
+										});
+									
+									
+												
+												
+								}
+							});
+						});   
+	
+		}
+			else
+			{
+			
+										pg.connect(conString, function(err, client, done) {
+											client.query('INSERT INTO login(email, password, firstname, lastname) VALUES($1, $2, $3, $4)', [email, password, firstname, lastname], function(err, result) {
+												done();
+												if (err)
+												{ console.error(err); response.json(err); }
+												else
+												{ response.send(); }
+											});
+										});			
+			
+			
+			}	
+	}
+	
+	});
+	});
+	
+	
 });
 
 app.post('/authenticate', function (request, response) {
@@ -716,7 +782,8 @@ app.post('/api/update-playerImg', function(request, response) {
 app.post('/api/update-profilename', function(request, response) {
 	var fname = request.param("fname")
     var lname = request.param("lname")
-	
+	console.log("Firstname: " +fname);
+	console.log("Lastname: " + lname);
 	pg.connect(conString, function(err, client, done) {
 		client.query('UPDATE login SET firstname = $1, lastname = $2 WHERE id = $3',
 			[fname,lname,request.user.id],function(err, result) {
@@ -727,6 +794,8 @@ app.post('/api/update-profilename', function(request, response) {
             { response.send(result.rows); }
 		});
 	});
+	
+	//response.redirect('../#/teamStats/profile/');
 });
 
 app.post('/api/update-profileemail', function(request, response) {

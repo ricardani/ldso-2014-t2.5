@@ -8,19 +8,19 @@ loginControllers.controller('LoginCtrl', ['$scope','$routeParams','$rootScope', 
 
         if($rootScope.alert == 'success'){
 
-            $("#alerts").append('<div class="alert alert-success alert-dismissible" role="alert">' +
+            document.getElementById("alerts").innerHTML ='<div class="alert alert-success alert-dismissible" role="alert">' +
                 '<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>'+
                 '<strong>Sucesso!</strong> O registo foi um sucesso!' +
-                '</div>');
+                '</div>';
 
             $rootScope.alert = '';
 
         }else if($rootScope.alert == 'error'){
 
-            $("#alerts").append('<div class="alert alert-danger alert-dismissible" role="alert">' +
+            document.getElementById("alerts").innerHTML ='<div class="alert alert-danger alert-dismissible" role="alert">' +
                 '<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>'+
                 '<strong>Erro!</strong> O registo falhou! Por favor tente mais tarde.  '+
-                '</div>');
+                '</div>';
 
             $rootScope.alert = '';
         }
@@ -57,15 +57,15 @@ loginControllers.controller('UserRegister', function ($scope, $http, $window, $l
                     if (data.name === 'error') {
 
                         if (data.routine = "_bt_check_unique") {
-                            $("#alerts").append('<div class="alert alert-danger alert-dismissible" role="alert">' +
+                            document.getElementById("alerts").innerHTML ='<div class="alert alert-danger alert-dismissible" role="alert">' +
                                 '<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>' +
                                 '<strong>Erro!</strong> O email já está a ser utilizado! ' +
-                                '</div>');
+                                '</div>';
                         } else {
-                            $("#alerts").append('<div class="alert alert-danger alert-dismissible" role="alert">' +
+                            document.getElementById("alerts").innerHTML ='<div class="alert alert-danger alert-dismissible" role="alert">' +
                                 '<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>' +
                                 '<strong>Erro!</strong> O registo falhou! Por favor tente mais tarde.  ' +
-                                '</div>');
+                                '</div>';
                         }
 
                         $rootScope.alert = 'error';
@@ -88,10 +88,10 @@ loginControllers.controller('UserRegister', function ($scope, $http, $window, $l
                     $location.path('/login/register');
                 });
         }else{
-            $("#alerts").append('<div class="alert alert-warning alert-dismissible" role="alert">' +
+            document.getElementById("alerts").innerHTML ='<div class="alert alert-warning alert-dismissible" role="alert">' +
                 '<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>'+
                 '<strong>Aviso!</strong> As passwords tem de coincidir!'+
-                '</div>');
+                '</div>';
         }
     };
 });
@@ -110,10 +110,10 @@ loginControllers.controller('AuthenticateCtrl', function ($scope, $http, $window
                 delete $window.sessionStorage.token;
 
                 // Handle login errors here
-                $("#alerts").append('<div class="alert alert-danger alert-dismissible" role="alert">' +
+                document.getElementById("alerts").innerHTML ='<div class="alert alert-danger alert-dismissible" role="alert">' +
                     '<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>' +
                     '<strong>Erro!</strong> Email ou Password não são válidos!' +
-                    '</div>');
+                    '</div>';
             });
     };
 });

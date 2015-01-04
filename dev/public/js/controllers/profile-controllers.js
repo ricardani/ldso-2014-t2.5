@@ -16,10 +16,11 @@ profileControllers.controller('ProfileController', function ($scope, $http) {
 		$http({url: '/api/update-profilename', method: 'POST', params: {'fname': $scope.input1, 'lname' : $scope.input2}})
         .success(function (data, status, headers, config) {
 			console.log("Update user with : " + $scope.input1 + " " + $scope.input2);
+			window.location.reload();
         }).error(function (data, status, headers, config) {
             console.log(data);
         });
-				window.location.reload();
+	
       };
 	  
 	$scope.submit2 = function() {
@@ -27,10 +28,11 @@ profileControllers.controller('ProfileController', function ($scope, $http) {
 		$http({url: '/api/update-profileemail', method: 'POST', params: {'email': $scope.input3}})
         .success(function (data, status, headers, config) {
 			console.log("Update email with: " + $scope.input3 );
+			window.location.reload();
         }).error(function (data, status, headers, config) {
             console.log(data);
         });
-				window.location.reload();
+				
 	};
 		
 	$scope.changePassword = function() {
