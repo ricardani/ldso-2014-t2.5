@@ -103,30 +103,25 @@ teamOverviewControllers.controller ("TabsChildController", function($scope, $log
   
 });
 
+teamOverviewControllers.directive('fileModel', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+
+            element.bind('change', function () {
+                scope.$apply(function () {
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
+}]);
+
 teamOverviewControllers.controller ("AddTeamCrtl", function ($scope, $http, $window, $location, $rootScope){
-	/*$scope.addTeam = function () {
-	console.log($scope.newTeam.name);
-		$http({url: '/api/insert-team', method: 'POST', params: {'name': $scope.newTeam.name}})
-		.success(function (data, status, headers, config) {
-			console.log(data);
-			if (data.name === 'error') {
-				console.log("erro");
-			} else {
-				$( ".modal-backdrop" ).remove();
-				$( "#addTeam" ).modal('hide');
-				var temp = {
-						id: data[0].id,
-						name:  $scope.newTeam.name,
-						//img: $scope.newTeam.img
-					};
-					$scope.teams.push(temp);
-			}
-		})
-		.error(function (data, status, headers, config) {
-			
-		});
-	};*/
 	
+
 	$scope.addTeam = function () {
 		$http({url: '/api/insert-team', method: 'POST', params: {'name': $scope.name}})
         .success(function (data, status, headers, config) {
@@ -144,6 +139,6 @@ teamOverviewControllers.controller ("AddTeamCrtl", function ($scope, $http, $win
                 '</div>';
             
         });
-}
+    };
 
 });

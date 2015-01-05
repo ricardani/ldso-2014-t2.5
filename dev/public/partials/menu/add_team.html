@@ -1,20 +1,13 @@
+<div ng-controller="TeamsOverviewCtrl">
+
 <div ng-controller="AddTeamCrtl">
-
-
 <form id="addteamForm" name="addTeamForm" class="smart-form ctdent-form" ng-submit="addTeam()">
-
-<div>
 
 <div id="alerts">
 
 </div>
-	<input ng-model="name" type="text" name="name" id="name" placeholder="Nome da Equipa" required />
-	
-	<br>
-	<!--<h3>Símbolo</h3> 
-	<h3>
-		<input type="file" name="team_symbol" accept="image/*">
-	</h3>-->
+	<input ng-model="name" class="form-control" type="text" name="name" id="name" placeholder=" Nome da Equipa" required />
+
 	<br>
 	
 	
@@ -105,9 +98,9 @@
 			</div>
 		</div>-->
 		
-		
+	
 		<br>
-	<button type="submit" class="btn btn-primary btn-lg"> Criar Equipa </button>
-	</div>
+	<button type="submit" class="btn btn-primary btn-lg" > Criar Equipa </button>
 </form>
+</div>
 </div>
