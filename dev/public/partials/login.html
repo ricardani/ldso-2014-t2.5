@@ -6,8 +6,8 @@
 
 	
 	<h3 class="pull-right">TeamStats</h3>
-    <div ng-switch on="login" class="pull-right">
-	<br><br><br><br><br><br><br>
+    <div ng-switch on="login" class="col-xs-offset-5">
+	<br><br><br>
         <div ng-switch-when="register">
             <span class="extr-page-header-space"> <span class="hidden-mobile">Já registado?</span> <a href="#/login/login" class="btn btn-danger">Sign In</a> </span>
         </div>
@@ -30,11 +30,11 @@
 
 <div class="row">
 <br><br><br>
-<div class="col-md-12 hidden-xs hidden-sm">
+<div class="col-xs-offset-3" >
     <h1 class="txt-color-red login-header-big">Team Stats</h1>
     <div class="hero">
 
-        <div class="pull-left ">
+        <div>
             <h4 class="paragraph-header">Gira aqui as suas equipas, duma forma eficaz e intuitiva.</h4>
 
             <br><br>
@@ -49,7 +49,7 @@
 
 </div>
 </div>
-<div ng-switch on="login">
+<div class="col-xs-offset-3" ng-switch on="login">
 
 <div ng-switch-when="login">
 
@@ -116,12 +116,6 @@
                                 <div class="note">
                                     <a href="#/login/forgotpassword">Esqueceu-se da password?</a>
                                 </div>
-                            </section>
-
-                            <section>
-                                <label class="checkbox">
-                                    <input type="checkbox" name="remember" checked="" ng-model="user.remember">
-                                    <i></i>Manter-se ligado</label>
                             </section>
                         </fieldset>
                         <footer>
@@ -219,6 +213,13 @@
                             </label>
                         </section>
                     </div>
+
+                    <section>
+                        <label class="checkbox">
+                            <input type="checkbox" name="terms" id="terms">
+                            <i></i>I agree with the <a href="#" data-toggle="modal" data-target="#myModal"> Terms and Conditions </a>
+                        </label>
+                    </section>
                 </fieldset>
 
                 <footer>

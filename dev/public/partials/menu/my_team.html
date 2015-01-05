@@ -30,7 +30,7 @@
 				<div class="panel-body">
 	
 					<div class="row">
-						<div ng-repeat="s in staff" >
+						<div ng-repeat="s in staff | orderBy: 'firstname'" >
 							<div class="col-xs-4 col-sm-4 col-md-2">
 								<div class="thumbnail">
 									<a href="#/teamStats/profile/{{s.id}}">
@@ -55,7 +55,7 @@
 		<div id="collapseTwo" class="panel-collapse collapse">
 			<div class="panel-body">
 				<div class="row">
-					<div ng-repeat="p in players" >
+					<div ng-repeat="p in players | orderBy: 'name'" >
 						<div class="col-xs-4 col-sm-4 col-md-2">
 							<div class="thumbnail">
 								<a href="#/teamStats/player/{{p.id}}">

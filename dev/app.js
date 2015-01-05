@@ -22,8 +22,8 @@ var pg = require("pg");
 
 //conString -> pg://username:password@server:port/database
 //var conString = "postgres://ohvgctbdgijnjk:MYqBzVTqdaUn-6hjEXgsZxlJlo@ec2-54-235-99-46.compute-1.amazonaws.com:5432/ddphlm2hsa5h6a"; //Ligação à base de dados no Heroku
-var conString = "postgres://postgres:postgres@localhost:5432/team_stats";
-//var conString = "postgres://ldso:ldso@localhost:5432/team_stats";
+//var conString = "postgres://postgres:postgres@localhost:5432/team_stats";
+var conString = "postgres://ldso:ldso@localhost:5432/team_stats";
 
 
 var port     = process.env.PORT || 3000; // set our port
@@ -825,7 +825,7 @@ app.post('/api/insert-dynamicLine', function (request, response) {
 });
 
 app.post('/api/update-playerImg', function(request, response) {
-	var playerID = request.param("playerID")
+	var playerID = request.param("playerid")
     var img = request.param("img")
 	
 	pg.connect(conString, function(err, client, done) {
