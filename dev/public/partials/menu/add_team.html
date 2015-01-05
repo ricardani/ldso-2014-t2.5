@@ -1,12 +1,24 @@
-<form action="#/teamStats/add_team" id="addteam-form" class="smart-form ctdent-form" method="get">
-	<h3>Nome da Equipa <input type="text" name="team_name"> </h3>
+<div ng-controller="AddTeamCrtl">
+
+
+<form id="addteamForm" name="addTeamForm" class="smart-form ctdent-form" ng-submit="addTeam()">
+
+<div>
+
+<div id="alerts">
+
+</div>
+	<input ng-model="name" type="text" name="name" id="name" placeholder="Nome da Equipa" required />
+	
 	<br>
-	<h3>Símbolo</h3> 
+	<!--<h3>Símbolo</h3> 
 	<h3>
 		<input type="file" name="team_symbol" accept="image/*">
-	</h3>
+	</h3>-->
 	<br>
-		<div class="panel-group" id="accordion">
+	
+	
+		<!--<div class="panel-group" id="accordion">
 			<div class="panel panel-default">
 				<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapse">
 					<h3>
@@ -91,7 +103,11 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div>-->
+		
+		
 		<br>
-	<button  type="submit" class="btn btn-primary btn-lg"> Criar Equipa </button>
+	<button type="submit" class="btn btn-primary btn-lg"> Criar Equipa </button>
+	</div>
 </form>
+</div>

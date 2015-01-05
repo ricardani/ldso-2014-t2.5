@@ -22,7 +22,7 @@ var pg = require("pg");
 
 //conString -> pg://username:password@server:port/database
 //var conString = "postgres://ohvgctbdgijnjk:MYqBzVTqdaUn-6hjEXgsZxlJlo@ec2-54-235-99-46.compute-1.amazonaws.com:5432/ddphlm2hsa5h6a"; //Ligação à base de dados no Heroku
-//var conString = "postgres://postgres:festas@localhost:5432/team_stats";
+//var conString = "postgres://postgres:postgres@localhost:5432/team_stats";
 var conString = "postgres://ldso:ldso@localhost:5432/team_stats";
 
 
@@ -369,29 +369,90 @@ app.get('/api/get-teamsStatsLine', function (request, response) {
 
 app.post('/api/insert-team', function (request, response) {
     
+	console.log("cenas");
     var name = request.param("name");
-    var img = request.param("img");
+    var img = "sds.jpg";
+	
+	console.log(name);
         
-    pg.connect(conString, function(err, client, done) {
-        client.query('INSERT INTO team(name, img) VALUES($1,$2) RETURNING id', 
-        [name,img], function(err, result) {
+		
+		
+		
+			    pg.connect(conString, function(err, client, done) {
+        client.query('SELECT id FROM team WHERE name=$1', [name], function(err, result) {
             done();
             if (err)
-            { console.error(err); response.json(err); }
-            else
-            {	var Team = result.rows;
-				client.query('INSERT INTO login_team(id_login,id_team) VALUES($1,$2)',
-				[request.user.id,result.rows[0].id],
-				function(err, result) {
-					done();
-					if (err)
-					{ console.error(err); response.json(err); }
-					else
-					{ response.send(Team) }
+            { console.error(err); res.json(err); }
+            else{
+                if(result.rows[0])
+                     var id = result.rows[0].id;
+				
+				
+				console.log("O ID: " + id);
+				
+                //if is invalid, return 401
+                if (!id) {
+		
+		
+							pg.connect(conString, function(err, client, done) {
+						client.query('SELECT * FROM team', function(err, result) {
+							done();
+							if (err)
+							{ console.error(err); response.json(err); }
+							else
+							{ 
+								
+									var tamanho = result.rows.length;
+									
+								console.log("O tamanho: " + tamanho);
+							
+							tamanho = tamanho +1;
+												
+									
+									
+									
+						pg.connect(conString, function(err, client, done) {
+								client.query('INSERT INTO team(id, name, img) VALUES($1,$2,$3) RETURNING id', 
+								[tamanho,name,img], function(err, result) {
+									done();
+									if (err)
+									{ console.error(err); response.json(err); }
+									else
+									{	var Team = result.rows;
+										console.log(result.rows[0].id);
+										client.query('INSERT INTO login_team(id_login,id_team) VALUES($1,$2)',
+										[request.user.id,tamanho],
+										function(err, result) {
+											done();
+											if (err)
+											{ console.error(err); response.json(err); }
+											else
+											{ response.send(Team) }
+										}
+									)}
+								});
+							});
+									
+									
+												
+												
+								}
+							});
+						});  
+		
+	}
+
+			else{
+	
+					response.send(401, 'Nome de Equipa já existente');
+                    return;
+			
 				}
-			)}
-        });
-    });
+	}
+	
+	});
+	});
+	
 });
 
 app.get('/api/get-userStaff', function (request, response) {

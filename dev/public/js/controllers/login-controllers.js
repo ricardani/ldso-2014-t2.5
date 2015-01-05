@@ -155,7 +155,7 @@ loginControllers.controller('ForgotPasswordCtrl', function ($scope, $http, $wind
 				   
 				    document.getElementById("alerts").innerHTML = '<div class="alert alert-success alert-dismissible" role="alert">' +
                 '<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>'+
-                '<strong>Sucesso!</strong> O registo foi um sucesso!' +
+                '<strong>Sucesso!</strong> Email enviado!' +
                 '</div>';
 			
 				$location.path('/teamStats/login/forgotpassword');
